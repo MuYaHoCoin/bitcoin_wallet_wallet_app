@@ -1,0 +1,65 @@
+{
+  "name": "bitcoin_wallet_wallet_app",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
+    "start": "react-native start",
+    "test": "jest",
+    "lint": "tslint ./**/*.{ts,tsx}",
+    "postinstall": "./node_modules/.bin/rn-nodeify --install stream,buffer,events,assert --hack"
+  },
+  "dependencies": {
+    "@types/react": "17.0.5",
+    "@types/react-native": "0.64.5",
+    "assert": "1.1.1",
+    "bip32": "2.0.6",
+    "bip32-utils": "0.11.1",
+    "bip32-wallet": "0.7.1",
+    "bip38": "3.1.1",
+    "events": "1.0.0",
+    "react": "17.0.1",
+    "react-native": "0.64.1",
+    "react-native-bip39": "2.3.0",
+    "react-native-bitcoinjs-lib": "2.3.9",
+    "react-native-randombytes": "3.6.1",
+    "react-native-typescript-transformer": "1.2.13",
+    "readable-stream": "1.0.33",
+    "rn-nodeify": "10.3.0",
+    "stream-browserify": "1.0.0",
+    "tslint": "6.1.3"
+  },
+  "devDependencies": {
+    "@babel/core": "7.14.2",
+    "@babel/runtime": "7.14.0",
+    "@react-native-community/eslint-config": "2.0.0",
+    "@typescript-eslint/eslint-plugin": "4.24.0",
+    "@typescript-eslint/parser": "4.24.0",
+    "babel-jest": "26.6.3",
+    "eslint": "7.26.0",
+    "jest": "26.6.3",
+    "metro-react-native-babel-preset": "0.66.0",
+    "react-test-renderer": "17.0.1",
+    "typescript": "4.2.4"
+  },
+  "jest": {
+    "preset": "react-native"
+  },
+  "react-native": {
+    "_stream_transform": "readable-stream/transform",
+    "_stream_readable": "readable-stream/readable",
+    "_stream_writable": "readable-stream/writable",
+    "_stream_duplex": "readable-stream/duplex",
+    "_stream_passthrough": "readable-stream/passthrough",
+    "stream": "stream-browserify"
+  },
+  "browser": {
+    "_stream_transform": "readable-stream/transform",
+    "_stream_readable": "readable-stream/readable",
+    "_stream_writable": "readable-stream/writable",
+    "_stream_duplex": "readable-stream/duplex",
+    "_stream_passthrough": "readable-stream/passthrough",
+    "stream": "stream-browserify"
+  }
+}
