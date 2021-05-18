@@ -24,6 +24,7 @@
     "react-native-bip39": "2.3.0",
     "react-native-bitcoinjs-lib": "2.3.9",
     "react-native-randombytes": "3.6.1",
+    "react-native-sqlite-2": "3.3.0",
     "react-native-typescript-transformer": "1.2.13",
     "readable-stream": "1.0.33",
     "rn-nodeify": "10.3.0",
