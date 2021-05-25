@@ -4,7 +4,6 @@ const db = SQLite.openDatabase("test.db", "1.0", "", 1);
 
 export function createMaster (){
 const db = SQLite.openDatabase("test.db", "1.0", "", 1);
-console.log(db);
 
 db.transaction(function (txn){
     txn.executeSql(
@@ -70,3 +69,10 @@ db.transaction(function (txn){
 });
 }
 
+export function getMasterExistence(callback:(b: boolean)=>void){
+  const db = SQLite.openDatabase("test.db", "1.0", "", 1);
+  db.transaction(function (txn){
+    txn.executeSql("SELECT COUNT(*) FROM MASTER", [],(tx,res)=>{
+        callback(res.rows.item(0)["COUNT(*)"]);
+    });
+})}
