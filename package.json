@@ -7,8 +7,12 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
+<<<<<<< HEAD
     "lint": "tslint ./**/*.{ts,tsx} eslint *.js",
     "postinstall": "./node_modules/.bin/rn-nodeify --install stream,buffer,events,assert --hack"
+=======
+    "lint": "tslint ./**/*.{ts,tsx}"
+>>>>>>> 2118a48afcd61013aa1debb09bf59ee31aa5cbd6
   },
   "dependencies": {
     "@react-native-community/masked-view": "0.1.11",
