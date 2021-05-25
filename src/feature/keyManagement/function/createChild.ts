@@ -11,10 +11,10 @@ export const createChildKey = (
 
   const {privateKey, publicKey, chainCode} = masterNode.derivePath(
     'm/0/0/7/' + index,
-  );
-  return {
-    privateKey: privateKey ? privateKey : new Buffer(''),
-    publicKey,
-    chainCode,
-  };
+    );
+    return {
+      privateKey: privateKey ? privateKey : new Buffer(''),
+      publicKey,
+      chainCode,
+    };
 };

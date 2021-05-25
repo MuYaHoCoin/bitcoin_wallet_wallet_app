@@ -16,6 +16,10 @@ target 'bitcoin_wallet_wallet_app' do
 
   pod 'RNSqlite2', :path => '../node_modules/react-native-sqlite-2'
 
+  pod 'RNReanimated', :path => '../node_modules/react-native-reanimated'
+
+  pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
+
   target 'bitcoin_wallet_wallet_appTests' do
     inherit! :complete
     # Pods for testing

@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Button, View} from 'react-native';
 import WalletItem from '../components/WalletItem';
 import {createChildKey} from '../function/createChild';
-import {createMaster, generateNewMnemonic} from '../function/createMaster';
+import {createMasterNode, generateNewMnemonic} from '../function/createMasterWallet';
 import {WalletType, KeyType} from '../utils/types';
 
 const CreateWalletScreen = () => {
@@ -12,13 +12,13 @@ const CreateWalletScreen = () => {
   const [masterWallet, setMasterWallet] = useState<KeyType>(null);
 
   useEffect(() => {
-    generateNewMnemonic().then(mnemonic => setTest(mnemonic));
+    generateNewMnemonic().then(mnemonic => setTest(mnemonic.toString()));
   }, []);
   useEffect(() => {
-    if (test !== '') setMasterWallet(createMaster(new Buffer(test)));
+    if (test !== '') setMasterWallet(createMasterNode(test));
   }, [test]);
 
-  const addWallet = () => {
+  const addWallet = () => { 
     const childKey = createChildKey(
       masterWallet.privateKey,
       masterWallet.chainCode,
