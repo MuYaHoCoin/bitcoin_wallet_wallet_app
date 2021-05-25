@@ -7,8 +7,7 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "tslint ./**/*.{ts,tsx}",
-    "postinstall": "./node_modules/.bin/rn-nodeify --install stream,buffer,events,assert --hack"
+    "lint": "tslint ./**/*.{ts,tsx}"
   },
   "dependencies": {
     "@types/react": "17.0.5",

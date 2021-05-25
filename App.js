@@ -18,7 +18,7 @@ import {
   View,
 } from 'react-native';
 import CreateWalletScreen from './src/feature/keyManagement/screen/CreateWalletScreen';
-
+import WalletListScreen from './src/feature/keyManagement/screen/WalletListScreen'
 import {
   Colors,
   DebugInstructions,
@@ -71,7 +71,7 @@ const App: () => Node = () => {
           style={{
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}>
-          <CreateWalletScreen />
+          <WalletListScreen/>
         </View>
       </ScrollView>
     </SafeAreaView>
