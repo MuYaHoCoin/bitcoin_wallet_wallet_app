@@ -1,47 +1,34 @@
 import SQLite from 'react-native-sqlite-2';
 
-const db = SQLite.openDatabase('test.db', '1.0', '', 1);
-
-export function createwallet() {
+export function createWallet() {
+  const db = SQLite.openDatabase('test.db', '1.0');
   db.transaction(function (txn) {
     txn.executeSql(
-      'CREATE TABLE IF NOT EXISTS WALLETS (index VARCHAR(100) PRIMARY KEY NOT NULL, wallet_name VARCHAR(100) NOT NULL, chain_code VARCHAR(100) NOT NULL, public_key VARCHAR(100) NOT NULL, private_key VARCHAR(100) NOT NULL)',
-      [],
-    );
-    txn.executeSql(
-      'INSERT INTO WALLETS VALUES("abcde", "wallet1", "chaincode1", "1234", "5678")',
-    );
-    txn.executeSql(
-      'INSERT INTO WALLETS VALUES("abcdef", "wallet1", "chaincode1", "ABCD", "EFGH")',
-    );
-    txn.executeSql('SELECT * FROM WALLETS', [], function (tx, res) {
-      for (let i = 0; i < res.rows.length; ++i) {
-        console.log('item: ', res.rows.item(i));
-      }
-    });
+      'CREATE TABLE IF NOT EXISTS WALLETS (path VARCHAR(100) PRIMARY KEY NOT NULL, wallet_name VARCHAR(100) NOT NULL, chain_code VARCHAR(100) NOT NULL, public_key VARCHAR(100) NOT NULL, private_key VARCHAR(100) NOT NULL)',
+      []);
   });
 }
 
 export function addWallet(
-  input_index,
-  input_walletname,
-  input_chaincode,
-  input_publickey,
-  input_privatekey,
+  input_path ,
+  input_walletname ,
+  input_chaincode ,
+  input_publickey ,
+  input_privatekey ,
 ) {
   db.trancaction(function (txn) {
     txn.executeSql(
       'INSERT INTO WALLETS VALUES(' +
-        input_index +
-        ',' +
+        input_path +
+        '","' +
         input_walletname +
-        ',' +
+        '","' +
         input_chaincode +
-        ',' +
+        '","' +
         input_publickey +
-        ',' +
+        '","' +
         input_privatekey +
-        ')',
+        '")',
     );
   });
 }
@@ -58,9 +45,9 @@ export function dropWallet() {
   });
 }
 
-export function getIndex() {
+export function getPath() {
   db.transaction(function (txn) {
-    txn.executeSql('SELECT index FROM WALLETS');
+    txn.executeSql('SELECT path FROM WALLETS');
   });
 }
 
@@ -86,4 +73,17 @@ export function getPrivateKey() {
   db.transaction(function (txn) {
     txn.executeSql('SELECT private_key FROM WALLETS');
   });
+}
+
+export async function getWallets(callback){
+  const db = await SQLite.openDatabase('test.db', '1.0');
+  db.transaction((txn)=>{
+    txn.executeSql("SELECT * FROM WALLETS",[],(tx, res)=>{
+      for(let i = 0; i < res.rows.length; ++i){
+        const {private_key, public_key, chain_code, wallet_name} = res.rows.item(i);
+        callback(private_key, public_key, chain_code, wallet_name);
+      }
+    })
+  })
+
 }

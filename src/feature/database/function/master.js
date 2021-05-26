@@ -1,23 +1,15 @@
 import SQLite from "react-native-sqlite-2"
+import { WalletType } from "../../keyManagement/utils/types";
 
 const db = SQLite.openDatabase("test.db", "1.0", "", 1);
 
 export function createMaster (){
 const db = SQLite.openDatabase("test.db", "1.0", "", 1);
-
 db.transaction(function (txn){
     txn.executeSql(
         "CREATE TABLE IF NOT EXISTS MASTER (chain_code VARCHAR(100) PRIMARY KEY NOT NULL, public_key VARCHAR(100) NOT NULL, private_key VARCHAR(100) NOT NULL)", 
         []
     );
-    txn.executeSql('INSERT INTO MASTER VALUES("1111", "1234", "5678")');
-    txn.executeSql('INSERT INTO MASTER VALUES("2222", "ABCD", "EFGH")');
-    txn.executeSql("SELECT * FROM MASTER", [], function(tx, res){
-        for(let i=0; i<res.rows.length;++i){
-            console.log("item: ", res.rows.item(i));
-        }
-
-    }); 
 });
 }
 
@@ -69,7 +61,18 @@ db.transaction(function (txn){
 });
 }
 
-export function getMasterExistence(callback:(b: boolean)=>void){
+export const getMaster = (callback)=>{
+  const db = SQLite.openDatabase("test.db", "1.0");
+  db.transaction(function (txn){
+    txn.executeSql("SELECT * FROM MASTER", [],(tx,res)=>{
+        const {private_key, public_key, chain_code} = res.rows.item(0);
+        callback(private_key, public_key, chain_code);
+    },);
+  });
+}
+
+
+export function getMasterExistence(callback){
   const db = SQLite.openDatabase("test.db", "1.0", "", 1);
   db.transaction(function (txn){
     txn.executeSql("SELECT COUNT(*) FROM MASTER", [],(tx,res)=>{

@@ -1,12 +1,7 @@
 import React from 'react';
 import {Text, View} from 'react-native';
 
-interface Props {
-  walletName: string;
-  privateKey: string;
-}
-
-const WalletItem = ({walletName, privateKey}: Props) => {
+const WalletItem = ({walletName, privateKey}) => {
   return (
     <View>
       <Text>{walletName}</Text>
