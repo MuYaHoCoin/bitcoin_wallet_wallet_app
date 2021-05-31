@@ -1,14 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {Button, View} from 'react-native';
-import {getMaster, getMasterExistence} from '../../database/function/master';
-import {getWallets} from '../../database/function/wallets';
+import {getMaster} from '../../database/function/master';
+import {addWallet, getWallets} from '../../database/function/wallets';
 import WalletItem from '../components/WalletItem';
 import {createChildKey} from '../function/createChild';
-import {
-  createMasterNode,
-  generateNewMnemonic,
-} from '../function/createMasterWallet';
-import {WalletType, KeyType} from '../utils/types';
 
 const WalletListScreen = () => {
   const [index, setIndex] = useState(0);
@@ -16,8 +11,8 @@ const WalletListScreen = () => {
   const [masterWallet, setMasterWallet] = useState(null);
 
   useEffect(() => {
-    getWallets(wallet => {
-      setWallets([...wallets, wallet]);
+    getWallets((privateKey, publicKey, chainCode, walletName) => {
+      setWallets([...wallets, {privateKey, publicKey, chainCode, walletName}]);
     });
     getMaster((privateKey, publicKey, chainCode) => {
       console.log(privateKey);
@@ -27,9 +22,9 @@ const WalletListScreen = () => {
         chainCode,
       });
     });
-  }, [wallets]);
+  }, []);
 
-  const addWallet = () => {
+  const insertWallet = () => {
     const childKey = createChildKey(
       masterWallet.privateKey,
       masterWallet.chainCode,
@@ -37,6 +32,13 @@ const WalletListScreen = () => {
     );
     setIndex(index + 1);
     const wallet = {...childKey, walletName: index + 'wallet'};
+    addWallet(
+      index,
+      wallet.walletName,
+      wallet.chainCode.toString('hex'),
+      wallet.publicKey.toString('hex'),
+      wallet.privateKey.toString('hex'),
+    );
     setWallets([...wallets, wallet]);
   };
 
@@ -49,7 +51,7 @@ const WalletListScreen = () => {
           walletName={wallet.walletName}
         />
       ))}
-      <Button title={'add Wallet'} onPress={addWallet} />
+      <Button title={'add Wallet'} onPress={insertWallet} />
     </View>
   );
 };
