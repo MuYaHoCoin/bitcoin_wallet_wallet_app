@@ -1,5 +1,19 @@
 import SQLite from 'react-native-sqlite-2';
 
+const excuteSql = sql => {
+  const db = SQLite.openDatabase('test.db', '1.0');
+  return new Promise((resolve, reject) => {
+    db.transaction(txn => {
+      txn.executeSql(
+        sql,
+        [],
+        (tx, res) => resolve(res),
+        (tx, err) => reject(err),
+      );
+    });
+  });
+};
+
 export function createWallet() {
   const db = SQLite.openDatabase('test.db', '1.0');
   db.transaction(function (txn) {
@@ -91,22 +105,26 @@ export function getPrivateKey() {
   });
 }
 
-export async function getWallets(callback) {
-  const db = await SQLite.openDatabase('test.db', '1.0');
-  db.transaction(txn => {
-    txn.executeSql(
-      'SELECT * FROM WALLETS',
-      [],
-      (tx, res) => {
-        for (let i = 0; i < res.rows.length; ++i) {
-          const {private_key, public_key, chain_code, wallet_name} =
-            res.rows.item(i);
-          callback(private_key, public_key, chain_code, wallet_name);
-        }
-      },
-      (tx, err) => {
-        console.log(err);
-      },
-    );
-  });
+export async function getWallets() {
+  try {
+    const res = await excuteSql('SELECT * FROM WALLETS');
+    const result = [];
+    for (let i = 1; i < res.rows.length; ++i) {
+      const {private_key, public_key, chain_code} = res.rows.item(i);
+      result.push({
+        privateKey: private_key,
+        publicKey: public_key,
+        chainCode: chain_code,
+      });
+    }
+    return result;
+  } catch (error) {
+    console.log(error);
+  }
 }
+
+export const getWalletNumber = async () => {
+  const res = await excuteSql('SELECT COUNT(*) FROM WALLETS');
+  console.log(res.rows);
+  return res.rows['COUNT(*)'];
+};
