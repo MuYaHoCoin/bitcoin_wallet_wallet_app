@@ -9,8 +9,8 @@ const networkPrefix = {
 };
 
 export const getAddress = (publicKey, network = 'bitcoinTestNet') => {
-  //const address = crypto.hash160(Buffer.from(publicKey, 'hex'));
+  const address = crypto.hash160(Buffer.from(publicKey, 'hex'));
   const prefix = networkPrefix[network];
-  //const base58CheckAddress = base58Check.encode(address, prefix);
-  return 'base58CheckAddress';
+  const base58CheckAddress = base58Check.encode(address, prefix);
+  return base58CheckAddress;
 };

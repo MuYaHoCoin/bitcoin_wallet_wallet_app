@@ -65,7 +65,7 @@ export function getChainCode() {
 
 export function getPublicKey() {
   const db = SQLite.openDatabase('test.db', '1.0');
-
+  const result = [];
   db.transaction(function (txn) {
     txn.executeSql('SELECT public_key FROM MASTER');
   });
@@ -80,10 +80,11 @@ export function getPrivateKey() {
 }
 
 export const getMaster = async () => {
-  const res = await excuteSql('SELECT * FROM MASTER');
-  console.log(res.rows.item(0));
-  const {private_key: privateKey, chain_code: chainCode} = res.rows.item(0);
-  return {privateKey, chainCode};
+  try {
+    const res = await excuteSql('SELECT * FROM MASTER');
+    const {private_key: privateKey, chain_code: chainCode} = res.rows.item(0);
+    return {privateKey, chainCode};
+  } catch (error) {}
 };
 
 export function getMasterExistence(callback) {
