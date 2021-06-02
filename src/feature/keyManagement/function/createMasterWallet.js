@@ -1,4 +1,4 @@
-import {KeyType} from '../utils/types';
+import {Buffer} from 'safe-buffer';
 import * as BIP39 from 'react-native-bip39';
 import * as BIP32 from 'bip32';
 

@@ -1,43 +1,51 @@
 import React, {useEffect, useState} from 'react';
 import {Button, View} from 'react-native';
-import {getMaster, getMasterExistence} from '../../database/function/master';
-import {getWallets} from '../../database/function/wallets';
+import {handlError} from '../../../common/function/error';
+import {addWallet, getWallets} from '../../database/function/wallets';
+import AddWalletModal from '../components/AddWalletModal';
 import WalletItem from '../components/WalletItem';
+import {getAddress} from '../function/address';
 import {createChildKey} from '../function/createChild';
-import {
-  createMasterNode,
-  generateNewMnemonic,
-} from '../function/createMasterWallet';
-import {WalletType, KeyType} from '../utils/types';
 
 const WalletListScreen = () => {
   const [index, setIndex] = useState(0);
   const [wallets, setWallets] = useState([]);
-  const [masterWallet, setMasterWallet] = useState(null);
+  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
-    getWallets(wallet => {
-      setWallets([...wallets, wallet]);
-    });
-    getMaster((privateKey, publicKey, chainCode) => {
-      console.log(privateKey);
-      setMasterWallet({
+    getWallets()
+      .then(w => {
+        setWallets([...w]);
+        setIndex(wallets.length);
+      })
+      .catch(error => handlError('Wallet Screen/ Get Wallet Error!', error));
+  }, []);
+
+  const insertWallet = async walletName => {
+    try {
+      const {privateKey, publicKey, chainCode, walletType, walletAddress} = await createChildKey(index);
+      const wallet = {
         privateKey,
         publicKey,
         chainCode,
-      });
-    });
-  }, [wallets]);
-
-  const addWallet = () => {
-    const childKey = createChildKey(
-      masterWallet.privateKey,
-      masterWallet.chainCode,
-      index,
-    );
-    setIndex(index + 1);
-    const wallet = {...childKey, walletName: index + 'wallet'};
-    setWallets([...wallets, wallet]);
+        walletName,
+        walletType,
+        walletAddress
+      };
+      addWallet(
+        'm/0/0/7' + index,
+        walletName,
+        chainCode,
+        publicKey,
+        privateKey,
+        walletType,
+        walletAddress
+      );
+      setIndex(index + 1);
+      setWallets([...wallets, wallet]);
+    } catch (error) {
+      handlError('WalletListScreen/Insert Wallet Error!', error);
+    }
   };
 
   return (
@@ -45,11 +53,16 @@ const WalletListScreen = () => {
       {wallets.map(wallet => (
         <WalletItem
           key={wallet.privateKey}
-          privateKey={wallet.privateKey}
+          privateKey={getAddress(wallet.publicKey, 'bitcoinTestNet')}
           walletName={wallet.walletName}
         />
       ))}
-      <Button title={'add Wallet'} onPress={addWallet} />
+      <Button title={'add Wallet'} onPress={() => setModalVisible(true)} />
+      <AddWalletModal
+        visible={modalVisible}
+        onClose={() => setModalVisible(false)}
+        addWallet={insertWallet}
+      />
     </View>
   );
 };
