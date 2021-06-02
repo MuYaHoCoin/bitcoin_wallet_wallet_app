@@ -110,11 +110,14 @@ export async function getWallets() {
     const res = await excuteSql('SELECT * FROM WALLETS');
     const result = [];
     for (let i = 1; i < res.rows.length; ++i) {
-      const {private_key, public_key, chain_code} = res.rows.item(i);
+      const {private_key, public_key, chain_code, wallet_name} =
+        res.rows.item(i);
+      console.log(private_key, public_key, chain_code, wallet_name);
       result.push({
         privateKey: private_key,
         publicKey: public_key,
         chainCode: chain_code,
+        walletName: wallet_name,
       });
     }
     return result;

@@ -14,7 +14,7 @@ export const createChildKey = async index => {
     'm/0/0/7/' + index,
   );
   return {
-    privateKey: privateKey ? privateKey.toString('hex') : '',
+    privateKey: privateKey.toString('hex'),
     publicKey: publicKey.toString('hex'),
     chainCode: chainCode.toString('hex'),
   };

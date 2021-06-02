@@ -2,28 +2,14 @@ import React from 'react';
 import {useState} from 'react';
 import {Button, Modal, TextInput, View} from 'react-native';
 import {handlError} from '../../../common/function/error';
-import {addWallet} from '../../database/function/wallets';
-import {createChildKey} from '../function/createChild';
 
-const AddWalletModal = ({index, setIndex, visible, onClose}) => {
+const AddWalletModal = ({visible, onClose, addWallet}) => {
   const [walletName, setWalletName] = useState('');
 
-  const insertWallet = async () => {
-    try {
-      const childKey = await createChildKey(index);
-      const wallet = {...childKey, walletName: index + 'wallet'};
-      addWallet(
-        index,
-        wallet.walletName,
-        wallet.chainCode,
-        wallet.publicKey,
-        wallet.privateKey,
-      );
-      setIndex(index + 1);
-      onClose();
-    } catch (error) {
-      handlError('Insert Wallet Error', error);
-    }
+  const insertWallet = () => {
+    addWallet(walletName);
+    onClose();
+    setWalletName('');
   };
   return (
     <Modal animationType="slide" visible={visible} onRequestClose={onClose}>

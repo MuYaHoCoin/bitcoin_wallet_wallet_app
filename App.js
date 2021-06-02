@@ -16,13 +16,11 @@ const App = () => {
     createWallet();
   }, []);
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Splash" component={SplashPage} />
-        <Stack.Screen name="CreateMaster" component={AddMasterWalletScreen} />
-        <Stack.Screen name="Main" component={WalletListScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Stack.Navigator>
+      <Stack.Screen name="Splash" component={SplashPage} />
+      <Stack.Screen name="CreateMaster" component={AddMasterWalletScreen} />
+      <Stack.Screen name="Main" component={WalletListScreen} />
+    </Stack.Navigator>
   );
 };
 
