@@ -1,5 +1,7 @@
 import SQLite from 'react-native-sqlite-2';
 
+const db = SQLite.openDatabase('test.db', '1.0');
+
 export function createWallet() {
   const db = SQLite.openDatabase('test.db', '1.0');
   db.transaction(function (txn) {
@@ -16,7 +18,7 @@ export function addWallet(
   input_publickey ,
   input_privatekey ,
 ) {
-  db.trancaction(function (txn) {
+  db.transaction(function (txn) {
     txn.executeSql(
       'INSERT INTO WALLETS VALUES(' +
         input_path +
@@ -34,7 +36,7 @@ export function addWallet(
 }
 
 export function delWallet(condition) {
-  db.trancaction(function (txn) {
+  db.transaction(function (txn) {
     txn.executeSql('DELETE FROM WALLETS WHERE(' + condition + ')');
   });
 }

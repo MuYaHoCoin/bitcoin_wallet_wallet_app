@@ -26,13 +26,13 @@ db.transaction(function (txn){
 // }
 
 export function addMaster(input_chaincode, input_publickey, input_privatekey){
-db.trancaction(function (txn){
+db.transaction(function (txn){
     txn.executeSql('INSERT INTO MASTER VALUES(' +input_chaincode+','+ input_publickey+','+ input_privatekey+')');
 })
 }
 
 export function delMaster(condition){
-db.trancaction(function (txn){
+db.transaction(function (txn){
     txn.executeSql('DELETE FROM MASTER WHERE(' +condition+')');
 })
 }

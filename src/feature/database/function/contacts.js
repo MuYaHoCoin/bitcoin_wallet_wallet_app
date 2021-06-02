@@ -19,7 +19,7 @@ export function createContact() {
 }
 
 export function addContact(input_address, input_address_name) {
-  db.trancaction(function (txn) {
+  db.transaction(function (txn) {
     txn.executeSql(
       'INSERT INTO CONTACTS VALUES(' +
         input_address +
@@ -31,7 +31,7 @@ export function addContact(input_address, input_address_name) {
 }
 
 export function delContact(condition) {
-  db.trancaction(function (txn) {
+  db.transaction(function (txn) {
     txn.executeSql('DELETE FROM CONTACTS WHERE(' + condition + ')');
   });
 }
