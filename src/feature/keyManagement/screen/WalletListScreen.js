@@ -1,11 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import {Button, View} from 'react-native';
+import {ImageBackground, Text, TouchableOpacity} from 'react-native';
 import {handlError} from '../../../common/function/error';
+import {commonStyle} from '../../../common/style/commonStyle';
 import {addWallet, getWallets} from '../../database/function/wallets';
 import AddWalletModal from '../components/AddWalletModal';
 import WalletItem from '../components/WalletItem';
 import {getAddress} from '../function/address';
 import {createChildKey} from '../function/createChild';
+import {okButtonStyle, okButtonTextStyle} from '../style/style';
 
 const WalletListScreen = () => {
   const [index, setIndex] = useState(0);
@@ -23,14 +25,17 @@ const WalletListScreen = () => {
 
   const insertWallet = async walletName => {
     try {
-      const {privateKey, publicKey, chainCode, walletType, walletAddress} = await createChildKey(index);
+      const {privateKey, publicKey, chainCode} = await createChildKey(index);
+      console.log(privateKey);
+      const walletAddress = getAddress(publicKey, 'bitcoin');
+      const walletType = 'standard';
       const wallet = {
         privateKey,
         publicKey,
         chainCode,
         walletName,
+        walletAddress,
         walletType,
-        walletAddress
       };
       addWallet(
         'm/0/0/7' + index,
@@ -39,17 +44,19 @@ const WalletListScreen = () => {
         publicKey,
         privateKey,
         walletType,
-        walletAddress
+        walletAddress,
       );
       setIndex(index + 1);
       setWallets([...wallets, wallet]);
     } catch (error) {
-      handlError('WalletListScreen/Insert Wallet Error!', error);
+      handlError('insertWallet', error);
     }
   };
 
   return (
-    <View>
+    <ImageBackground
+      source={require('../../../common/image/bitcoinBackground.png')}
+      style={{...commonStyle.background}}>
       {wallets.map(wallet => (
         <WalletItem
           key={wallet.privateKey}
@@ -57,13 +64,17 @@ const WalletListScreen = () => {
           walletName={wallet.walletName}
         />
       ))}
-      <Button title={'add Wallet'} onPress={() => setModalVisible(true)} />
+      <TouchableOpacity
+        onPress={() => setModalVisible(true)}
+        style={okButtonStyle}>
+        <Text style={okButtonTextStyle}>지갑 추가하기</Text>
+      </TouchableOpacity>
       <AddWalletModal
         visible={modalVisible}
         onClose={() => setModalVisible(false)}
         addWallet={insertWallet}
       />
-    </View>
+    </ImageBackground>
   );
 };
 

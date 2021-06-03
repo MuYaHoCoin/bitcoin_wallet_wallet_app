@@ -1,7 +1,7 @@
 import React from 'react';
 import {useState} from 'react';
-import {Button, Modal, TextInput, View} from 'react-native';
-import {handlError} from '../../../common/function/error';
+import {Button, ImageBackground, Modal, TextInput} from 'react-native';
+import {commonStyle} from '../../../common/style/commonStyle';
 
 const AddWalletModal = ({visible, onClose, addWallet}) => {
   const [walletName, setWalletName] = useState('');
@@ -13,7 +13,9 @@ const AddWalletModal = ({visible, onClose, addWallet}) => {
   };
   return (
     <Modal animationType="slide" visible={visible} onRequestClose={onClose}>
-      <View>
+      <ImageBackground
+        source={require('../../../common/image/bitcoinBackground.png')}
+        style={{...commonStyle.background}}>
         <TextInput
           placeholder={'Enter Wallet Name'}
           value={walletName}
@@ -21,7 +23,7 @@ const AddWalletModal = ({visible, onClose, addWallet}) => {
           autoFocus
         />
         <Button title={'Add Wallet'} onPress={insertWallet} />
-      </View>
+      </ImageBackground>
     </Modal>
   );
 };

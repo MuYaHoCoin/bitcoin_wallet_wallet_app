@@ -4,7 +4,9 @@ import * as BIP32 from 'bip32';
 
 export const generateNewMnemonic = async () => {
   const mnemonic = await BIP39.generateMnemonic();
-  return mnemonic;
+  const mnemonicList = mnemonic.toString().split(' ');
+  console.log(mnemonicList);
+  return mnemonicList;
 };
 
 export const createMasterNode = (mnemonic, password) => {

@@ -1,7 +1,8 @@
 import React, {useEffect} from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {Text, View} from 'react-native';
+import {ImageBackground, Text, View} from 'react-native';
 import {getMasterExistence} from '../../feature/database/function/master';
+import {commonStyle} from '../style/commonStyle';
 
 const SplashPage = () => {
   const navigation = useNavigation();
@@ -20,9 +21,11 @@ const SplashPage = () => {
   }, []);
 
   return (
-    <View>
+    <ImageBackground
+      source={require('../image/bitcoinBackground.png')}
+      style={commonStyle.background}>
       <Text>asdasd</Text>
-    </View>
+    </ImageBackground>
   );
 };
 

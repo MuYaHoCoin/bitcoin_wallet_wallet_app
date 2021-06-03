@@ -1,0 +1,48 @@
+import {Colors} from '../../../common/style/color';
+import {commonStyle} from '../../../common/style/commonStyle';
+
+export const mnemonicItemContainerStyle = {
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  flexWrap: 'wrap',
+
+  padding: 8,
+};
+
+export const mnemonicItemStyle = {
+  ...commonStyle.button,
+  height: 40,
+  width: 160,
+
+  display: 'flex',
+
+  marginBottom: 8,
+  paddingLeft: 8,
+  paddingRight: 8,
+
+  backgroundColor: Colors.noButton,
+};
+export const mnemonicItemTextStyle = {
+  color: Colors.font,
+  textAlign: 'center',
+  fontSize: 16,
+  lineHeight: 31,
+  fontStyle: 'italic',
+  fontWeight: 'bold',
+};
+export const AddWalletButtonStyle = {
+  ...commonStyle.button,
+  width: 240,
+  height: 60,
+
+  backgroundColor: Colors.okButton,
+};
+
+export const AddWalletButtonTextStyle = {
+  color: Colors.font,
+  textAlign: 'center',
+  fontSize: 20,
+  lineHeight: 31,
+  fontWeight: 'bold',
+};
