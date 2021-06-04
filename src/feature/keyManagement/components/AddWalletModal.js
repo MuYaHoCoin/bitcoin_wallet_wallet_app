@@ -16,9 +16,15 @@ const AddWalletModal = ({visible, onClose, addWallet}) => {
   const [walletName, setWalletName] = useState('');
 
   const insertWallet = () => {
-    addWallet(walletName);
-    onClose();
-    setWalletName('');
+    if(isEmpty(walletName)==true){
+      alert("지갑이름을 입력해주세요");
+    }
+    else{
+      addWallet(walletName);
+      onClose();
+      setWalletName('');
+    }
+    
   };
   return (
     <Modal animationType="slide" visible={visible} onRequestClose={onClose}>
@@ -42,3 +48,12 @@ const AddWalletModal = ({visible, onClose, addWallet}) => {
 };
 
 export default AddWalletModal;
+
+var isEmpty = function(value){
+  if(value == "" || value == null || value == undefined || (value != null && typeof value == "object" && !Object.keys(value).length)){
+    return true
+  }
+  else{
+    return false
+  }
+};
