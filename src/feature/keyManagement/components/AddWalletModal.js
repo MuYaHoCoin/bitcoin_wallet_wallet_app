@@ -1,30 +1,24 @@
 import React from 'react';
 import {useState} from 'react';
-import {
-  Button,
-  ImageBackground,
-  Modal,
-  Text,
-  TextInput,
-  TouchableOpacity,
-} from 'react-native';
+import {Modal, TextInput, View} from 'react-native';
 import MainLogo from '../../../common/component/MainLogo';
+import OkButton from '../../../common/component/OkButton';
 import {commonStyle} from '../../../common/style/commonStyle';
 import {okButtonStyle, okButtonTextStyle} from '../style/style';
+import WalletTypeCheckBox from './WalletTypeCheckBox';
 
 const AddWalletModal = ({visible, onClose, addWallet}) => {
   const [walletName, setWalletName] = useState('');
+  const [walletType, setWalletType] = useState('standard');
 
   const insertWallet = () => {
-    addWallet(walletName);
+    addWallet(walletName, walletType);
     onClose();
     setWalletName('');
   };
   return (
     <Modal animationType="slide" visible={visible} onRequestClose={onClose}>
-      <ImageBackground
-        source={require('../../../common/image/bitcoinBackground.png')}
-        style={{...commonStyle.background}}>
+      <View style={{...commonStyle.background}}>
         <MainLogo />
         <TextInput
           placeholder={'Enter Wallet Name'}
@@ -33,10 +27,17 @@ const AddWalletModal = ({visible, onClose, addWallet}) => {
           style={commonStyle.input}
           autoFocus
         />
-        <TouchableOpacity style={okButtonStyle} onPress={insertWallet}>
-          <Text style={okButtonTextStyle}>지갑 생성하기</Text>
-        </TouchableOpacity>
-      </ImageBackground>
+        <WalletTypeCheckBox
+          walletType={walletType}
+          setWalletType={setWalletType}
+        />
+        <OkButton
+          title={'지갑 생성하기'}
+          onPress={insertWallet}
+          buttonStyle={okButtonStyle}
+          textStyle={okButtonTextStyle}
+        />
+      </View>
     </Modal>
   );
 };

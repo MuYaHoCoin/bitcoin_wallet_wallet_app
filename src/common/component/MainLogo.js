@@ -27,11 +27,11 @@ const style = {
   },
 };
 
-const MainLogo = () => {
+const MainLogo = ({containerStyle, bitcoinStyle, cardStyle}) => {
   return (
-    <View style={style.contanier}>
-      <Text style={style.bitcoin}>bitcoin </Text>
-      <Text style={style.card}>card </Text>
+    <View style={[style.contanier, containerStyle]}>
+      <Text style={[style.bitcoin, bitcoinStyle]}>bitcoin </Text>
+      <Text style={[style.card, cardStyle]}>card </Text>
     </View>
   );
 };

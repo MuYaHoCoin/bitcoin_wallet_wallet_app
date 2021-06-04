@@ -16,6 +16,9 @@ export const mnemonicItemStyle = {
   width: 160,
 
   display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  alignItems: 'center',
 
   marginBottom: 8,
   paddingLeft: 8,
@@ -24,12 +27,35 @@ export const mnemonicItemStyle = {
   backgroundColor: Colors.noButton,
 };
 export const mnemonicItemTextStyle = {
-  color: Colors.font,
-  textAlign: 'center',
-  fontSize: 16,
-  lineHeight: 31,
-  fontStyle: 'italic',
-  fontWeight: 'bold',
+  index: {
+    width: 24,
+
+    marginRight: 8,
+
+    color: Colors.font,
+    textAlign: 'center',
+    fontSize: 16,
+    lineHeight: 31,
+    fontStyle: 'italic',
+    fontWeight: 'bold',
+  },
+  mnemonic: {
+    flex: 1,
+
+    color: Colors.font,
+    fontSize: 16,
+    lineHeight: 31,
+    fontStyle: 'italic',
+    fontWeight: 'bold',
+  },
+  input: {
+    flex: 1,
+
+    color: Colors.font,
+    fontSize: 15,
+    lineHeight: 32,
+    textAlignVertical: 'bottom',
+  },
 };
 export const AddWalletButtonStyle = {
   ...commonStyle.button,

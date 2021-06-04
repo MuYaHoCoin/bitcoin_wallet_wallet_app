@@ -11,6 +11,7 @@
     "postinstall": "rn-nodeify --install stream,buffer,events,assert,string_decoder,crypto --hack"
   },
   "dependencies": {
+    "@react-native-community/checkbox": "0.5.8",
     "@react-native-community/masked-view": "0.1.11",
     "@react-navigation/native": "5.9.4",
     "@react-navigation/stack": "5.14.5",

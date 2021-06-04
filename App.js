@@ -11,6 +11,7 @@ import AddMasterWalletScreen from './src/feature/mnemonic/screen/AddMasterScreen
 import WalletListScreen from './src/feature/keyManagement/screen/WalletListScreen';
 import GuideScreen from './src/feature/mnemonic/screen/GuideScreen';
 import CreateMasterScreen from './src/feature/mnemonic/screen/CreateMasterScreen';
+import ImportWalletScreen from './src/feature/mnemonic/screen/ImportWalletScreen';
 
 const Stack = createStackNavigator();
 
@@ -26,6 +27,7 @@ const App = () => {
         <Stack.Screen name="Master/Create" component={CreateMasterScreen} />
         <Stack.Screen name="Master/Guide" component={GuideScreen} />
         <Stack.Screen name="Master/New" component={AddMasterWalletScreen} />
+        <Stack.Screen name="Master/Import" component={ImportWalletScreen} />
         <Stack.Screen name="Main" component={WalletListScreen} />
       </Stack.Navigator>
     </NavigationContainer>

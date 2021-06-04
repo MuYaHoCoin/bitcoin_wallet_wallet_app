@@ -1,6 +1,7 @@
 import React from 'react';
 import {ImageBackground, Text, TouchableOpacity} from 'react-native';
 import MainLogo from '../../../common/component/MainLogo';
+import OkButton from '../../../common/component/OkButton';
 import {Colors} from '../../../common/style/color';
 import {commonStyle} from '../../../common/style/commonStyle';
 import {AddWalletButtonStyle, AddWalletButtonTextStyle} from '../style/style';
@@ -38,9 +39,12 @@ const GuideScreen = ({navigation}) => {
       <Text style={style.content}>
         다음 단계에서는 지갑을 복구할 수 있는 12개의 단어들이 보일겁니다.
       </Text>
-      <TouchableOpacity style={AddWalletButtonStyle} onPress={goNextScreen}>
-        <Text style={AddWalletButtonTextStyle}>계속</Text>
-      </TouchableOpacity>
+      <OkButton
+        title={'계속'}
+        onPress={goNextScreen}
+        buttonStyle={AddWalletButtonStyle}
+        textStyle={AddWalletButtonTextStyle}
+      />
     </ImageBackground>
   );
 };

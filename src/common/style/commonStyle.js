@@ -28,7 +28,7 @@ export const commonStyle = {
     height: 40,
 
     padding: 4,
-    marginBottom: 28,
+    marginBottom: 24,
 
     backgroundColor: '#fff',
     color: '#000',

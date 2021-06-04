@@ -1,6 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import {ImageBackground, Text, TouchableOpacity} from 'react-native';
+import {
+  ImageBackground,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+} from 'react-native';
+import MainLogo from '../../../common/component/MainLogo';
+import OkButton from '../../../common/component/OkButton';
 import {handleError} from '../../../common/function/error';
+import {Colors} from '../../../common/style/color';
 import {commonStyle} from '../../../common/style/commonStyle';
 import {addWallet, getWallets} from '../../database/function/wallets';
 import AddWalletModal from '../components/AddWalletModal';
@@ -23,11 +31,10 @@ const WalletListScreen = () => {
       .catch(error => handleError('Wallet Screen/ Get Wallet Error!', error));
   }, []);
 
-  const insertWallet = async walletName => {
+  const insertWallet = async (walletName, walletType) => {
     try {
       const {privateKey, publicKey, chainCode} = await createChildKey(index);
       const walletAddress = getAddress(publicKey, 'bitcoin');
-      const walletType = 'standard';
       const wallet = {
         privateKey,
         publicKey,
@@ -55,19 +62,32 @@ const WalletListScreen = () => {
   return (
     <ImageBackground
       source={require('../../../common/image/bitcoinBackground.png')}
-      style={{...commonStyle.background}}>
-      {wallets.map(wallet => (
-        <WalletItem
-          key={wallet.privateKey}
-          privateKey={getAddress(wallet.publicKey, 'bitcoinTestNet')}
-          walletName={wallet.walletName}
-        />
-      ))}
-      <TouchableOpacity
-        onPress={() => setModalVisible(true)}
-        style={okButtonStyle}>
-        <Text style={okButtonTextStyle}>지갑 추가하기</Text>
-      </TouchableOpacity>
+      style={{...commonStyle.background, padding: 12}}>
+      <MainLogo />
+      <OkButton
+        title={'지갑 추가하기'}
+        onPress={() => {
+          setModalVisible(true);
+        }}
+        buttonStyle={{
+          width: '100%',
+          marginBottom: 16,
+          backgroundColor: Colors.walletButton,
+          borderColor: Colors.wallet,
+          borderWidth: 3,
+        }}
+        textStyle={{color: Colors.wallet}}
+      />
+      <ScrollView style={{width: '100%'}}>
+        {wallets.map(wallet => (
+          <WalletItem
+            key={wallet.privateKey}
+            address={wallet.walletAddress}
+            walletName={wallet.walletName}
+            walletType={wallet.walletType}
+          />
+        ))}
+      </ScrollView>
       <AddWalletModal
         visible={modalVisible}
         onClose={() => setModalVisible(false)}

@@ -16,11 +16,10 @@ const style = {
 
 const CreateMasterScreen = ({navigation}) => {
   const onNewWallet = () => {
-    console.log('aaa');
     navigation.navigate('Master/Guide');
   };
   const onImportWallet = () => {
-    console.log('sdsd');
+    navigation.navigate('Master/Import');
   };
   return (
     <ImageBackground

@@ -1,11 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {
-  ScrollView,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {ScrollView, TextInput, View} from 'react-native';
 import {
   createMasterNode,
   generateNewMnemonic,
@@ -15,12 +9,12 @@ import {useNavigation} from '@react-navigation/native';
 import {
   AddWalletButtonStyle,
   AddWalletButtonTextStyle,
-  InputStyle,
   mnemonicItemContainerStyle,
 } from '../style/style';
 import RandomWordItem from '../component/RandomWordItem';
 import MainLogo from '../../../common/component/MainLogo';
 import {commonStyle} from '../../../common/style/commonStyle';
+import OkButton from '../../../common/component/OkButton';
 
 const style = {
   background: {
@@ -38,8 +32,7 @@ const style = {
   },
 };
 
-const AddMasterWalletScreen = () => {
-  const navigation = useNavigation();
+const AddMasterWalletScreen = ({navigation}) => {
   const [mnemonic, setMnemonic] = useState([]);
   const [password, setPassword] = useState('');
 
@@ -71,11 +64,12 @@ const AddMasterWalletScreen = () => {
         onChangeText={setPassword}
         style={commonStyle.input}
       />
-      <TouchableOpacity
-        style={AddWalletButtonStyle}
-        onPress={createMasterWallet}>
-        <Text style={AddWalletButtonTextStyle}>지갑 만들기</Text>
-      </TouchableOpacity>
+      <OkButton
+        title={'지갑 만들기'}
+        onPress={createMasterWallet}
+        buttonStyle={AddWalletButtonStyle}
+        textStyle={AddWalletButtonTextStyle}
+      />
     </ScrollView>
   );
 };
