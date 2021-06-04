@@ -25,7 +25,7 @@ export function createWallet() {
       );
     });
   } catch (error) {
-    console.log('createWallet Error!');
+    handleError('createWallet Error!');
   }
 }
 
@@ -56,8 +56,9 @@ export function addWallet(
         input_walletaddress +
         '")',
     );
+    
   } catch (error) {
-    console.log('addWallet Error!', error);
+    handleError('addWallet Error!', error);
   }
 }
 
@@ -68,7 +69,7 @@ export function delWallet(condition) {
       txn.executeSql('DELETE FROM WALLETS WHERE(' + condition + ')');
     });
   } catch (error) {
-    console.log('delWallet Error!');
+    handleError('delWallet Error!');
   }
 }
 
@@ -79,7 +80,7 @@ export function dropWallet() {
       txn.executeSql('DROP TABLE IF EXISTS WALLETS', []);
     });
   } catch (error) {
-    console.log('dropWallet Error!');
+    handleError('dropWallet Error!');
   }
 }
 
@@ -90,7 +91,7 @@ export function getPath() {
       txn.executeSql('SELECT path FROM WALLETS');
     });
   } catch (error) {
-    console.log('getPath Error!');
+    handleError('getPath Error!');
   }
 }
 
@@ -101,7 +102,7 @@ export function getWalletName() {
       txn.executeSql('SELECT wallet_name FROM WALLETS');
     });
   } catch (error) {
-    console.log('getWalletName Error!');
+    handleError('getWalletName Error!');
   }
 }
 
@@ -112,7 +113,7 @@ export function getChainCode() {
       txn.executeSql('SELECT chain_code FROM WALLETS');
     });
   } catch (error) {
-    console.log('getChainCode Error!');
+    handleError('getChainCode Error!');
   }
 }
 
@@ -123,7 +124,7 @@ export function getPublicKey() {
       txn.executeSql('SELECT public_key FROM WALLETS');
     });
   } catch (error) {
-    console.log('getPublicKey Error!');
+    handleError('getPublicKey Error!');
   }
 }
 
@@ -134,7 +135,7 @@ export function getPrivateKey() {
       txn.executeSql('SELECT private_key FROM WALLETS');
     });
   } catch (error) {
-    console.log('getPrivateKey Error!');
+    handleError('getPrivateKey Error!');
   }
 }
 
@@ -145,7 +146,7 @@ export function getWalletType() {
       txn.executeSql('SELECT wallet_type FROM WALLETS');
     });
   } catch (error) {
-    console.log('geteWalletType Error!');
+    handleError('geteWalletType Error!');
   }
 }
 
@@ -156,7 +157,7 @@ export function getWalletAddress() {
       txn.executeSql('SELECT wallet_address FROM WALLETS');
     });
   } catch (error) {
-    console.log('getWalletAddress Error!');
+    handleError('getWalletAddress Error!');
   }
 }
 
@@ -190,6 +191,7 @@ export async function getWallets() {
 
 export const getWalletNumber = async () => {
   const res = await excuteSql('SELECT COUNT(*) FROM WALLETS');
-  console.log(res.rows);
+  handleError(res.rows);
   return res.rows['COUNT(*)'];
 };
+
