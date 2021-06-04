@@ -11,10 +11,10 @@ export const generateNewMnemonic = async () => {
 
 export const createMasterNode = (mnemonic, password) => {
   const seed = BIP39.mnemonicToSeed(Buffer.from(mnemonic), password);
-  const node = BIP32.fromSeed(seed);
+  const {privateKey, publicKey, chainCode} = BIP32.fromSeed(seed);
   return {
-    privateKey: node.privateKey ? node.privateKey : new Buffer(''),
-    publicKey: node.publicKey,
-    chainCode: node.chainCode,
+    privateKey: privateKey.toString('hex'),
+    publicKey: publicKey.toString('hex'),
+    chainCode: chainCode.toString('hex'),
   };
 };

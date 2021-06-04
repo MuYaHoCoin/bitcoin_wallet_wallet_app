@@ -15,10 +15,28 @@ import {useNavigation} from '@react-navigation/native';
 import {
   AddWalletButtonStyle,
   AddWalletButtonTextStyle,
+  InputStyle,
   mnemonicItemContainerStyle,
 } from '../style/style';
 import RandomWordItem from '../component/RandomWordItem';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import MainLogo from '../../../common/component/MainLogo';
+import {commonStyle} from '../../../common/style/commonStyle';
+
+const style = {
+  background: {
+    width: '100%',
+    height: '100%',
+
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+
+    paddingTop: 20,
+
+    backgroundColor: '#212121',
+  },
+};
 
 const AddMasterWalletScreen = () => {
   const navigation = useNavigation();
@@ -35,34 +53,23 @@ const AddMasterWalletScreen = () => {
       mnemonic,
       password,
     );
-    addMaster(
-      chainCode.toString('hex'),
-      publicKey.toString('hex'),
-      privateKey.toString('hex'),
-    );
+    addMaster(chainCode, publicKey, privateKey);
     navigation.navigate('Main');
   };
 
   return (
-    <ScrollView
-      contentContainerStyle={{
-        width: '100%',
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        backgroundColor: '#212121',
-      }}>
+    <ScrollView contentContainerStyle={style.background}>
+      <MainLogo />
       <View style={mnemonicItemContainerStyle}>
         {mnemonic.map((randomWord, index) => (
           <RandomWordItem key={index} index={index + 1} mnemonic={randomWord} />
         ))}
       </View>
       <TextInput
-        placeholder={'optional: put PassWord!'}
+        placeholder={'Optional: put PassWord!'}
         value={password}
         onChangeText={setPassword}
+        style={commonStyle.input}
       />
       <TouchableOpacity
         style={AddWalletButtonStyle}

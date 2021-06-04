@@ -1,3 +1,3 @@
-export const handlError = (label, error) => {
+export function handleError(label, error) {
   console.log(label, error);
-};
+}

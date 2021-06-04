@@ -1,6 +1,5 @@
 import SQLite from 'react-native-sqlite-2';
-
-const db = SQLite.openDatabase('test.db', '1.0');
+import {handleError} from '../../../common/function/error';
 
 const excuteSql = sql => {
   const db = SQLite.openDatabase('test.db', '1.0');
@@ -27,31 +26,33 @@ export function createMaster() {
   });
 }
 
-// export function createMaster (input_chaincode, input_publickey, input_privatekey){
-// db.transaction(function (txn){
-//     txn.executeSql('INSERT INTO MASTER VALUES(' +input_chaincode+','+ input_publickey+','+ input_privatekey+')');
-//     txn.executeSql("SELECT * FROM MASTER", [], function(tx, res){
-//         for(let i=0; i<res.rows.length;++i){
-//             console.log("item: ", res.rows.item(i));
-//         }
-    
-//     }); 
-// });
-// }
-
-export function addMaster(input_chaincode, input_publickey, input_privatekey){
-const db = SQLite.openDatabase('test.db', '1.0');
-db.transaction(function (txn){
-    txn.executeSql('INSERT INTO MASTER VALUES(' +input_chaincode+','+ input_publickey+','+ input_privatekey+')');
-})
+export async function addMaster(
+  input_chaincode,
+  input_publickey,
+  input_privatekey,
+) {
+  try {
+    excuteSql(
+      'INSERT INTO MASTER VALUES("' +
+        input_chaincode +
+        '","' +
+        input_publickey +
+        '","' +
+        input_privatekey +
+        '")',
+    );
+  } catch (error) {
+    handleError('addMaster Error!', error);
+  }
 }
 
-export function delMaster(condition){
-db.transaction(function (txn){
-    txn.executeSql('DELETE FROM MASTER WHERE(' +condition+')');
-})
-}
+export function delMaster(condition) {
+  const db = SQLite.openDatabase('test.db', '1.0');
 
+  db.transaction(function (txn) {
+    txn.executeSql('DELETE FROM MASTER WHERE(' + condition + ')');
+  });
+}
 
 export function dropMaster() {
   const db = SQLite.openDatabase('test.db', '1.0');

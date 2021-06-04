@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {ImageBackground, Text, TouchableOpacity} from 'react-native';
-import {handlError} from '../../../common/function/error';
+import {handleError} from '../../../common/function/error';
 import {commonStyle} from '../../../common/style/commonStyle';
 import {addWallet, getWallets} from '../../database/function/wallets';
 import AddWalletModal from '../components/AddWalletModal';
@@ -20,13 +20,12 @@ const WalletListScreen = () => {
         setWallets([...w]);
         setIndex(wallets.length);
       })
-      .catch(error => handlError('Wallet Screen/ Get Wallet Error!', error));
+      .catch(error => handleError('Wallet Screen/ Get Wallet Error!', error));
   }, []);
 
   const insertWallet = async walletName => {
     try {
       const {privateKey, publicKey, chainCode} = await createChildKey(index);
-      console.log(privateKey);
       const walletAddress = getAddress(publicKey, 'bitcoin');
       const walletType = 'standard';
       const wallet = {
@@ -49,7 +48,7 @@ const WalletListScreen = () => {
       setIndex(index + 1);
       setWallets([...wallets, wallet]);
     } catch (error) {
-      handlError('insertWallet', error);
+      handleError('insertWallet', error);
     }
   };
 
