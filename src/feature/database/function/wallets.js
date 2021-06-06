@@ -29,7 +29,7 @@ export function createWallet() {
   }
 }
 
-export function addWallet(
+export async function addWallet(
   input_path,
   input_walletname,
   input_chaincode,
@@ -56,7 +56,6 @@ export function addWallet(
         input_walletaddress +
         '")',
     );
-    
   } catch (error) {
     handleError('addWallet Error!', error);
   }
@@ -194,4 +193,3 @@ export const getWalletNumber = async () => {
   handleError(res.rows);
   return res.rows['COUNT(*)'];
 };
-
