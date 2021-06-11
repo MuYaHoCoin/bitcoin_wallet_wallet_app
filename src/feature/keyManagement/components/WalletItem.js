@@ -1,3 +1,4 @@
+import {useNavigation} from '@react-navigation/core';
 import React from 'react';
 import {Text, View} from 'react-native';
 import OkButton from '../../../common/component/OkButton';
@@ -74,6 +75,7 @@ const style = {
 };
 
 const WalletItem = ({walletName, walletType, address}) => {
+  const navigation = useNavigation();
   return (
     <View style={style.container}>
       <View style={style.header}>
@@ -88,11 +90,13 @@ const WalletItem = ({walletName, walletType, address}) => {
           title={'Recieve'}
           buttonStyle={style.button}
           textStyle={style.buttonText}
+          onPress={() => navigation.navigate('ReceiveCoins')}
         />
         <OkButton
           title={'send'}
           buttonStyle={style.button}
           textStyle={style.buttonText}
+          onPress={() => navigation.navigate('SendCoins')}
         />
       </View>
     </View>

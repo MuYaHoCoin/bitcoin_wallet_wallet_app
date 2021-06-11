@@ -16,6 +16,7 @@
     "@react-navigation/native": "5.9.4",
     "@react-navigation/stack": "5.14.5",
     "assert": "1.1.1",
+    "axios": "^0.21.1",
     "base58check": "2.0.0",
     "bip32": "2.0.6",
     "bip32-utils": "0.11.1",
@@ -42,7 +43,7 @@
     "stream-browserify": "1.0.0",
     "string_decoder": "0.10.31",
     "tiny-secp256k1": "2.0.0",
-    "yarn": "1.22.10"
+    "yarn": "^1.22.10"
   },
   "devDependencies": {
     "@babel/core": "7.14.2",
