@@ -38,6 +38,7 @@
     "react-native-sqlite-2": "3.3.0",
     "react-native-typescript-transformer": "1.2.13",
     "readable-stream": "1.0.33",
+    "rn-bitcoinjs-lib": "5.0.5-1",
     "rn-nodeify": "10.3.0",
     "safe-buffer": "5.2.1",
     "stream-browserify": "1.0.0",
