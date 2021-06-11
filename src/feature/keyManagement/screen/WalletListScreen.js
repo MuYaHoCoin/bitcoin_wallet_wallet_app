@@ -1,10 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {
-  ImageBackground,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-} from 'react-native';
+import {ImageBackground, ScrollView} from 'react-native';
 import MainLogo from '../../../common/component/MainLogo';
 import OkButton from '../../../common/component/OkButton';
 import {handleError} from '../../../common/function/error';
@@ -15,7 +10,6 @@ import AddWalletModal from '../components/AddWalletModal';
 import WalletItem from '../components/WalletItem';
 import {getAddress} from '../function/address';
 import {createChildKey} from '../function/createChild';
-import {okButtonStyle, okButtonTextStyle} from '../style/style';
 
 const WalletListScreen = () => {
   const [index, setIndex] = useState(0);
