@@ -81,9 +81,9 @@ const WalletItem = ({walletName, walletType, address}) => {
   const navigation = useNavigation();
   const [balance, setBalance] = useState(0);
   useEffect(() => {
-    getBalance(address).then(btc => {
-      setBalance(btc);
-    });
+    // getBalance(address).then(btc => {
+    //   setBalance(btc);
+    // });
   }, []);
   return (
     <View style={style.container}>
@@ -99,7 +99,7 @@ const WalletItem = ({walletName, walletType, address}) => {
           title={'Recieve'}
           buttonStyle={style.button}
           textStyle={style.buttonText}
-          onPress={() => navigation.navigate('ReceiveCoins')}
+          onPress={() => navigation.navigate('ReceiveCoins', {address})}
         />
         <OkButton
           title={'send'}

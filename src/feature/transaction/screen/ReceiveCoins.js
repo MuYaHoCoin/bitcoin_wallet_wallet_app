@@ -6,12 +6,17 @@ import {ImageBackground, Text, TextInput} from 'react-native';
 import {Colors} from '../../../common/style/color';
 import MainLogo from '../../../common/component/MainLogo';
 import OkButton from '../../../common/component/OkButton';
+import {transactionStyle} from '../style/style';
+import IconTitle from '../component/item/IconTitle';
+import ExitButton from '../../../common/component/ExitButton';
 
 const style = {
   text: {
+    marginBottom: 16,
+
     color: Colors.font,
     textAlign: 'center',
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: 'bold',
   },
   button: {
@@ -19,23 +24,22 @@ const style = {
     marginBottom: 15,
   },
   input: {
-    color: Colors.font,
-    height: 20,
-    outerWidth: 60,
-    margin: 12,
-    borderWidth: 1,
+    ...transactionStyle.input,
   },
 };
 
-const ReceiveCoins = ({visible, onClose, addWallet}) => {
+const ReceiveCoins = ({route, navigation}) => {
+  const {address} = route.params;
+  const copy = require('../../../common/image/copyLogo.png');
+
   return (
     <ImageBackground
       source={require('../../../common/image/bitcoinBackground.png')}
-      style={{...commonStyle.background, padding: 12}}>
+      style={commonStyle.background}>
       <MainLogo />
-      <OkButton title={'Bitcoin 수신하기'} buttonStyle={[style.button]} />
-      <Text style={[style.text]}> Public ax ddress </Text>
-      <TextInput style={[style.input]} value="user's public address" />
+      <IconTitle title={'Public Address'} icon={copy} />
+      <Text style={style.text}>{address}</Text>
+      <ExitButton title={'돌아가기'} />
     </ImageBackground>
   );
 };
