@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 var rootUrl = 'https://api.blockcypher.com/v1/btc/';
-export const getBalance = async (address, network) => {
+export const getBalance = async (address, network = 'test') => {
   switch (network) {
     case 'main': {
       rootUrl += 'main/';
@@ -13,8 +13,6 @@ export const getBalance = async (address, network) => {
     }
     default:
   }
-  await axios.get(rootUrl + '/addrs/' + address).then(d => {
-    console.log(d.data);
-    return d.data.balance;
-  });
+  const data = await axios.get(rootUrl + '/addrs/' + address);
+  return data.data.balance;
 };

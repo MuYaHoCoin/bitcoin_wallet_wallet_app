@@ -28,7 +28,7 @@ const WalletListScreen = () => {
   const insertWallet = async (walletName, walletType) => {
     try {
       const {privateKey, publicKey, chainCode} = await createChildKey(index);
-      const walletAddress = getAddress(publicKey, 'bitcoin');
+      const walletAddress = getAddress(publicKey, 'bitcoinTestNet');
       const wallet = {
         privateKey,
         publicKey,
