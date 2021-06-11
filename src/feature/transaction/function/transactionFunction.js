@@ -1,13 +1,13 @@
 import axios from 'axios';
 
 var rootUrl = 'https://api.blockcypher.com/v1/btc/';
-export const getBalance = async (address, network) => {
+export const getBalance = async (address, network = 'bitcoinTestNet') => {
   switch (network) {
-    case 'main': {
+    case 'bitcoin': {
       rootUrl += 'main/';
       break;
     }
-    case 'test': {
+    case 'bitcoinTestNet': {
       rootUrl += 'test3/';
       break;
     }
@@ -18,3 +18,5 @@ export const getBalance = async (address, network) => {
     return d.data.balance;
   });
 };
+
+export const getTransactionList
