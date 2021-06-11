@@ -37,7 +37,7 @@ const WalletListScreen = () => {
         walletAddress,
         walletType,
       };
-      addWallet(
+      await addWallet(
         'm/0/0/7' + index,
         walletName,
         chainCode,
@@ -59,7 +59,7 @@ const WalletListScreen = () => {
       style={{...commonStyle.background, padding: 12}}>
       <MainLogo />
       <OkButton
-        title={'지갑 추가하기'}
+        title={'지갑추가 하기'}
         onPress={() => {
           setModalVisible(true);
         }}

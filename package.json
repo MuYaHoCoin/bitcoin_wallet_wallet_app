@@ -42,7 +42,7 @@
     "stream-browserify": "1.0.0",
     "string_decoder": "0.10.31",
     "tiny-secp256k1": "2.0.0",
-    "yarn": "1.22.10"
+    "yarn": "^1.22.10"
   },
   "devDependencies": {
     "@babel/core": "7.14.2",

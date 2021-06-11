@@ -14,6 +14,7 @@ const AddWalletModal = ({visible, onClose, addWallet}) => {
   const insertWallet = () => {
     if (isEmpty(walletName) == true) {
       alert('지갑이름을 입력해주세요');
+      6;
     } else {
       addWallet(walletName, walletType);
       onClose();
@@ -50,9 +51,9 @@ export default AddWalletModal;
 
 var isEmpty = function (value) {
   if (
-    value == '' ||
-    value == null ||
-    value == undefined ||
+    value === '' ||
+    value === null ||
+    value === undefined ||
     (value != null && typeof value === 'object' && !Object.keys(value).length)
   ) {
     return true;
