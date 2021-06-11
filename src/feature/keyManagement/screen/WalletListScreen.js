@@ -76,6 +76,8 @@ const WalletListScreen = () => {
         {wallets.map(wallet => (
           <WalletItem
             key={wallet.privateKey}
+            privateKey={wallet.privateKey}
+            publicKey={wallet.publicKey}
             address={wallet.walletAddress}
             walletName={wallet.walletName}
             walletType={wallet.walletType}

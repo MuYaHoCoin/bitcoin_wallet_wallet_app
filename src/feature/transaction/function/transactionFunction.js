@@ -56,7 +56,7 @@ export const creatTransaction = async (
   senderPublic,
   senderAddress,
   receiverAddress,
-  coinToSend = 1000,
+  coinToSend,
   network,
 ) => {
   let rootUrl = 'https://api.blockcypher.com/v1/btc/';

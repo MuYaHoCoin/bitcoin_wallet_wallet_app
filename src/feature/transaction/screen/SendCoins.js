@@ -1,19 +1,19 @@
 import React from 'react';
-import {commonStyle} from '../../../common/style/commonStyle';
-import {transactionStyle} from '../style/style';
 import {ImageBackground, Text, TextInput} from 'react-native';
-import MainLogo from '../../../common/component/MainLogo';
+import {useState} from 'react/cjs/react.development';
 import {Colors} from '../../../common/style/color';
-<<<<<<< HEAD
+import {commonStyle} from '../../../common/style/commonStyle';
+import {
+  creatTransaction,
+  getBTCCurrentPrice,
+} from '../function/transactionFunction';
+import {transactionStyle} from '../style/style';
 import BitcoinInput from '../component/input/BitcoinInput';
-import NoButton from '../../../common/component/NoButton';
-import ExitButton from '../../../common/component/ExitButton';
+import MainLogo from '../../../common/component/MainLogo';
 import IconTitle from '../component/item/IconTitle';
-=======
-import BitcoinInput from '../component/BitcoinInput';
-import OkButton from '../../../common/component/OkButton';
-import {creatTransaction} from '../function/transactionFunction';
->>>>>>> b1cca56280d60f1d811bf35becfe8ab56f1ef39b
+import ExitButtonm from '../../../common/component/ExitButton';
+import NoButton from '../../../common/component/NoButton';
+import {useEffect} from 'react/cjs/react.production.min';
 
 const style = {
   text: {
@@ -35,21 +35,49 @@ const style = {
   },
 };
 
-const SendCoins = ({visible, onClose, addWallet}) => {
+const SendCoins = ({route, navigation}) => {
+  const [recieverAddress, setRecieveAddress] = useState('');
+  const [amount, setAmount] = useState('0');
+
   const camera = require('../../../common/image/cameraLogo.png');
   const setting = require('../../../common/image/settingLogo.png');
+  const {address, privateKey, publicKey} = route.params;
+
+  const makeTransaction = () => {
+    creatTransaction(
+      privateKey,
+      publicKey,
+      address,
+      recieverAddress,
+      parseFloat(amount),
+      'bitcoinTestNet',
+    );
+  };
+
   return (
     <ImageBackground
       source={require('../../../common/image/bitcoinBackground.png')}
       style={commonStyle.background}>
       <MainLogo />
       <IconTitle title={'Public Address'} icon={camera} />
-      <TextInput style={transactionStyle.input} />
+      <TextInput
+        value={recieverAddress}
+        onChangeText={setRecieveAddress}
+        placeholder={'상대방 주소를 입력해주세요.'}
+        style={transactionStyle.input}
+      />
       <IconTitle title={'Amount'} icon={setting} />
-      <BitcoinInput />
-      <Text style={style.dollar}>$ 0.00</Text>
-      <NoButton title={'bitcoin 이체하기'} buttonStyle={style.button} />
-      <ExitButton title={'돌아가기'} buttonStyle={style.button} />
+      <BitcoinInput
+        value={amount}
+        onChangeText={setAmount}
+        placeholder={'단위는 BTC입니다.'}
+      />
+      <NoButton
+        title={'bitcoin 이체하기'}
+        onPress={makeTransaction}
+        buttonStyle={style.button}
+      />
+      <ExitButtonm title={'돌아가기'} buttonStyle={style.button} />
     </ImageBackground>
   );
 };

@@ -77,7 +77,13 @@ const style = {
   },
 };
 
-const WalletItem = ({walletName, walletType, address}) => {
+const WalletItem = ({
+  walletName,
+  walletType,
+  address,
+  privateKey,
+  publicKey,
+}) => {
   const navigation = useNavigation();
   const [balance, setBalance] = useState(0);
   useEffect(() => {
@@ -105,7 +111,9 @@ const WalletItem = ({walletName, walletType, address}) => {
           title={'send'}
           buttonStyle={style.button}
           textStyle={style.buttonText}
-          onPress={() => navigation.navigate('SendCoins')}
+          onPress={() =>
+            navigation.navigate('SendCoins', {privateKey, publicKey, address})
+          }
         />
       </View>
     </View>
