@@ -28,14 +28,13 @@ const style = {
 };
 
 const ReceiveCoins = ({visible, onClose, addWallet}) => {
-  const navigation = useNavigation();
   return (
     <ImageBackground
       source={require('../../../common/image/bitcoinBackground.png')}
       style={{...commonStyle.background, padding: 12}}>
       <MainLogo />
       <OkButton title={'Bitcoin 수신하기'} buttonStyle={[style.button]} />
-      <Text style={[style.text]}> Public address </Text>
+      <Text style={[style.text]}> Public ax ddress </Text>
       <TextInput style={[style.input]} value="user's public address" />
     </ImageBackground>
   );
