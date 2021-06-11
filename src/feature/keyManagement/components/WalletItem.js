@@ -1,8 +1,11 @@
 import {useNavigation} from '@react-navigation/core';
 import React from 'react';
+import {useEffect} from 'react';
 import {Text, View} from 'react-native';
+import {useState} from 'react/cjs/react.development';
 import OkButton from '../../../common/component/OkButton';
 import {Colors} from '../../../common/style/color';
+import {getBalance} from '../../transaction/function/transactionFunction';
 const WalletTypeMap = {
   standard: 'Standard',
   'two-factor': 'Two-Factor',
@@ -76,6 +79,12 @@ const style = {
 
 const WalletItem = ({walletName, walletType, address}) => {
   const navigation = useNavigation();
+  const [balance, setBalance] = useState(0);
+  useEffect(() => {
+    getBalance(address).then(btc => {
+      setBalance(btc);
+    });
+  }, []);
   return (
     <View style={style.container}>
       <View style={style.header}>
@@ -84,7 +93,7 @@ const WalletItem = ({walletName, walletType, address}) => {
           {WalletTypeMap[walletType] + ' - ' + walletName}
         </Text>
       </View>
-      <Text style={style.address}>{address}</Text>
+      <Text style={style.address}>{balance}</Text>
       <View style={style.buttonSection}>
         <OkButton
           title={'Recieve'}

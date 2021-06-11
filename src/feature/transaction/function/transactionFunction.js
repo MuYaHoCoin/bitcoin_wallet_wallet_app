@@ -18,5 +18,3 @@ export const getBalance = async (address, network = 'bitcoinTestNet') => {
     return d.data.balance;
   });
 };
-
-export const getTransactionList

@@ -1,20 +1,31 @@
-import {useNavigation} from '@react-navigation/core';
 import React from 'react';
-import NoButton from '../../../common/component/NoButton';
 import {commonStyle} from '../../../common/style/commonStyle';
-import {ImageBackground} from 'react-native';
+import {transactionStyle} from '../style/style';
+import {ImageBackground, Text, TextInput} from 'react-native';
 import MainLogo from '../../../common/component/MainLogo';
-import OkButton from '../../../common/component/OkButton';
+import {Colors} from '../../../common/style/color';
+import BitcoinInput from '../component/BitcoinInput';
+
+const style = {
+  text: {
+    marginBottom: 12,
+
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: Colors.font,
+  },
+};
 
 const SendCoins = ({visible, onClose, addWallet}) => {
-  const navigation = useNavigation();
   return (
     <ImageBackground
       source={require('../../../common/image/bitcoinBackground.png')}
-      style={{...commonStyle.background, padding: 12}}>
+      style={commonStyle.background}>
       <MainLogo />
-      <OkButton title={'Bitcoin 수신하기'} />
-      <NoButton title={'Bitcoin 이체하기'} />
+      <Text style={style.text}>Public Address</Text>
+      <TextInput style={transactionStyle.input} />
+      <Text style={style.text}>Amount</Text>
+      <BitcoinInput />
     </ImageBackground>
   );
 };
