@@ -1,4 +1,7 @@
 import axios from 'axios';
+import {Buffer} from 'safe-buffer';
+import * as bitcoin from 'rn-bitcoinjs-lib';
+import {handleError} from '../../../common/function/error';
 
 export const getBalance = async (address, network = 'bitcoinTestNet') => {
   var rootUrl = 'https://api.blockcypher.com/v1/btc/';
@@ -48,4 +51,53 @@ export const getTransactionList = async (
   return txs;
 };
 
-export const creatTransaction = () => {};
+export const creatTransaction = async (
+  senderPrivate,
+  senderPublic,
+  senderAddress,
+  receiverAddress,
+  coinToSend = 1000,
+  network,
+) => {
+  let rootUrl = 'https://api.blockcypher.com/v1/btc/';
+  switch (network) {
+    case 'bitcoin': {
+      rootUrl += 'main/';
+      break;
+    }
+    case 'bitcoinTestNet': {
+      rootUrl += 'test3/';
+      break;
+    }
+    default:
+  }
+  try {
+    let newtx = {
+      inputs: [{addresses: [senderAddress]}],
+      outputs: [{addresses: [receiverAddress], value: coinToSend}],
+    };
+    let key = bitcoin.ECPair.fromPrivateKey(Buffer.from(senderPrivate, 'hex'));
+
+    const {data: tmptx} = await axios.post(rootUrl + 'txs/new', newtx);
+    if (checkError(tmptx)) {
+      return;
+    }
+    tmptx.pubkeys = [];
+    tmptx.signatures = tmptx.tosign.map(tosign => {
+      tmptx.pubkeys.push(senderPublic.toString('hex'));
+      return bitcoin.script.signature
+        .encode(key.sign(Buffer.from(tosign, 'hex')), 0x01)
+        .toString('hex')
+        .slice(0, -2);
+    });
+    const {} = await axios.post(rootUrl + 'txs/send', tmptx);
+  } catch (error) {
+    handleError('Create Transaction Error', error);
+  }
+};
+const checkError = msg => {
+  if (false) {
+    log('Errors occured!!/n' + msg.errors.join('/n'));
+    return true;
+  }
+};
