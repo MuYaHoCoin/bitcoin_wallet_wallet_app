@@ -17,7 +17,7 @@ export const getBalance = async (address, network = 'bitcoinTestNet') => {
   return balance.data.balance;
 };
 
-export const getBTCCurrentPrice = () => {
+export const getBTCCurrentPrice = async () => {
   const price = await axios.get(
     'https://api.coindesk.com/v1/bpi/currentprice.json',
   );
