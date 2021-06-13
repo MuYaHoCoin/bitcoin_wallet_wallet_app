@@ -4,16 +4,9 @@ import {transactionStyle} from '../style/style';
 import {ImageBackground, Text, TextInput} from 'react-native';
 import MainLogo from '../../../common/component/MainLogo';
 import {Colors} from '../../../common/style/color';
-<<<<<<< HEAD
 import BitcoinInput from '../component/input/BitcoinInput';
-import NoButton from '../../../common/component/NoButton';
-import ExitButton from '../../../common/component/ExitButton';
-import IconTitle from '../component/item/IconTitle';
-=======
-import BitcoinInput from '../component/BitcoinInput';
 import OkButton from '../../../common/component/OkButton';
 import {creatTransaction} from '../function/transactionFunction';
->>>>>>> b1cca56280d60f1d811bf35becfe8ab56f1ef39b
 
 const style = {
   text: {
