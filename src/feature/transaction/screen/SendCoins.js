@@ -13,7 +13,6 @@ import MainLogo from '../../../common/component/MainLogo';
 import IconTitle from '../component/item/IconTitle';
 import ExitButtonm from '../../../common/component/ExitButton';
 import NoButton from '../../../common/component/NoButton';
-import {useEffect} from 'react/cjs/react.production.min';
 
 const style = {
   text: {
@@ -45,11 +44,11 @@ const SendCoins = ({route, navigation}) => {
 
   const makeTransaction = () => {
     creatTransaction(
-      privateKey,
-      publicKey,
-      address,
-      recieverAddress,
-      parseFloat(amount),
+      'f31ff1ad39dcf295a58b36b6966606a810cd287308d914a61bd2363d500a8c06',
+      '035ffd30bb64acf4d07da787c1641cb17812a0ac98d295a773a4b0932df24bf51f',
+      'n3Vz3TzoryAWGngXaV2FKpkUVESk6CcGok',
+      'mqfstFCsf9QazzBVzhYaUFTbkw7oxeWpt6',
+      parseFloat(amount) * 100000000,
       'bitcoinTestNet',
     );
   };

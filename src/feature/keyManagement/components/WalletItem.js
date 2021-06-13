@@ -85,11 +85,11 @@ const WalletItem = ({
   publicKey,
 }) => {
   const navigation = useNavigation();
-  const [balance, setBalance] = useState(0);
+  const [balance, setBalance] = useState(0.0);
   useEffect(() => {
-    // getBalance(address).then(btc => {
-    //   setBalance(btc);
-    // });
+    getBalance(address).then(btc => {
+      setBalance(btc * 0.00000001);
+    });
   }, []);
   return (
     <View style={style.container}>
@@ -99,7 +99,7 @@ const WalletItem = ({
           {WalletTypeMap[walletType] + ' - ' + walletName}
         </Text>
       </View>
-      <Text style={style.address}>{balance}</Text>
+      <Text style={style.address}>{balance} BTC</Text>
       <View style={style.buttonSection}>
         <OkButton
           title={'Recieve'}
