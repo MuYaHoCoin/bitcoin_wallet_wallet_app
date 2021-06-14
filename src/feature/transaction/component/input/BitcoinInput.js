@@ -25,12 +25,12 @@ const style = {
   },
 };
 
-const BitcoinInput = ({value, onChangeValue, placeholer}) => {
+const BitcoinInput = ({value, onChangeText, placeholer}) => {
   return (
     <View style={style.container}>
       <TextInput
         value={value}
-        onChangeValue={value}
+        onChangeText={onChangeText}
         placeholder={placeholer}
         style={style.input}
       />

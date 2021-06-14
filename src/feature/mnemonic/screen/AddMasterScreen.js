@@ -5,7 +5,6 @@ import {
   generateNewMnemonic,
 } from '../function/createMasterWallet';
 import {addMaster, createMaster} from '../../database/function/master';
-import {useNavigation} from '@react-navigation/native';
 import {
   AddWalletButtonStyle,
   AddWalletButtonTextStyle,

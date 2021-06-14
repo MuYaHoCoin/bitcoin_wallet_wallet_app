@@ -38,7 +38,7 @@ const ReceiveCoins = ({route, navigation}) => {
       style={commonStyle.background}>
       <MainLogo />
       <IconTitle title={'Public Address'} icon={copy} />
-      <Text style={style.text}>{address}</Text>
+      <TextInput style={style.text} value={address} />
       <ExitButton title={'돌아가기'} />
     </ImageBackground>
   );

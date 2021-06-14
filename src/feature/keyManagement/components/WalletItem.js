@@ -77,13 +77,19 @@ const style = {
   },
 };
 
-const WalletItem = ({walletName, walletType, address}) => {
+const WalletItem = ({
+  walletName,
+  walletType,
+  address,
+  privateKey,
+  publicKey,
+}) => {
   const navigation = useNavigation();
-  const [balance, setBalance] = useState(0);
+  const [balance, setBalance] = useState(0.0);
   useEffect(() => {
-    // getBalance(address).then(btc => {
-    //   setBalance(btc);
-    // });
+    getBalance(address).then(btc => {
+      setBalance(btc * 0.00000001);
+    });
   }, []);
   return (
     <View style={style.container}>
@@ -93,7 +99,7 @@ const WalletItem = ({walletName, walletType, address}) => {
           {WalletTypeMap[walletType] + ' - ' + walletName}
         </Text>
       </View>
-      <Text style={style.address}>{balance}</Text>
+      <Text style={style.address}>{balance} BTC</Text>
       <View style={style.buttonSection}>
         <OkButton
           title={'Recieve'}
@@ -105,7 +111,9 @@ const WalletItem = ({walletName, walletType, address}) => {
           title={'send'}
           buttonStyle={style.button}
           textStyle={style.buttonText}
-          onPress={() => navigation.navigate('SendCoins')}
+          onPress={() =>
+            navigation.navigate('SendCoins', {privateKey, publicKey, address})
+          }
         />
       </View>
     </View>
