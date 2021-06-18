@@ -164,7 +164,7 @@ export async function getWallets() {
   try {
     const res = await excuteSql('SELECT * FROM WALLETS');
     const result = [];
-    for (let i = 1; i < res.rows.length; ++i) {
+    for (let i = 0; i < res.rows.length; ++i) {
       const {
         private_key,
         public_key,

@@ -38,7 +38,7 @@ const WalletListScreen = () => {
         walletType,
       };
       await addWallet(
-        'm/0/0/7/' + index,
+        "m/44'/61'/0'/0/" + index.toString(),
         walletName,
         chainCode,
         publicKey,

@@ -16,7 +16,7 @@ const excuteSql = sql => {
 };
 
 export function createMaster() {
-  try{
+  try {
     const db = SQLite.openDatabase('test.db', '1.0');
 
     db.transaction(function (txn) {
@@ -25,8 +25,7 @@ export function createMaster() {
         [],
       );
     });
-  }
-  catch{
+  } catch {
     handleError('createMaster Error!', error);
   }
 }
@@ -52,66 +51,60 @@ export async function addMaster(
 }
 
 export function delMaster(condition) {
-  try{
+  try {
     const db = SQLite.openDatabase('test.db', '1.0');
 
     db.transaction(function (txn) {
       txn.executeSql('DELETE FROM MASTER WHERE(' + condition + ')');
     });
-  }
-  catch{
+  } catch {
     handleError('delMaster Error!', error);
   }
 }
 
 export function dropMaster() {
-  try{
+  try {
     const db = SQLite.openDatabase('test.db', '1.0');
 
     db.transaction(function (txn) {
       txn.executeSql('DROP TABLE IF EXISTS MASTER', []);
     });
-  }
-  catch{
+  } catch {
     handleError('dropMaster Error!', error);
   }
 }
 
 export function getChainCode() {
-  try{
+  try {
     const db = SQLite.openDatabase('test.db', '1.0');
 
     db.transaction(function (txn) {
       txn.executeSql('SELECT chain_code FROM MASTER');
     });
-  }
-  catch{
+  } catch (error) {
     handleError('getChainCode Error!', error);
   }
 }
 
 export function getPublicKey() {
-  try{
+  try {
     const db = SQLite.openDatabase('test.db', '1.0');
-    const result = [];
     db.transaction(function (txn) {
       txn.executeSql('SELECT public_key FROM MASTER');
     });
-  }
-  catch{
+  } catch (error) {
     handleError('getPublicKey Error!', error);
   }
 }
 
 export function getPrivateKey() {
-  try{
+  try {
     const db = SQLite.openDatabase('test.db', '1.0');
 
     db.transaction(function (txn) {
       txn.executeSql('SELECT private_key FROM MASTER');
     });
-  }
-  catch{
+  } catch (error) {
     handleError('getPrivateKey Error!', error);
   }
 }
@@ -119,24 +112,20 @@ export function getPrivateKey() {
 export const getMaster = async () => {
   try {
     const res = await excuteSql('SELECT * FROM MASTER');
+    console.log(res.rows);
     const {private_key: privateKey, chain_code: chainCode} = res.rows.item(0);
     return {privateKey, chainCode};
-  }
-  catch{
+  } catch (error) {
     handleError('getMaster Error!', error);
   }
 };
 
-export function getMasterExistence(callback) {
-  try{
-    const db = SQLite.openDatabase('test.db', '1.0', '', 1);
-    db.transaction(function (txn) {
-      txn.executeSql('SELECT COUNT(*) FROM MASTER', [], (tx, res) => {
-        callback(res.rows.item(0)['COUNT(*)']);
-      });
-    });
-  }
-  catch{
+export async function getMasterExistence(callback) {
+  try {
+    const res = await excuteSql('SELECT COUNT(*) FROM MASTER');
+    console.log(res.rows);
+    return res.rows.item(0)['COUNT(*)'];
+  } catch (error) {
     handleError('getMasterExistence Error!', error);
   }
 }

@@ -1,16 +1,17 @@
 import React, {useEffect} from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {ImageBackground, Text, View} from 'react-native';
+import {ImageBackground} from 'react-native';
 import {getMasterExistence} from '../../feature/database/function/master';
 import {commonStyle} from '../style/commonStyle';
+import MainLogo from '../component/MainLogo';
 
 const SplashPage = () => {
   const navigation = useNavigation();
   useEffect(() => {
     setTimeout(
       () =>
-        getMasterExistence(b => {
-          if (b) {
+        getMasterExistence().then(masterExistence => {
+          if (masterExistence) {
             navigation.navigate('Main');
           } else {
             navigation.navigate('Master/Create');
@@ -24,7 +25,7 @@ const SplashPage = () => {
     <ImageBackground
       source={require('../image/bitcoinBackground.png')}
       style={commonStyle.background}>
-      <Text>asdasd</Text>
+      <MainLogo />
     </ImageBackground>
   );
 };
