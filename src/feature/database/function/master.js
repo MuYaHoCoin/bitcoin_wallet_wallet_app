@@ -16,42 +16,34 @@ const excuteSql = sql => {
   });
 };
 
-export function createMaster() {
-  const db = SQLite.openDatabase('test.db', '1.0');
+export async function createMaster() {
+  try {
+    excuteSql(
+      'CREATE TABLE IF NOT EXIST MASTER(mnemonic VARCHAR(200) PRIMARY KEY NOT NULL)',
+    );
+  } catch (error) {}
+}
 
+export function addMaster(input_chaincode, input_publickey, input_privatekey) {
+  const db = SQLite.openDatabase('test.db', '1.0');
   db.transaction(function (txn) {
     txn.executeSql(
-      'CREATE TABLE IF NOT EXISTS MASTER (chain_code VARCHAR(100) PRIMARY KEY NOT NULL, public_key VARCHAR(100) NOT NULL, private_key VARCHAR(100) NOT NULL)',
-      [],
+      'INSERT INTO MASTER VALUES(' +
+        input_chaincode +
+        ',' +
+        input_publickey +
+        ',' +
+        input_privatekey +
+        ')',
     );
   });
 }
 
-// export function createMaster (input_chaincode, input_publickey, input_privatekey){
-// db.transaction(function (txn){
-//     txn.executeSql('INSERT INTO MASTER VALUES(' +input_chaincode+','+ input_publickey+','+ input_privatekey+')');
-//     txn.executeSql("SELECT * FROM MASTER", [], function(tx, res){
-//         for(let i=0; i<res.rows.length;++i){
-//             console.log("item: ", res.rows.item(i));
-//         }
-    
-//     }); 
-// });
-// }
-
-export function addMaster(input_chaincode, input_publickey, input_privatekey){
-const db = SQLite.openDatabase('test.db', '1.0');
-db.transaction(function (txn){
-    txn.executeSql('INSERT INTO MASTER VALUES(' +input_chaincode+','+ input_publickey+','+ input_privatekey+')');
-})
+export function delMaster(condition) {
+  db.transaction(function (txn) {
+    txn.executeSql('DELETE FROM MASTER WHERE(' + condition + ')');
+  });
 }
-
-export function delMaster(condition){
-db.transaction(function (txn){
-    txn.executeSql('DELETE FROM MASTER WHERE(' +condition+')');
-})
-}
-
 
 export function dropMaster() {
   const db = SQLite.openDatabase('test.db', '1.0');
