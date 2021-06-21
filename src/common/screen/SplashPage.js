@@ -13,7 +13,7 @@ const SplashPage = () => {
           if (b) {
             navigation.navigate('Main');
           } else {
-            navigation.navigate('CreateMaster');
+            navigation.navigate('Master/Create');
           }
         }),
       1000,

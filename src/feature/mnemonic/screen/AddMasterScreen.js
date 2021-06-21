@@ -1,27 +1,37 @@
 import React, {useEffect, useState} from 'react';
-import {
-  ScrollView,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {ScrollView, TextInput, View} from 'react-native';
 import {
   createMasterNode,
   generateNewMnemonic,
 } from '../function/createMasterWallet';
 import {addMaster, createMaster} from '../../database/function/master';
-import {useNavigation} from '@react-navigation/native';
 import {
   AddWalletButtonStyle,
   AddWalletButtonTextStyle,
   mnemonicItemContainerStyle,
 } from '../style/style';
 import RandomWordItem from '../component/RandomWordItem';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import MainLogo from '../../../common/component/MainLogo';
+import {commonStyle} from '../../../common/style/commonStyle';
+import OkButton from '../../../common/component/OkButton';
 
-const AddMasterWalletScreen = () => {
-  const navigation = useNavigation();
+const style = {
+  background: {
+    width: '100%',
+    height: '100%',
+
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+
+    paddingTop: 20,
+
+    backgroundColor: '#212121',
+  },
+};
+
+const AddMasterWalletScreen = ({navigation}) => {
   const [mnemonic, setMnemonic] = useState([]);
   const [password, setPassword] = useState('');
 
@@ -35,42 +45,45 @@ const AddMasterWalletScreen = () => {
       mnemonic,
       password,
     );
-    addMaster(
-      chainCode.toString('hex'),
-      publicKey.toString('hex'),
-      privateKey.toString('hex'),
-    );
+    addMaster(chainCode, publicKey, privateKey);
     navigation.navigate('Main');
   };
 
   return (
-    <ScrollView
-      contentContainerStyle={{
-        width: '100%',
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        backgroundColor: '#212121',
-      }}>
+    <ScrollView contentContainerStyle={style.background}>
+      <MainLogo />
       <View style={mnemonicItemContainerStyle}>
         {mnemonic.map((randomWord, index) => (
           <RandomWordItem key={index} index={index + 1} mnemonic={randomWord} />
         ))}
       </View>
       <TextInput
-        placeholder={'optional: put PassWord!'}
+        placeholder={'Optional: put PassWord!'}
         value={password}
         onChangeText={setPassword}
+        style={commonStyle.input}
       />
-      <TouchableOpacity
-        style={AddWalletButtonStyle}
-        onPress={createMasterWallet}>
-        <Text style={AddWalletButtonTextStyle}>지갑 만들기</Text>
-      </TouchableOpacity>
+      <OkButton
+        title={'지갑 만들기'}
+        onPress={createMasterWallet}
+        buttonStyle={AddWalletButtonStyle}
+        textStyle={AddWalletButtonTextStyle}
+      />
     </ScrollView>
   );
 };
 
 export default AddMasterWalletScreen;
+
+var isEmpty = function (value) {
+  if (
+    value == '' ||
+    value == null ||
+    value == undefined ||
+    (value != null && typeof value === 'object' && !Object.keys(value).length)
+  ) {
+    return true;
+  } else {
+    return false;
+  }
+};

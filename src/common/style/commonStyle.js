@@ -23,4 +23,15 @@ export const commonStyle = {
 
     borderRadius: 6,
   },
+  input: {
+    width: '90%',
+    height: 40,
+
+    padding: 4,
+    marginBottom: 24,
+
+    backgroundColor: '#fff',
+    color: '#000',
+    borderRadius: 8,
+  },
 };

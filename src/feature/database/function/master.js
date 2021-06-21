@@ -1,6 +1,5 @@
 import SQLite from 'react-native-sqlite-2';
-
-const db = SQLite.openDatabase('test.db', '1.0');
+import {handlError} from '../../../common/function/error';
 
 const excuteSql = sql => {
   const db = SQLite.openDatabase('test.db', '1.0');
@@ -21,7 +20,9 @@ export async function createMaster() {
     excuteSql(
       'CREATE TABLE IF NOT EXIST MASTER(mnemonic VARCHAR(200) PRIMARY KEY NOT NULL)',
     );
-  } catch (error) {}
+  } catch (error) {
+    handlError('');
+  }
 }
 
 export function addMaster(input_chaincode, input_publickey, input_privatekey) {
@@ -36,44 +37,6 @@ export function addMaster(input_chaincode, input_publickey, input_privatekey) {
         input_privatekey +
         ')',
     );
-  });
-}
-
-export function delMaster(condition) {
-  db.transaction(function (txn) {
-    txn.executeSql('DELETE FROM MASTER WHERE(' + condition + ')');
-  });
-}
-
-export function dropMaster() {
-  const db = SQLite.openDatabase('test.db', '1.0');
-
-  db.transaction(function (txn) {
-    txn.executeSql('DROP TABLE IF EXISTS MASTER', []);
-  });
-}
-
-export function getChainCode() {
-  const db = SQLite.openDatabase('test.db', '1.0');
-
-  db.transaction(function (txn) {
-    txn.executeSql('SELECT chain_code FROM MASTER');
-  });
-}
-
-export function getPublicKey() {
-  const db = SQLite.openDatabase('test.db', '1.0');
-  const result = [];
-  db.transaction(function (txn) {
-    txn.executeSql('SELECT public_key FROM MASTER');
-  });
-}
-
-export function getPrivateKey() {
-  const db = SQLite.openDatabase('test.db', '1.0');
-
-  db.transaction(function (txn) {
-    txn.executeSql('SELECT private_key FROM MASTER');
   });
 }
 

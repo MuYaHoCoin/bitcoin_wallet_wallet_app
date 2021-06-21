@@ -1,13 +1,12 @@
 import {getMaster} from '../../database/function/master';
 import {Buffer} from 'safe-buffer';
 import * as BIP32 from 'bip32';
-import {handlError} from '../../../common/function/error';
+import {handleError} from '../../../common/function/error';
 
 export const createChildKey = async index => {
   try {
     const master = await getMaster();
 
-    console.log(new Buffer(master.privateKey, 'hex'));
     const masterNode = BIP32.fromPrivateKey(
       new Buffer(master.privateKey, 'hex'),
       new Buffer(master.chainCode, 'hex'),
@@ -22,6 +21,6 @@ export const createChildKey = async index => {
       chainCode: chainCode.toString('hex'),
     };
   } catch (error) {
-    handlError('createChildKey Error', error);
+    handleError('createChildKey Error', error);
   }
 };

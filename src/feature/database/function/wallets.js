@@ -18,10 +18,10 @@ export const excuteSql = sql => {
 export function createWallet() {
   try {
     excuteSql(
-      'CREATE TABLE IF NOT EXISTS WALLETS (wallet_index VARCHAR(10) PRIMARY KEY, wallet_name VARCHAR(100) NOT NULL, wallet_type VARCHAR(100) NOT NULL)',
+      'CREATE TABLE IF NOT EXISTS WALLETS(wallet_index VARCHAR(10) PRIMARY KEY, wallet_name VARCHAR(100) NOT NULL, wallet_type VARCHAR(100) NOT NULL)',
     );
   } catch (error) {
-    handleError('createWallet Error!');
+    handleError('createWallet Error!', error);
   }
 }
 
