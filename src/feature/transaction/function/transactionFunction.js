@@ -66,7 +66,7 @@ export const creatTransaction = async (
       break;
     }
     case 'bitcoinTestNet': {
-      rootUrl += 'test3/';
+      rootUrl += 'test3/';np
       break;
     }
     default:
