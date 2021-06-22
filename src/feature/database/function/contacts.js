@@ -1,80 +1,47 @@
 import SQLite from 'react-native-sqlite-2';
 import {handleError} from '../../../common/function/error';
 
-const db = SQLite.openDatabase('test.db', '1.0', '', 1);
-
-export function createContact() {
-  try {
-    db.transaction(function (txn) {
+const excuteSql = sql => {
+  const db = SQLite.openDatabase('test.db', '1.0');
+  return new Promise((resolve, reject) => {
+    db.transaction(txn => {
       txn.executeSql(
-        'CREATE TABLE IF NOT EXISTS CONTACTS (address VARCHAR(100) PRIMARY KEY NOT NULL, address_name VARCHAR(100) NOT NULL)',
+        sql,
         [],
+        (tx, res) => resolve(res),
+        (tx, err) => reject(err),
       );
-      txn.executeSql('INSERT INTO CONTACTS VALUES("abcd", "address1")');
-      txn.executeSql('INSERT INTO CONTACTS VALUES("efgh", "address2")');
-      txn.executeSql('SELECT * FROM CONTACTS', [], function (tx, res) {
-        for (let i = 0; i < res.rows.length; ++i) {
-          console.log('item: ', res.rows.item(i));
-        }
-      });
     });
+  });
+};
+
+export async function createContact() {
+  try {
+    await excuteSql(
+      'CREATE TABLE IF NOT EXIST CONTACT(address VARCHAR(100) PRIMARY KEY NOT NULL, name VARCHAR(100) NOT NULL)',
+    );
   } catch (error) {
-    handleError('createContact Error!', error);
+    handleError(error);
   }
 }
 
-export function addContact(input_address, input_address_name) {
+export async function addContact(address, name) {
   try {
-    db.transaction(function (txn) {
-      txn.executeSql(
-        'INSERT INTO CONTACTS VALUES(' +
-          input_address +
-          ',' +
-          input_address_name +
-          ')',
-      );
-    });
-  } catch {
-    handleError('addContact Error!', error);
+    await excuteSql(`INSERT INTO CONTACT VALUES("${address}","${name}")`);
+  } catch (error) {
+    handleError('Add Contact Error', error);
   }
 }
 
-export function delContact(condition) {
+export async function getContact() {
   try {
-    db.transaction(function (txn) {
-      txn.executeSql('DELETE FROM CONTACTS WHERE(' + condition + ')');
-    });
-  } catch {
-    handleError('delContact Error!', error);
-  }
-}
-
-export function dropContact() {
-  try {
-    db.transaction(function (txn) {
-      txn.executeSql('DROP TABLE IF EXISTS CONTACTS', []);
-    });
-  } catch {
-    handleError('dropContact Error!', error);
-  }
-}
-
-export function getAddress() {
-  try {
-    db.transaction(function (txn) {
-      txn.executeSql('SELECT address FROM CONTACTS');
-    });
-  } catch {
-    handleError('getAddress Error!', error);
-  }
-}
-
-export function getAddressName() {
-  try {
-    db.transaction(function (txn) {
-      txn.executeSql('SELECT address_name FROM CONTACTS');
-    });
-  } catch {
-    handleError('getAddressName Error!', error);
+    const result = [];
+    const res = excuteSql('SELECT * FROM CONTACT');
+    for (let i = 0; i < res.rows.length; i++) {
+      result.push(res.rows.item(i));
+    }
+    return result;
+  } catch (error) {
+    handleError('Get Contact Error', error);
   }
 }

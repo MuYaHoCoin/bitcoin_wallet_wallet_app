@@ -1,5 +1,5 @@
 import SQLite from 'react-native-sqlite-2';
-import {handlError} from '../../../common/function/error';
+import {handleError} from '../../../common/function/error';
 
 const excuteSql = sql => {
   const db = SQLite.openDatabase('test.db', '1.0');
@@ -17,42 +17,36 @@ const excuteSql = sql => {
 
 export async function createMaster() {
   try {
-    excuteSql(
-      'CREATE TABLE IF NOT EXIST MASTER(mnemonic VARCHAR(200) PRIMARY KEY NOT NULL)',
+    await excuteSql(
+      'CREATE TABLE IF NOT EXISTS MASTER(mnemonic VARCHAR(200) PRIMARY KEY NOT NULL, password VARCHAR(200))',
     );
   } catch (error) {
-    handlError('');
+    handleError('Create Master!!', error);
   }
 }
 
-export function addMaster(input_chaincode, input_publickey, input_privatekey) {
-  const db = SQLite.openDatabase('test.db', '1.0');
-  db.transaction(function (txn) {
-    txn.executeSql(
-      'INSERT INTO MASTER VALUES(' +
-        input_chaincode +
-        ',' +
-        input_publickey +
-        ',' +
-        input_privatekey +
-        ')',
-    );
-  });
+export async function addMaster(mnemonic, password) {
+  try {
+    await excuteSql(`INSERT INTO MASTER VALUES("${mnemonic}","${password}")`);
+  } catch (error) {
+    handleError('Add Master!!', error);
+  }
 }
 
-export const getMaster = async () => {
+export async function getMasterExistence() {
+  try {
+    const res = await excuteSql('SELECT COUNT(*) FROM MASTER');
+    return res.rows._array[0]['COUNT(*)'];
+  } catch (error) {
+    handleError('Get Master Existence', error);
+  }
+}
+
+export async function getMaster() {
   try {
     const res = await excuteSql('SELECT * FROM MASTER');
-    const {private_key: privateKey, chain_code: chainCode} = res.rows.item(0);
-    return {privateKey, chainCode};
-  } catch (error) {}
-};
-
-export function getMasterExistence(callback) {
-  const db = SQLite.openDatabase('test.db', '1.0', '', 1);
-  db.transaction(function (txn) {
-    txn.executeSql('SELECT COUNT(*) FROM MASTER', [], (tx, res) => {
-      callback(res.rows.item(0)['COUNT(*)']);
-    });
-  });
+    return res.rows.item(0);
+  } catch (error) {
+    handleError('Get Master Error', error);
+  }
 }

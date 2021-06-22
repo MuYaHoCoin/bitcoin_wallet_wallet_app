@@ -90,7 +90,7 @@ const WalletItem = ({
     getBalance(address).then(btc => {
       setBalance(btc * 0.00000001);
     });
-  }, []);
+  }, [address]);
   return (
     <View style={style.container}>
       <View style={style.header}>

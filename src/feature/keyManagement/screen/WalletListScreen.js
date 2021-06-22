@@ -1,51 +1,82 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useState} from 'react';
 import {ImageBackground, ScrollView} from 'react-native';
-import MainLogo from '../../../common/component/MainLogo';
-import OkButton from '../../../common/component/OkButton';
-import {handleError} from '../../../common/function/error';
-import {Colors} from '../../../common/style/color';
-import {commonStyle} from '../../../common/style/commonStyle';
+
 import {addWallet, getWallets} from '../../database/function/wallets';
-import AddWalletModal from '../components/AddWalletModal';
-import WalletItem from '../components/WalletItem';
 import {getAddress} from '../function/address';
 import {createChildKey} from '../function/createChild';
+
+import MainLogo from '../../../common/component/MainLogo';
+import OkButton from '../../../common/component/OkButton';
+import AddWalletModal from '../components/AddWalletModal';
+import WalletItem from '../components/WalletItem';
+
+import {handleError} from '../../../common/function/error';
+import {commonStyle} from '../../../common/style/commonStyle';
+import {Colors} from '../../../common/style/color';
+import Loading from '../../../common/screen/Loading';
+
+const style = {
+  background: {...commonStyle.background, padding: 12},
+  button: {
+    width: '100%',
+    marginBottom: 16,
+    backgroundColor: Colors.walletButton,
+    borderColor: Colors.wallet,
+    borderWidth: 3,
+  },
+  scrollView: {width: '100%'},
+};
 
 const WalletListScreen = () => {
   const [index, setIndex] = useState(0);
   const [wallets, setWallets] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  async function generateWalletFromInfo(walletInfo) {
+    const {walletIndex, walletName, walletType} = walletInfo;
+    const {privatieKey, publicKey, chaincode} = await createChildKey(
+      walletIndex,
+    );
+    const address = getAddress(publicKey, 'bitcoinTestNet');
+    return {
+      walletName,
+      walletType,
+      privatieKey,
+      publicKey,
+      chaincode,
+      address,
+      walletIndex,
+    };
+  }
+  async function convertToWallets() {
+    try {
+      setLoading(true);
+      const result = await getWallets();
+      result.map(async walletInfo => {
+        const wallet = await generateWalletFromInfo(walletInfo);
+        setWallets([...wallets, wallet]);
+      });
+      setLoading(false);
+    } catch (error) {
+      handleError('Convert To Wallets Error', error);
+    }
+  }
 
   useEffect(() => {
-    getWallets()
-      .then(w => {
-        setWallets([...w]);
-        setIndex(wallets.length);
-      })
-      .catch(error => handleError('Wallet Screen/ Get Wallet Error!', error));
+    convertToWallets();
   }, []);
 
   const insertWallet = async (walletName, walletType) => {
     try {
-      const {privateKey, publicKey, chainCode} = await createChildKey(index);
-      const walletAddress = getAddress(publicKey, 'bitcoinTestNet');
-      const wallet = {
-        privateKey,
-        publicKey,
-        chainCode,
+      const walletInfo = {
+        walletIndex: index,
         walletName,
-        walletAddress,
         walletType,
       };
-      await addWallet(
-        'm/0/0/7/' + index,
-        walletName,
-        chainCode,
-        publicKey,
-        privateKey,
-        walletType,
-        walletAddress,
-      );
+      await addWallet(index, walletName, walletType);
+      const wallet = await generateWalletFromInfo(walletInfo);
       setIndex(index + 1);
       setWallets([...wallets, wallet]);
     } catch (error) {
@@ -56,39 +87,39 @@ const WalletListScreen = () => {
   return (
     <ImageBackground
       source={require('../../../common/image/bitcoinBackground.png')}
-      style={{...commonStyle.background, padding: 12}}>
-      <MainLogo />
-      <OkButton
-        title={'지갑추가 하기'}
-        onPress={() => {
-          setModalVisible(true);
-        }}
-        buttonStyle={{
-          width: '100%',
-          marginBottom: 16,
-          backgroundColor: Colors.walletButton,
-          borderColor: Colors.wallet,
-          borderWidth: 3,
-        }}
-        textStyle={{color: Colors.wallet}}
-      />
-      <ScrollView style={{width: '100%'}}>
-        {wallets.map(wallet => (
-          <WalletItem
-            key={wallet.privateKey}
-            privateKey={wallet.privateKey}
-            publicKey={wallet.publicKey}
-            address={wallet.walletAddress}
-            walletName={wallet.walletName}
-            walletType={wallet.walletType}
+      style={style.background}>
+      {loading ? (
+        <Loading />
+      ) : (
+        <>
+          <MainLogo />
+          <OkButton
+            title={'지갑추가 하기'}
+            onPress={() => {
+              setModalVisible(true);
+            }}
+            buttonStyle={style.button}
+            textStyle={{color: Colors.wallet}}
           />
-        ))}
-      </ScrollView>
-      <AddWalletModal
-        visible={modalVisible}
-        onClose={() => setModalVisible(false)}
-        addWallet={insertWallet}
-      />
+          <ScrollView style={style.scrollView}>
+            {wallets.map(wallet => (
+              <WalletItem
+                key={wallet.walletIndex}
+                walletName={wallet.walletName}
+                walletType={wallet.walletType}
+                privateKey={wallet.privateKey}
+                publicKey={wallet.publicKey}
+                address={wallet.address}
+              />
+            ))}
+          </ScrollView>
+          <AddWalletModal
+            visible={modalVisible}
+            onClose={() => setModalVisible(false)}
+            addWallet={insertWallet}
+          />
+        </>
+      )}
     </ImageBackground>
   );
 };

@@ -1,5 +1,5 @@
 import SQLite from 'react-native-sqlite-2';
-import {handleError, handlError} from '../../../common/function/error';
+import {handleError} from '../../../common/function/error';
 
 export const excuteSql = sql => {
   const db = SQLite.openDatabase('test.db', '1.0');
@@ -47,13 +47,18 @@ export async function addWallet(
 
 export async function getWallets() {
   try {
+    const res = await excuteSql('SELECT * FROM WALLETS');
     const result = [];
-    const res = excuteSql('SELECT * FROM WALLETS');
     for (let i = 0; i < res.rows.length; i++) {
-      result.push(res.rows.item(i));
+      const {wallet_index, wallet_name, wallet_type} = res.rows.item(i);
+      result.push({
+        walletIndex: wallet_index,
+        walletName: wallet_name,
+        walletType: wallet_type,
+      });
     }
     return result;
   } catch (error) {
-    handlError('Get Wallets Error!!', error);
+    handleError('Get Wallets Error!!', error);
   }
 }

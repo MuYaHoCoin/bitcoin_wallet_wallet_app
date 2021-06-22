@@ -1,23 +1,19 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect} from 'react';
-import {useNavigation} from '@react-navigation/native';
-import {ImageBackground, Text, View} from 'react-native';
+import {ImageBackground, Text} from 'react-native';
 import {getMasterExistence} from '../../feature/database/function/master';
 import {commonStyle} from '../style/commonStyle';
 
-const SplashPage = () => {
-  const navigation = useNavigation();
+const SplashPage = ({navigation}) => {
   useEffect(() => {
-    setTimeout(
-      () =>
-        getMasterExistence(b => {
-          if (b) {
-            navigation.navigate('Main');
-          } else {
-            navigation.navigate('Master/Create');
-          }
-        }),
-      1000,
-    );
+    setTimeout(async () => {
+      const masterExistence = await getMasterExistence();
+      if (masterExistence) {
+        navigation.navigate('Main');
+      } else {
+        navigation.navigate('Master/Create');
+      }
+    }, 1000);
   }, []);
 
   return (
