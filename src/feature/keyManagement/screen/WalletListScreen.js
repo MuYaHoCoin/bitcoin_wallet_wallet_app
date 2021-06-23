@@ -54,10 +54,16 @@ const WalletListScreen = () => {
     try {
       setLoading(true);
       const result = await getWallets();
-      result.map(async walletInfo => {
-        const wallet = await generateWalletFromInfo(walletInfo);
-        setWallets([...wallets, wallet]);
-      });
+      setWallets(
+        await Promise.all(
+          result.map(async walletInfo => {
+            const wallet = await generateWalletFromInfo(walletInfo);
+            return wallet;
+          }),
+        ),
+      );
+
+      setIndex(result.length);
       setLoading(false);
     } catch (error) {
       handleError('Convert To Wallets Error', error);
