@@ -1,4 +1,5 @@
 import React from 'react';
+import {useNavigation} from '@react-navigation/core';
 import {ImageBackground, Text, TextInput} from 'react-native';
 import {useState} from 'react/cjs/react.development';
 import {Colors} from '../../../common/style/color';
@@ -13,6 +14,7 @@ import MainLogo from '../../../common/component/MainLogo';
 import IconTitle from '../component/item/IconTitle';
 import ExitButtonm from '../../../common/component/ExitButton';
 import NoButton from '../../../common/component/NoButton';
+import ConfirmationStandardModal from '../../confirmation/screen/ConfirmationStandardModal';
 
 const style = {
   text: {
@@ -35,19 +37,21 @@ const style = {
 };
 
 const SendCoins = ({route, navigation}) => {
-  const [recieverAddress, setRecieveAddress] = useState('');
+  const [receiverAddress, setReceiverAddress] = useState('');
   const [amount, setAmount] = useState('0');
+  const [confirmationStandardModalVisible, setConfirmationStandardModalVisible] = useState(false);
 
   const camera = require('../../../common/image/cameraLogo.png');
   const setting = require('../../../common/image/settingLogo.png');
   const {address, privateKey, publicKey} = route.params;
+  navigation = useNavigation();
 
   const makeTransaction = () => {
     creatTransaction(
       privateKey,
       publicKey,
       address,
-      recieverAddress,
+      receiverAddress,
       parseFloat(amount) * 100000000,
       'bitcoinTestNet',
     );
@@ -60,8 +64,8 @@ const SendCoins = ({route, navigation}) => {
       <MainLogo />
       <IconTitle title={'Public Address'} icon={camera} />
       <TextInput
-        value={recieverAddress}
-        onChangeText={setRecieveAddress}
+        value={receiverAddress}
+        onChangeText={setReceiverAddress}
         placeholder={'상대방 주소를 입력해주세요.'}
         style={transactionStyle.input}
       />
@@ -73,10 +77,16 @@ const SendCoins = ({route, navigation}) => {
       />
       <NoButton
         title={'bitcoin 이체하기'}
-        onPress={makeTransaction}
+        onPress={()=>setConfirmationStandardModalVisible(true)}
         buttonStyle={style.button}
       />
-      <ExitButtonm title={'돌아가기'} buttonStyle={style.button} />
+      <ExitButtonm title={'돌아가기'} buttonStyle={style.button}/>
+      <ConfirmationStandardModal 
+        visible={confirmationStandardModalVisible}
+        onClose={()=> setConfirmationStandardModalVisible(false)}
+        receiverAddress={receiverAddress}
+        coinAmount={parseFloat(amount)}
+      />
     </ImageBackground>
   );
 };
