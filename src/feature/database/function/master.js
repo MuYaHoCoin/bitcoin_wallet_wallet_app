@@ -50,3 +50,14 @@ export async function getMaster() {
     handleError('Get Master Error', error);
   }
 }
+
+export async function CheckPassword(password) {
+  try {
+    const res = await excuteSql(
+      `SELECT * FROM MASTER WHERE password="${password}"`,
+    );
+    return res.rows.length;
+  } catch (error) {
+    handleError('Check Password Error', error);
+  }
+}

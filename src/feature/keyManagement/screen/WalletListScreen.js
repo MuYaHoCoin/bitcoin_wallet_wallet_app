@@ -70,6 +70,7 @@ const WalletListScreen = () => {
 
   const insertWallet = async (walletName, walletType) => {
     try {
+      setLoading(true);
       const walletInfo = {
         walletIndex: index,
         walletName,
@@ -79,6 +80,7 @@ const WalletListScreen = () => {
       const wallet = await generateWalletFromInfo(walletInfo);
       setIndex(index + 1);
       setWallets([...wallets, wallet]);
+      setLoading(false);
     } catch (error) {
       handleError('insertWallet', error);
     }
