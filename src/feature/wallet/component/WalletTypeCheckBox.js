@@ -19,10 +19,10 @@ const WalletTypeCheckBox = ({walletType, setWalletType}) => {
     walletType === 'standard',
   );
   const [twoFactorSelected, setTwoFactorSelected] = useState(
-    walletType === 'two-factor',
+    walletType === 'twoFactor',
   );
   const [multiSigSelected, setMultiSigSelected] = useState(
-    walletType === 'multi-sig',
+    walletType === 'multiSig',
   );
   return (
     <View style={style.container}>
@@ -43,7 +43,7 @@ const WalletTypeCheckBox = ({walletType, setWalletType}) => {
         value={twoFactorSelected}
         onChange={value => {
           setTwoFactorSelected(value);
-          setWalletType('two-factor');
+          setWalletType('twoFactor');
           if (value) {
             setMultiSigSelected(!value);
             setStandardSelected(!value);
@@ -55,7 +55,7 @@ const WalletTypeCheckBox = ({walletType, setWalletType}) => {
         value={multiSigSelected}
         onChange={value => {
           setMultiSigSelected(value);
-          setWalletType('multi-sig');
+          setWalletType('multiSig');
           if (value) {
             setTwoFactorSelected(!value);
             setStandardSelected(!value);

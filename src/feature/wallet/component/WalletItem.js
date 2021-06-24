@@ -8,8 +8,8 @@ import {Colors} from '../../../common/style/color';
 import {getBalance} from '../../transaction/function/transactionFunction';
 const WalletTypeMap = {
   standard: 'Standard',
-  'two-factor': 'Two-Factor',
-  'multi-sig': 'Multi-Sig',
+  twoFactor: 'Two-Factor',
+  multiSig: 'Multi-Sig',
 };
 const style = {
   container: {
