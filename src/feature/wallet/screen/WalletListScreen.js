@@ -16,6 +16,7 @@ import {commonStyle} from '../../../common/style/commonStyle';
 import {Colors} from '../../../common/style/color';
 import Loading from '../../../common/screen/Loading';
 import {getPins} from '../../database/function/pin';
+import {restoreWallet} from '../function/restoreWallet';
 
 const style = {
   background: {...commonStyle.background, padding: 12},
@@ -93,6 +94,7 @@ const WalletListScreen = ({navigation}) => {
   useEffect(() => {
     convertToWallets();
     getPins();
+    restoreWallet();
   }, []);
 
   return (
