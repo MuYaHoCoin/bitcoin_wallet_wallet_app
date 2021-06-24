@@ -36,16 +36,16 @@ const WalletListScreen = ({navigation}) => {
 
   async function generateWalletFromInfo(walletInfo) {
     const {walletIndex, walletName, walletType} = walletInfo;
-    const {privatieKey, publicKey, chaincode} = await createChildKey(
+    const {privateKey, publicKey, chainCode} = await createChildKey(
       walletIndex,
     );
     const address = getAddress(publicKey, 'bitcoinTestNet');
     return {
       walletName,
       walletType,
-      privatieKey,
+      privateKey,
       publicKey,
-      chaincode,
+      chainCode,
       address,
       walletIndex,
     };
@@ -64,6 +64,7 @@ const WalletListScreen = ({navigation}) => {
       );
 
       setIndex(result.length);
+      console.log('제발',wallets);
       setLoading(false);
     } catch (error) {
       handleError('Convert To Wallets Error', error);

@@ -27,9 +27,10 @@ const modalStyle = {
 };
 
 const ConfirmationStandardModal = ({visible, onClose, receiverAddress, coinAmount, walletType, senderPrivateKey, senderPublicKey, senderAddress}) => {
-  const confirmAndSendCoin = async (senderPrivateKey, senderPublicKey, senderAddress, receiverAddress, coinAmount ) => {
-    if(isValidAddress(receiverAddress)) {
-      await createTransaction(senderPrivateKey, senderPublicKey, senderAddress, receiverAddress, coinAmount ,'bitcoinTestNet' );
+  const confirmAndSendCoin = () => {
+    if(isValidAddress(receiverAddress) || true) {
+      console.log('bbb',senderPrivateKey)
+      createTransaction(senderPrivateKey, senderPublicKey, senderAddress, receiverAddress, coinAmount *1e8 ,'bitcoinTestNet' );
     } else {
       alert("invalid address, check if your address is invalid");
     } 
@@ -64,7 +65,7 @@ const ConfirmationStandardModal = ({visible, onClose, receiverAddress, coinAmoun
         
         <OkButton
           title={'Confirm'}
-          onPress={() => confirmAndSendCoin(senderPrivateKey, senderPublicKey, senderAddress, receiverAddress, coinAmount)}
+          onPress={() => confirmAndSendCoin()}
           buttonStyle={style.button}
           textStyle={style.text}
         />

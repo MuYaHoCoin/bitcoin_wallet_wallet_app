@@ -58,6 +58,7 @@ const SendCoins = ({route, navigation}) => {
   //const sendCoinNavigation = useNavigation();
 
   useEffect(() => {
+    console.log('ccc',privateKey,walletType);
     getBTCCurrentPrice().then((v) => {
       setOneBTCForDollor(v);
     })

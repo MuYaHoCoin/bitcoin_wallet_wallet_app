@@ -4,20 +4,26 @@ import * as bitcoin from 'rn-bitcoinjs-lib';
 import {handleError} from '../../../common/function/error';
 
 export const getBalance = async (address, network = 'bitcoinTestNet') => {
-  var rootUrl = 'https://api.blockcypher.com/v1/btc/';
-  switch (network) {
-    case 'bitcoin': {
-      rootUrl += 'main/';
-      break;
+  try{
+    var rootUrl = 'https://api.blockcypher.com/v1/btc/';
+    switch (network) {
+      case 'bitcoin': {
+        rootUrl += 'main/';
+        break;
+      }
+      case 'bitcoinTestNet': {
+        rootUrl += 'test3/';
+        break;
+      }
+      default:
     }
-    case 'bitcoinTestNet': {
-      rootUrl += 'test3/';
-      break;
-    }
-    default:
+    const balance = await axios.get(rootUrl + '/addrs/' + address);
+    console.log(balance.data.balance);
+    return balance.data.balance;
+  }catch(e) {
+    handleError("getBalance error",e);
   }
-  const balance = await axios.get(rootUrl + '/addrs/' + address);
-  return balance.data.balance;
+  
 };
 
 export const getBTCCurrentPrice = async () => {
@@ -75,12 +81,17 @@ export const createTransaction = async (
       inputs: [{addresses: [senderAddress]}],
       outputs: [{addresses: [receiverAddress], value: coinToSend}],
     };
+    console.log('a',senderPrivate);
     let key = bitcoin.ECPair.fromPrivateKey(Buffer.from(senderPrivate, 'hex'));
 
+    console.log('aa', newtx);
     const {data: tmptx} = await axios.post(rootUrl + 'txs/new', newtx);
+    console.log('tx data', tmptx);
     if (checkError(tmptx)) {
       return;
     }
+    
+    console.log('aaa');
     tmptx.pubkeys = [];
     tmptx.signatures = tmptx.tosign.map(tosign => {
       tmptx.pubkeys.push(senderPublic.toString('hex'));
@@ -89,6 +100,7 @@ export const createTransaction = async (
         .toString('hex')
         .slice(0, -2);
     });
+    console.log('aaaa');
     const {} = await axios.post(rootUrl + 'txs/send', tmptx);
     alert("transaction success!!");
   } catch (error) {
@@ -97,7 +109,9 @@ export const createTransaction = async (
   }
 };
 
-const createMultisigTransaction = () => {
+export const createMultisigTransaction = async (
+  senderPrivate
+) => {
 
 }
 const checkError = msg => {
@@ -109,7 +123,8 @@ const checkError = msg => {
 
 export const isValidAddress = (address) => {
   try{
-    bitcoin.address.toOutputScript(address);
+    console.log(address);
+    bitcoin.address.toOutputScript(address, bitcoin.networks.testnet);
     return true;
   } catch(e) {
     console.log("invalid address input");

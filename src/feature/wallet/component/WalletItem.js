@@ -84,13 +84,13 @@ const WalletItem = ({
   privateKey,
   publicKey,
 }) => {
-  console.log(walletType);
   const navigation = useNavigation();
   const [balance, setBalance] = useState(0.0);
   useEffect(() => {
     getBalance(address).then(btc => {
       setBalance(btc * 0.00000001);
     });
+    console.log('dddd',privateKey)
   }, [address]);
   return (
     <View style={style.container}>
