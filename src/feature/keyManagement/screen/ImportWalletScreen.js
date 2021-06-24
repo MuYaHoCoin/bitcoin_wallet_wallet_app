@@ -7,15 +7,28 @@ import OkButton from '../../../common/component/OkButton';
 import {Colors} from '../../../common/style/color';
 import {commonStyle} from '../../../common/style/commonStyle';
 import {addMaster} from '../../database/function/master';
+import {restoreWallet} from '../../wallet/function/restoreWallet';
 import RandomWordInput from '../component/RandomWordInput';
-import {createMasterNode} from '../function/createMasterWallet';
 import {
   AddWalletButtonStyle,
   AddWalletButtonTextStyle,
   mnemonicItemContainerStyle,
 } from '../style/style';
 
-const initialMnemonic = ['', '', '', '', '', '', '', '', '', '', '', ''];
+const initialMnemonic = [
+  'wheat',
+  'before',
+  'cream',
+  'dragon',
+  'perfect',
+  'foster',
+  'behave',
+  'garlic',
+  'comic',
+  'shell',
+  'stand',
+  'chapter',
+];
 const style = {
   background: {
     width: '100%',
@@ -49,12 +62,9 @@ const ImportWalletScreen = ({navigation}) => {
       mnemonic.map((word, index) => (index === targetIndex ? newWord : word)),
     );
   };
-  const createMasterWallet = () => {
-    const {privateKey, publicKey, chainCode} = createMasterNode(
-      mnemonic,
-      password,
-    );
-    addMaster(chainCode, publicKey, privateKey);
+  const createMasterWallet = async () => {
+    await addMaster(mnemonic.join(' '), password);
+    await restoreWallet();
     navigation.navigate('Main');
   };
   return (

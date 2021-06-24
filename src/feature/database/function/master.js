@@ -45,6 +45,7 @@ export async function getMasterExistence() {
 export async function getMaster() {
   try {
     const res = await excuteSql('SELECT * FROM MASTER');
+    console.log(res.rows.item(0));
     return res.rows.item(0);
   } catch (error) {
     handleError('Get Master Error', error);

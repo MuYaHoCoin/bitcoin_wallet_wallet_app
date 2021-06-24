@@ -46,7 +46,7 @@ export const getTransactionList = async (
   }
   const txs = await (
     await axios.get(rootUrl + '/addrs/' + address)
-  ).data.txrefs.slice(0, 10);
+  ).data.txrefs;
   console.log(txs);
   return txs;
 };
@@ -79,9 +79,6 @@ export const createTransaction = async (
     let key = bitcoin.ECPair.fromPrivateKey(Buffer.from(senderPrivate, 'hex'));
 
     const {data: tmptx} = await axios.post(rootUrl + 'txs/new', newtx);
-    if (checkError(tmptx)) {
-      return;
-    }
     tmptx.pubkeys = [];
     tmptx.signatures = tmptx.tosign.map(tosign => {
       tmptx.pubkeys.push(senderPublic.toString('hex'));
@@ -91,26 +88,19 @@ export const createTransaction = async (
         .slice(0, -2);
     });
     const {} = await axios.post(rootUrl + 'txs/send', tmptx);
-    alert("transaction success!!");
+    alert('transaction success!!');
   } catch (error) {
-    alert("transaction error!!");
+    alert('transaction error!!');
     handleError('Create Transaction Error', error);
   }
 };
-const checkError = msg => {
-  if (false) {
-    log('Errors occured!!/n' + msg.errors.join('/n'));
-    return true;
-  }
-};
 
-export const isValidAddress = (address) => {
-  try{
+export const isValidAddress = address => {
+  try {
     bitcoin.address.toOutputScript(address);
     return true;
-  } catch(e) {
-    console.log("invalid address input");
+  } catch (e) {
+    console.log('invalid address input');
     return false;
   }
-  
-}
+};
