@@ -32,7 +32,7 @@ const AddWallet = ({route, navigation}) => {
       addWallet(walletName, walletType);
       setWalletName('');
       if (walletType === 'starndard') {
-        navigation.goBack();
+        navigation.navigate('Main');
       }
       if (walletType === 'multiSig') {
         navigation.navigate('AddWallet/MultiSig', {index});

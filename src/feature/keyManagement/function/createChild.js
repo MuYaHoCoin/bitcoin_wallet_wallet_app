@@ -37,14 +37,16 @@ export const createChildMultiSigKey = async index => {
       new Buffer(master.chainCode, 'hex'),
     );
 
-    const {privateKey: firstPrivateKey} = masterNode.derivePath(
-      `m/44'/1'/0'/0/${index}/0`,
-    );
-    const {privateKey: secondPrivateKey} = masterNode.derivePath(
-      `m/44'/1'/0'/0/${index}/1`,
-    );
+    const {publicKey} = masterNode.derivePath(`m/44'/1'/0'/0/${index}`);
+    const {privateKey: firstPrivateKey, publicKey: firstPublicKey} =
+      masterNode.derivePath(`m/44'/1'/0'/0/${index}/0`);
+    const {privateKey: secondPrivateKey, publicKey: secondPublicKey} =
+      masterNode.derivePath(`m/44'/1'/0'/0/${index}/1`);
     console.log(firstPrivateKey);
-    return [firstPrivateKey, secondPrivateKey];
+    return {
+      privateKeys: [firstPrivateKey, secondPrivateKey],
+      publicKeys: [publicKey, firstPublicKey, secondPublicKey],
+    };
   } catch (error) {
     handleError('create Multi Sig ChildKey Error', error);
   }

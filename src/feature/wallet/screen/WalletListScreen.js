@@ -40,7 +40,12 @@ const WalletListScreen = ({navigation}) => {
     const {privatieKey, publicKey, chaincode} = await createChildKey(
       walletIndex,
     );
-    const address = getAddress(publicKey, 'bitcoinTestNet');
+    const address = getAddress(
+      publicKey,
+      walletType,
+      walletIndex,
+      'bitcoinTestNet',
+    );
     return {
       walletName,
       walletType,

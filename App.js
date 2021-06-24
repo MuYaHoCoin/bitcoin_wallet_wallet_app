@@ -6,6 +6,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {createMaster} from './src/feature/database/function/master';
 import {createWallet} from './src/feature/database/function/wallets';
 import {createPin} from './src/feature/database/function/pin';
+import {createAddress} from './src/feature/database/function/address';
 
 import SplashPage from './src/common/screen/SplashPage';
 import Authentication from './src/common/screen/Authentication';
@@ -28,6 +29,7 @@ const App = () => {
     createMaster();
     createWallet();
     createPin();
+    createAddress();
   }, []);
   return (
     <NavigationContainer>
