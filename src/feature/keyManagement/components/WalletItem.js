@@ -84,13 +84,14 @@ const WalletItem = ({
   privateKey,
   publicKey,
 }) => {
+  console.log(walletType);
   const navigation = useNavigation();
   const [balance, setBalance] = useState(0.0);
   useEffect(() => {
     getBalance(address).then(btc => {
       setBalance(btc * 0.00000001);
     });
-  }, []);
+  }, [address]);
   return (
     <View style={style.container}>
       <View style={style.header}>
@@ -112,7 +113,7 @@ const WalletItem = ({
           buttonStyle={style.button}
           textStyle={style.buttonText}
           onPress={() =>
-            navigation.navigate('SendCoins', {privateKey, publicKey, address})
+            navigation.navigate('SendCoins', {privateKey, publicKey, address, walletType})
           }
         />
       </View>

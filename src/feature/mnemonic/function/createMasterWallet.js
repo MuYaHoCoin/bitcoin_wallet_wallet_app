@@ -1,7 +1,7 @@
 import {Buffer} from 'safe-buffer';
 import * as BIP39 from 'react-native-bip39';
 import * as BIP32 from 'bip32';
-import { handleError } from '../../../common/function/error';
+import {handleError} from '../../../common/function/error';
 
 export const generateNewMnemonic = async () => {
   try {
@@ -9,7 +9,7 @@ export const generateNewMnemonic = async () => {
     const mnemonicList = mnemonic.toString().split(' ');
     return mnemonicList;
   } catch (error) {
-   handleError("Generate New Mnemonic",error); 
+    handleError('Generate New Mnemonic', error);
   }
 };
 

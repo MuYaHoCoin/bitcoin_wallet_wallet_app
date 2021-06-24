@@ -14,6 +14,7 @@ import CreateMasterScreen from './src/feature/mnemonic/screen/CreateMasterScreen
 import ImportWalletScreen from './src/feature/mnemonic/screen/ImportWalletScreen';
 import SendCoins from './src/feature/transaction/screen/SendCoins';
 import ReceiveCoins from './src/feature/transaction/screen/ReceiveCoins';
+import Authentication from './src/common/screen/Authentication';
 
 const Stack = createStackNavigator();
 
@@ -26,6 +27,7 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown: false}}>
         <Stack.Screen name="Splash" component={SplashPage} />
+        <Stack.Screen name="Authentication" component={Authentication} />
         <Stack.Screen name="Master/Create" component={CreateMasterScreen} />
         <Stack.Screen name="Master/Guide" component={GuideScreen} />
         <Stack.Screen name="Master/New" component={AddMasterWalletScreen} />

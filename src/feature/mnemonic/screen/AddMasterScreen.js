@@ -41,11 +41,7 @@ const AddMasterWalletScreen = ({navigation}) => {
   }, []);
 
   const createMasterWallet = () => {
-    const {privateKey, publicKey, chainCode} = createMasterNode(
-      mnemonic,
-      password,
-    );
-    addMaster(chainCode, publicKey, privateKey);
+    addMaster(mnemonic.join(' '), password);
     navigation.navigate('Main');
   };
 

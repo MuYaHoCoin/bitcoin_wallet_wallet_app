@@ -38,7 +38,7 @@ const MainLogo = ({containerStyle, bitcoinStyle, cardStyle}) => {
 export const ConfirmLogo = ({containerStyle, bitcoinStyle, cardStyle}) => {
   return (
     <View style={[style.contanier, containerStyle]}>
-      <Text style={[style.bitcoin, bitcoinStyle]}>Confirm </Text>
+      <Text style={[style.bitcoin, bitcoinStyle]}>Confirm !!</Text>
     </View>
   );
 };

@@ -1,54 +1,52 @@
 import React from 'react';
 import {useState} from 'react';
-import {Modal, Text, View} from 'react-native';
+import {Modal, Text, View, Image, Alert} from 'react-native';
 import MainLogo from '../../../common/component/MainLogo';
 import { ConfirmLogo } from '../../../common/component/MainLogo';
 import OkButton from '../../../common/component/OkButton';
 import NoButton from "../../../common/component/NoButton";
-import { commonStyle } from '../../../common/style/commonStyle';
 import { Colors } from '../../../common/style/color';
-
-const style = {
-  text: {
-    marginBottom: 12,
-
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: Colors.font,
-  },
-  dollar: {
-    marginBottom: 20,
-
-    fontSize: 20,
-    fontWeight: 'normal',
-    color: Colors.font,
-  },
-  button: {
-    marginBottom: 16,
-  },
-};
-
-const ConfirmationStandardModal = ({visible, onClose, receiverAddress, coinAmount}) => {
-  const [walletName, setWalletName] = useState('');
-  const [walletType, setWalletType] = useState('standard');
+import { style } from '../style/style';
+import Overlay from "react-native-modal-overlay";
+import { isValidAddress, createTransaction } from '../../transaction/function/transactionFunction';
 
 
+const ConfirmationStandardModal = ({visible, onClose, receiverAddress, coinAmount, walletType, senderPrivateKey, senderPublicKey, senderAddress}) => {
+  const testnet = 'bitcoinTestNet';
+  const confirmAndSendCoin = async (senderPrivateKey, senderPublicKey, senderAddress, receiverAddress, coinAmount ) => {
+    if(isValidAddress(receiverAddress)) {
+      await createTransaction(senderPrivateKey, senderPublicKey, senderAddress, receiverAddress, coinAmount ,'bitcoinTestNet' );
+    } else {
+      alert("invalid address, check if your address is invalid");
+    } 
+  }
   return (
-    <Modal animationType="slide" visible={visible} onRequestClose={onClose}>
-      <View style={{...commonStyle.confirmBackground}}>
-        <MainLogo />
+    <Overlay visible={visible} onRequestClose={onClose} closeOnTouchOutside
+    animationType="zoomIn" containerStyle={{backgroundColor: 'rgba(37, 8, 10, 0.78)'}}
+    childrenWrapperStyle={{backgroundColor: '#8b1919'}}
+    animationDuration={500}>
         <ConfirmLogo/>
-        <Text>
+        <Text style={style.text}>
           {receiverAddress} 에게 
         </Text>
-        <NoButton
+        <Text style={style.text}>
+          {coinAmount}
+        </Text>
+        <Text style={style.text}>
+          standard transaction will occur
+        </Text>
+        <Image
+        source={require('../../../common/image/BitcoinWhiteLogo.png')}
+        style={style.image}
+        resizeMode={'contain'}
+      />
+        <OkButton
           title={'Confirm'}
-          onPress={() => {}}
+          onPress={() => confirmAndSendCoin(senderPrivateKey, senderPublicKey, senderAddress, receiverAddress, coinAmount)}
           buttonStyle={style.button}
           textStyle={style.text}
         />
-      </View>
-    </Modal>
+    </Overlay>
   );
 };
 

@@ -1,4 +1,6 @@
 rootProject.name = 'bitcoin_wallet_wallet_app'
+include ':react-native-bio-id'
+project(':react-native-bio-id').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-bio-id/android')
 include ':react-native-gesture-handler'
 project(':react-native-gesture-handler').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-gesture-handler/android')
 include ':react-native-reanimated'

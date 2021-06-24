@@ -4,6 +4,7 @@ export const Colors = {
   noButton: '#8B1919',
   exitButton: '#525252',
   font: '#fff',
+  text: '#000',
   wallet: '#ff9900',
   walletButton: '#FFF4E3',
   walletText: '#734500',

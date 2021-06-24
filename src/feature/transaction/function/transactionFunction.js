@@ -51,7 +51,7 @@ export const getTransactionList = async (
   return txs;
 };
 
-export const creatTransaction = async (
+export const createTransaction = async (
   senderPrivate,
   senderPublic,
   senderAddress,
@@ -66,7 +66,7 @@ export const creatTransaction = async (
       break;
     }
     case 'bitcoinTestNet': {
-      rootUrl += 'test3/';np
+      rootUrl += 'test3/';
       break;
     }
     default:
@@ -91,7 +91,9 @@ export const creatTransaction = async (
         .slice(0, -2);
     });
     const {} = await axios.post(rootUrl + 'txs/send', tmptx);
+    alert("transaction success!!");
   } catch (error) {
+    alert("transaction error!!");
     handleError('Create Transaction Error', error);
   }
 };
@@ -101,3 +103,14 @@ const checkError = msg => {
     return true;
   }
 };
+
+export const isValidAddress = (address) => {
+  try{
+    bitcoin.address.toOutputScript(address);
+    return true;
+  } catch(e) {
+    console.log("invalid address input");
+    return false;
+  }
+  
+}

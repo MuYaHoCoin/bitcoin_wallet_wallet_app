@@ -219,4 +219,15 @@ task copyDownloadableDepsToLibs(type: Copy) {
     into 'libs'
 }
 
+subprojects { subproject ->
+    afterEvaluate{
+        if((subproject.name == 'react-native-touch-id')) {
+            android {
+                compileSdkVersion rootProject.ext.compileSdkVersion
+                buildToolsVersion rootProject.ext.buildToolsVersion
+            }
+        }
+    }
+}
+
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
