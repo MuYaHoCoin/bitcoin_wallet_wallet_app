@@ -1,10 +1,11 @@
 import React from 'react';
+import {useNavigation, Navigation} from '@react-navigation/core';
 import {ImageBackground, Text, TextInput} from 'react-native';
 import {useState} from 'react/cjs/react.development';
 import {Colors} from '../../../common/style/color';
 import {commonStyle} from '../../../common/style/commonStyle';
 import {
-  creatTransaction,
+  createTransaction,
   getBTCCurrentPrice,
 } from '../function/transactionFunction';
 import {transactionStyle} from '../style/style';
@@ -13,6 +14,10 @@ import MainLogo from '../../../common/component/MainLogo';
 import IconTitle from '../component/item/IconTitle';
 import ExitButtonm from '../../../common/component/ExitButton';
 import NoButton from '../../../common/component/NoButton';
+import ConfirmationStandardModal from '../../confirmation/screen/ConfirmationStandardModal';
+import ConfirmationMultisigModal from '../../confirmation/screen/ConfimationMultisigModal';
+import ConfirmationTwoFactorModal from '../../confirmation/screen/ConfirmationTwoFactorModal';
+import { useEffect } from "react";
 
 const style = {
   text: {
@@ -35,19 +40,39 @@ const style = {
 };
 
 const SendCoins = ({route, navigation}) => {
-  const [recieverAddress, setRecieveAddress] = useState('');
+  const [receiverAddress, setReceiverAddress] 
+  = useState('');
   const [amount, setAmount] = useState('0');
-
+  const [confirmationStandardModalVisible, setConfirmationStandardModalVisible] = useState(false);
+  const [confirmationMultisigModalVisible, setConfirmationMultisigModalVisible] = useState(false);
+  const [confirmationTwoFactorModalVisible, setconfirmationTwoFactorModalVisible] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  
   const camera = require('../../../common/image/cameraLogo.png');
   const setting = require('../../../common/image/settingLogo.png');
-  const {address, privateKey, publicKey} = route.params;
+  const {address, privateKey, publicKey, walletType} = route.params;
+  //navigation = useNavigation();
+  //const sendCoinNavigation = useNavigation();
+
+  useEffect(() => {
+    if (walletType === "standard") {
+      setConfirmationStandardModalVisible(true);
+    }
+    else if (walletType === "two-factor") {
+      setconfirmationTwoFactorModalVisible(true);
+    }
+
+    else if (walletType == "multi-sig") {
+      setConfirmationMultisigModalVisible(true);
+    }
+  },[]);
 
   const makeTransaction = () => {
-    creatTransaction(
+    createTransaction(
       privateKey,
       publicKey,
       address,
-      recieverAddress,
+      receiverAddress,
       parseFloat(amount) * 100000000,
       'bitcoinTestNet',
     );
@@ -60,8 +85,8 @@ const SendCoins = ({route, navigation}) => {
       <MainLogo />
       <IconTitle title={'Public Address'} icon={camera} />
       <TextInput
-        value={recieverAddress}
-        onChangeText={setRecieveAddress}
+        value={receiverAddress}
+        onChangeText={setReceiverAddress}
         placeholder={'상대방 주소를 입력해주세요.'}
         style={transactionStyle.input}
       />
@@ -73,10 +98,31 @@ const SendCoins = ({route, navigation}) => {
       />
       <NoButton
         title={'bitcoin 이체하기'}
-        onPress={makeTransaction}
+        onPress={()=>setModalVisible(true)}
         buttonStyle={style.button}
       />
-      <ExitButtonm title={'돌아가기'} buttonStyle={style.button} />
+      <ExitButtonm title={'돌아가기'} buttonStyle={style.button}/>
+      <ConfirmationStandardModal 
+        visible={modalVisible && confirmationStandardModalVisible}
+        onClose={()=> setModalVisible(false)}
+        receiverAddress={receiverAddress}
+        coinAmount={parseFloat(amount)}
+        walletType={walletType}
+      />
+      <ConfirmationMultisigModal
+        visible={confirmationMultisigModalVisible && modalVisible}
+        onClose={()=> setModalVisible(false)}
+        receiverAddress={receiverAddress}
+        coinAmount={parseFloat(amount)}
+        walletType={walletType}
+      />
+      <ConfirmationTwoFactorModal
+        visible={confirmationTwoFactorModalVisible && modalVisible}
+        onClose={()=> setModalVisible(false)}
+        receiverAddress={receiverAddress}
+        coinAmount={parseFloat(amount)}
+        walletType={walletType}
+      />
     </ImageBackground>
   );
 };

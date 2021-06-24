@@ -15,7 +15,7 @@ export const createChildKey = async index => {
     );
 
     const {privateKey, publicKey, chainCode} = masterNode.derivePath(
-      "m/44'/1'/0'/0/" + index,
+      "m/44'/61'/0'/0/" + index,
     );
     return {
       privateKey: privateKey.toString('hex'),

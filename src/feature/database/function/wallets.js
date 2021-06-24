@@ -51,7 +51,6 @@ export async function getWallets() {
         walletType: wallet_type,
       });
     }
-    console.log(result);
     return result;
   } catch (error) {
     handleError('Get Wallets Error!!', error);
