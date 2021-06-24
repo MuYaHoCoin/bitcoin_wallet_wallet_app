@@ -19,6 +19,7 @@ import ReceiveCoins from './src/feature/transaction/screen/ReceiveCoins';
 import StandardWallet from './src/feature/wallet/screen/StandardWallet';
 import MultiSigWallet from './src/feature/wallet/screen/MultiSigWallet';
 import TwoFactorWallet from './src/feature/wallet/screen/TwoFactorWallet';
+import WalletDetailViewScreen from './src/feature/wallet/screen/WalletDetailViewScreen';
 
 const Stack = createStackNavigator();
 
@@ -43,6 +44,10 @@ const App = () => {
         <Stack.Screen name="AddWallet/Standard" component={StandardWallet} />
         <Stack.Screen name="AddWallet/MultiSig" component={MultiSigWallet} />
         <Stack.Screen name="AddWallet/TwoFactor" component={TwoFactorWallet} />
+        <Stack.Screen
+          name="Wallet/DetailView"
+          component={WalletDetailViewScreen}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

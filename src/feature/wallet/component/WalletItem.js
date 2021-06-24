@@ -2,6 +2,7 @@ import {useNavigation} from '@react-navigation/core';
 import React from 'react';
 import {useEffect} from 'react';
 import {Text, View} from 'react-native';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useState} from 'react/cjs/react.development';
 import OkButton from '../../../common/component/OkButton';
 import {Colors} from '../../../common/style/color';
@@ -84,7 +85,6 @@ const WalletItem = ({
   privateKey,
   publicKey,
 }) => {
-  console.log(walletType);
   const navigation = useNavigation();
   const [balance, setBalance] = useState(0.0);
   useEffect(() => {
@@ -92,8 +92,11 @@ const WalletItem = ({
       setBalance(btc * 0.00000001);
     });
   }, [address]);
+  function moveToDetailView() {
+    navigation.navigate('Wallet/DetailView', {address});
+  }
   return (
-    <View style={style.container}>
+    <TouchableOpacity onPress={moveToDetailView} style={style.container}>
       <View style={style.header}>
         <View style={style.headerLabel} />
         <Text style={style.headerText}>
@@ -113,11 +116,16 @@ const WalletItem = ({
           buttonStyle={style.button}
           textStyle={style.buttonText}
           onPress={() =>
-            navigation.navigate('SendCoins', {privateKey, publicKey, address, walletType})
+            navigation.navigate('SendCoins', {
+              privateKey,
+              publicKey,
+              address,
+              walletType,
+            })
           }
         />
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

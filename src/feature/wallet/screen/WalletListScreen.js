@@ -93,7 +93,6 @@ const WalletListScreen = ({navigation}) => {
   useEffect(() => {
     convertToWallets();
     getPins();
-    restoreWallet();
   }, []);
 
   return (
