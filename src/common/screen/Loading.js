@@ -1,20 +1,30 @@
 import React from 'react';
-import {ActivityIndicator, Text, View} from 'react-native';
+import {ActivityIndicator, Text} from 'react-native';
+import {Colors} from '../style/color';
 import {commonStyle} from '../style/commonStyle';
+import BaseComponent from '../component/BaseComponent';
 
 const style = {
   container: {
     ...commonStyle.background,
-    justifyContent: 'center',
+    justifyContents: 'center',
+    alignItems: 'center',
+  },
+  indicator: {
+    marginBottom: 12,
+  },
+  text: {
+    fontSize: 20,
+    color: Colors.font,
   },
 };
 
 const Loading = () => {
   return (
-    <View style={style.background}>
-      <ActivityIndicator size="large" color="#fff" />
-      <Text>불러오는 중입니다.</Text>
-    </View>
+    <BaseComponent>
+      <ActivityIndicator size="large" color="#fff" style={style.indicator} />
+      <Text style={style.text}>불러오는 중입니다.</Text>
+    </BaseComponent>
   );
 };
 

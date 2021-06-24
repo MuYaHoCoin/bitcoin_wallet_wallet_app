@@ -2,7 +2,7 @@ import {getMaster} from '../../database/function/master';
 import {Buffer} from 'safe-buffer';
 import * as BIP32 from 'bip32';
 import {handleError} from '../../../common/function/error';
-import {createMasterNode} from '../../mnemonic/function/createMasterWallet';
+import {createMasterNode} from './createMasterWallet';
 
 export const createChildKey = async index => {
   try {
@@ -24,5 +24,28 @@ export const createChildKey = async index => {
     };
   } catch (error) {
     handleError('createChildKey Error', error);
+  }
+};
+
+export const createChildMultiSigKey = async index => {
+  try {
+    const {mnemonic, password} = await getMaster();
+    const master = createMasterNode(mnemonic, password);
+
+    const masterNode = BIP32.fromPrivateKey(
+      new Buffer(master.privateKey, 'hex'),
+      new Buffer(master.chainCode, 'hex'),
+    );
+
+    const {privateKey: firstPrivateKey} = masterNode.derivePath(
+      `m/44'/1'/0'/0/${index}/0`,
+    );
+    const {privateKey: secondPrivateKey} = masterNode.derivePath(
+      `m/44'/1'/0'/0/${index}/1`,
+    );
+    console.log(firstPrivateKey);
+    return [firstPrivateKey, secondPrivateKey];
+  } catch (error) {
+    handleError('create Multi Sig ChildKey Error', error);
   }
 };

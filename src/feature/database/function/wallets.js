@@ -31,17 +31,11 @@ export async function addWallet(
   input_wallettype,
 ) {
   try {
-    excuteSql(
-      'INSERT INTO WALLETS VALUES("' +
-        input_index +
-        '","' +
-        input_walletname +
-        '","' +
-        input_wallettype +
-        '")',
+    await excuteSql(
+      `INSERT INTO WALLETS VALUES("${input_index}","${input_walletname}","${input_wallettype}")`,
     );
   } catch (error) {
-    handleError('addWallet Error!', error);
+    handleError('Add Wallet Error!', error);
   }
 }
 
@@ -57,7 +51,6 @@ export async function getWallets() {
         walletType: wallet_type,
       });
     }
-    console.log(res);
     return result;
   } catch (error) {
     handleError('Get Wallets Error!!', error);

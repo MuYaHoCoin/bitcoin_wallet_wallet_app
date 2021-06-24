@@ -3,18 +3,19 @@ import React, {useEffect, useState} from 'react';
 import {ImageBackground, ScrollView} from 'react-native';
 
 import {addWallet, getWallets} from '../../database/function/wallets';
-import {getAddress} from '../function/address';
-import {createChildKey} from '../function/createChild';
+import {getAddress} from '../../keyManagement/function/address';
+import {createChildKey} from '../../keyManagement/function/createChild';
 
 import MainLogo from '../../../common/component/MainLogo';
 import OkButton from '../../../common/component/OkButton';
-import AddWalletModal from '../components/AddWalletModal';
-import WalletItem from '../components/WalletItem';
+import AddWalletModal from '../component/AddWalletModal';
+import WalletItem from '../component/WalletItem';
 
 import {handleError} from '../../../common/function/error';
 import {commonStyle} from '../../../common/style/commonStyle';
 import {Colors} from '../../../common/style/color';
 import Loading from '../../../common/screen/Loading';
+import {getPins} from '../../database/function/pin';
 
 const style = {
   background: {...commonStyle.background, padding: 12},
@@ -28,10 +29,9 @@ const style = {
   scrollView: {width: '100%'},
 };
 
-const WalletListScreen = () => {
+const WalletListScreen = ({navigation}) => {
   const [index, setIndex] = useState(0);
   const [wallets, setWallets] = useState([]);
-  const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
 
   async function generateWalletFromInfo(walletInfo) {
@@ -54,21 +54,22 @@ const WalletListScreen = () => {
     try {
       setLoading(true);
       const result = await getWallets();
-      result.map(async walletInfo => {
-        const wallet = await generateWalletFromInfo(walletInfo);
-        setWallets([...wallets, wallet]);
-      });
+      setWallets(
+        await Promise.all(
+          result.map(async walletInfo => {
+            const wallet = await generateWalletFromInfo(walletInfo);
+            return wallet;
+          }),
+        ),
+      );
+
+      setIndex(result.length);
       setLoading(false);
     } catch (error) {
       handleError('Convert To Wallets Error', error);
     }
   }
-
-  useEffect(() => {
-    convertToWallets();
-  }, []);
-
-  const insertWallet = async (walletName, walletType) => {
+  async function insertWallet(walletName, walletType) {
     try {
       setLoading(true);
       const walletInfo = {
@@ -84,7 +85,14 @@ const WalletListScreen = () => {
     } catch (error) {
       handleError('insertWallet', error);
     }
-  };
+  }
+  function onMoveAddWallet() {
+    navigation.navigate('AddWallet/Standard', {addWallet: insertWallet, index});
+  }
+  useEffect(() => {
+    convertToWallets();
+    getPins();
+  }, []);
 
   return (
     <ImageBackground
@@ -97,9 +105,7 @@ const WalletListScreen = () => {
           <MainLogo />
           <OkButton
             title={'지갑추가 하기'}
-            onPress={() => {
-              setModalVisible(true);
-            }}
+            onPress={onMoveAddWallet}
             buttonStyle={style.button}
             textStyle={{color: Colors.wallet}}
           />
@@ -115,11 +121,6 @@ const WalletListScreen = () => {
               />
             ))}
           </ScrollView>
-          <AddWalletModal
-            visible={modalVisible}
-            onClose={() => setModalVisible(false)}
-            addWallet={insertWallet}
-          />
         </>
       )}
     </ImageBackground>

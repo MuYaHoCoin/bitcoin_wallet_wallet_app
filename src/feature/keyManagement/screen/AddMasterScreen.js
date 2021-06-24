@@ -1,9 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {ScrollView, TextInput, View} from 'react-native';
-import {
-  createMasterNode,
-  generateNewMnemonic,
-} from '../function/createMasterWallet';
+import {generateNewMnemonic} from '../function/createMasterWallet';
 import {addMaster, createMaster} from '../../database/function/master';
 import {
   AddWalletButtonStyle,
