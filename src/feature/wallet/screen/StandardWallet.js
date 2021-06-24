@@ -38,6 +38,7 @@ const AddWallet = ({route, navigation}) => {
         navigation.navigate('AddWallet/MultiSig', {index});
       }
       if (walletType === 'twoFactor') {
+        navigation.navigate('AddWallet/TwoFactor', {index});
       }
       setWalletType('standard');
     }

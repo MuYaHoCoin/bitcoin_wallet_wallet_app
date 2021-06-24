@@ -5,6 +5,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createMaster} from './src/feature/database/function/master';
 import {createWallet} from './src/feature/database/function/wallets';
+import {createPin} from './src/feature/database/function/pin';
 
 import SplashPage from './src/common/screen/SplashPage';
 import Authentication from './src/common/screen/Authentication';
@@ -17,6 +18,7 @@ import SendCoins from './src/feature/transaction/screen/SendCoins';
 import ReceiveCoins from './src/feature/transaction/screen/ReceiveCoins';
 import StandardWallet from './src/feature/wallet/screen/StandardWallet';
 import MultiSigWallet from './src/feature/wallet/screen/MultiSigWallet';
+import TwoFactorWallet from './src/feature/wallet/screen/TwoFactorWallet';
 
 const Stack = createStackNavigator();
 
@@ -24,6 +26,7 @@ const App = () => {
   useEffect(() => {
     createMaster();
     createWallet();
+    createPin();
   }, []);
   return (
     <NavigationContainer>
@@ -39,6 +42,7 @@ const App = () => {
         <Stack.Screen name="ReceiveCoins" component={ReceiveCoins} />
         <Stack.Screen name="AddWallet/Standard" component={StandardWallet} />
         <Stack.Screen name="AddWallet/MultiSig" component={MultiSigWallet} />
+        <Stack.Screen name="AddWallet/TwoFactor" component={TwoFactorWallet} />
       </Stack.Navigator>
     </NavigationContainer>
   );

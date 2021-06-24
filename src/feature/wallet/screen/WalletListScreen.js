@@ -15,6 +15,7 @@ import {handleError} from '../../../common/function/error';
 import {commonStyle} from '../../../common/style/commonStyle';
 import {Colors} from '../../../common/style/color';
 import Loading from '../../../common/screen/Loading';
+import {getPins} from '../../database/function/pin';
 
 const style = {
   background: {...commonStyle.background, padding: 12},
@@ -31,7 +32,6 @@ const style = {
 const WalletListScreen = ({navigation}) => {
   const [index, setIndex] = useState(0);
   const [wallets, setWallets] = useState([]);
-  const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
 
   async function generateWalletFromInfo(walletInfo) {
@@ -91,6 +91,7 @@ const WalletListScreen = ({navigation}) => {
   }
   useEffect(() => {
     convertToWallets();
+    getPins();
   }, []);
 
   return (
