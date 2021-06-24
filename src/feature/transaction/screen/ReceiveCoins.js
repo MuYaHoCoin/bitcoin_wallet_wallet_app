@@ -9,6 +9,7 @@ import OkButton from '../../../common/component/OkButton';
 import {transactionStyle} from '../style/style';
 import IconTitle from '../component/item/IconTitle';
 import ExitButton from '../../../common/component/ExitButton';
+import QRCode from '../component/item/QRCode';
 
 const style = {
   text: {
@@ -37,8 +38,9 @@ const ReceiveCoins = ({route, navigation}) => {
       source={require('../../../common/image/bitcoinBackground.png')}
       style={commonStyle.background}>
       <MainLogo />
-      <IconTitle title={'Public Address'} icon={copy} />
+      <IconTitle title={'Public Address'} icon={copy} value={address}/>
       <TextInput style={style.text} value={address} />
+      <QRCode value={address}/>
       <ExitButton title={'돌아가기'} />
     </ImageBackground>
   );

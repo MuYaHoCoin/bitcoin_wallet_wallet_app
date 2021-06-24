@@ -1,5 +1,6 @@
 import React from 'react';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
+import Clipboard from '@react-native-clipboard/clipboard';
 import {Colors} from '../../../../common/style/color';
 
 const style = {
@@ -24,11 +25,16 @@ const style = {
   },
 };
 
-const IconTitle = ({title, icon, onPress}) => {
+const copytoClipboard = (adr) => {
+  Clipboard.setString(adr);
+  alert("copied address clipboard");
+}
+
+const IconTitle = ({title, icon, onPress, value}) => {
   return (
     <View style={style.container}>
       <Text style={style.title}>{title}</Text>
-      <TouchableOpacity onPress={onPress}>
+      <TouchableOpacity onPress={() => copytoClipboard(value)}>
         <Image source={icon} style={style.image} resizeMode={'contain'} />
       </TouchableOpacity>
     </View>

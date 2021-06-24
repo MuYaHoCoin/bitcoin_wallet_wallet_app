@@ -42,19 +42,25 @@ const style = {
 const SendCoins = ({route, navigation}) => {
   const [receiverAddress, setReceiverAddress] 
   = useState('');
-  const [amount, setAmount] = useState('0');
+  const [amount, setAmount] = useState('1');
   const [confirmationStandardModalVisible, setConfirmationStandardModalVisible] = useState(false);
   const [confirmationMultisigModalVisible, setConfirmationMultisigModalVisible] = useState(false);
   const [confirmationTwoFactorModalVisible, setconfirmationTwoFactorModalVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+  const [curPrice, setCurPrice] = useState(0.001);
+  const [oneBTCForDollor, setOneBTCForDollor] = useState(0.0);
   
   const camera = require('../../../common/image/cameraLogo.png');
   const setting = require('../../../common/image/settingLogo.png');
   const {address, privateKey, publicKey, walletType} = route.params;
+  
   //navigation = useNavigation();
   //const sendCoinNavigation = useNavigation();
 
   useEffect(() => {
+    getBTCCurrentPrice().then((v) => {
+      setOneBTCForDollor(v);
+    })
     if (walletType === "standard") {
       setConfirmationStandardModalVisible(true);
     }
@@ -78,6 +84,12 @@ const SendCoins = ({route, navigation}) => {
     );
   };
 
+  const setAmountAndPrice = (a) => {
+    setAmount(a);
+    console.log(oneBTCForDollor.split(',').join("") * parseFloat(a));
+    setCurPrice(oneBTCForDollor.split(',').join("") * parseFloat(a));
+  }
+
   return (
     <ImageBackground
       source={require('../../../common/image/bitcoinBackground.png')}
@@ -93,9 +105,12 @@ const SendCoins = ({route, navigation}) => {
       <IconTitle title={'Amount'} icon={setting} />
       <BitcoinInput
         value={amount}
-        onChangeText={setAmount}
+        onChangeText={setAmountAndPrice}
         placeholder={'단위는 BTC입니다.'}
       />
+      <Text style={style.dollar}>
+        ~{curPrice} dollar
+      </Text>
       <NoButton
         title={'bitcoin 이체하기'}
         onPress={()=>setModalVisible(true)}
@@ -108,6 +123,9 @@ const SendCoins = ({route, navigation}) => {
         receiverAddress={receiverAddress}
         coinAmount={parseFloat(amount)}
         walletType={walletType}
+        senderPrivateKey={privateKey}
+        senderPublicKey={publicKey}
+        senderAddress={address}
       />
       <ConfirmationMultisigModal
         visible={confirmationMultisigModalVisible && modalVisible}

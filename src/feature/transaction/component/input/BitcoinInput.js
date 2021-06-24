@@ -13,7 +13,7 @@ const style = {
     justifyContent: 'center',
     alignItems: 'flex-start',
 
-    marginBottom: 12,
+    marginBottom: 40,
   },
   input: {
     ...transactionStyle.input,

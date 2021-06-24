@@ -24,7 +24,6 @@ export const getBTCCurrentPrice = async () => {
   const price = await axios.get(
     'https://api.coindesk.com/v1/bpi/currentprice.json',
   );
-  console.log(price.data.bpi.USD.rate);
   return price.data.bpi.USD.rate;
 };
 
@@ -97,6 +96,10 @@ export const createTransaction = async (
     handleError('Create Transaction Error', error);
   }
 };
+
+const createMultisigTransaction = () => {
+
+}
 const checkError = msg => {
   if (false) {
     log('Errors occured!!/n' + msg.errors.join('/n'));

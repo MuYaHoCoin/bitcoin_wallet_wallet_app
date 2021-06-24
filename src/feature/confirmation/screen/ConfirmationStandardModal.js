@@ -10,9 +10,23 @@ import { style } from '../style/style';
 import Overlay from "react-native-modal-overlay";
 import { isValidAddress, createTransaction } from '../../transaction/function/transactionFunction';
 
+const modalStyle = {
+  container: {
+    height: 40,
+    width: '90%',
+
+    diplay: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    marginBottom: 40,
+  },
+  image: {
+    height: 30,
+  },
+};
 
 const ConfirmationStandardModal = ({visible, onClose, receiverAddress, coinAmount, walletType, senderPrivateKey, senderPublicKey, senderAddress}) => {
-  const testnet = 'bitcoinTestNet';
   const confirmAndSendCoin = async (senderPrivateKey, senderPublicKey, senderAddress, receiverAddress, coinAmount ) => {
     if(isValidAddress(receiverAddress)) {
       await createTransaction(senderPrivateKey, senderPublicKey, senderAddress, receiverAddress, coinAmount ,'bitcoinTestNet' );
@@ -25,21 +39,29 @@ const ConfirmationStandardModal = ({visible, onClose, receiverAddress, coinAmoun
     animationType="zoomIn" containerStyle={{backgroundColor: 'rgba(37, 8, 10, 0.78)'}}
     childrenWrapperStyle={{backgroundColor: '#8b1919'}}
     animationDuration={500}>
-        <ConfirmLogo/>
+        <ConfirmLogo walletType={walletType}/>
         <Text style={style.text}>
-          {receiverAddress} 에게 
+        From :
+          {senderAddress}
         </Text>
+        <Text style={style.text}>
+          To : {receiverAddress}
+        </Text>
+        <View style={modalStyle.container}>
         <Text style={style.text}>
           {coinAmount}
         </Text>
-        <Text style={style.text}>
-          standard transaction will occur
-        </Text>
         <Image
         source={require('../../../common/image/BitcoinWhiteLogo.png')}
-        style={style.image}
+        style={modalStyle.image}
         resizeMode={'contain'}
       />
+        </View>
+        
+        <Text style={style.text}>
+          standard transaction is about to occur
+        </Text>
+        
         <OkButton
           title={'Confirm'}
           onPress={() => confirmAndSendCoin(senderPrivateKey, senderPublicKey, senderAddress, receiverAddress, coinAmount)}

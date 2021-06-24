@@ -10,7 +10,15 @@ import { style } from '../style/style';
 import Overlay from "react-native-modal-overlay";
 
 
-const ConfirmationMultisigModal = ({visible, onClose, receiverAddress, coinAmount, walletType}) => {
+const ConfirmationMultisigModal = ({visible, onClose, receiverAddress, coinAmount, walletType, senderPrivateKey, senderPublicKey, senderAddress}) => {
+  const confirmAndSendCoin = async (senderPrivateKey, senderPublicKey, senderAddress, receiverAddress, coinAmount ) => {
+    if(isValidAddress(receiverAddress)) {
+      await createTransaction(senderPrivateKey, senderPublicKey, senderAddress, receiverAddress, coinAmount ,'bitcoinTestNet' );
+    } else {
+      alert("invalid address, check if your address is invalid");
+    } 
+  }
+  
   return (
     <Overlay visible={visible} onRequestClose={onClose} closeOnTouchOutside
     animationType="zoomIn" containerStyle={{backgroundColor: 'rgba(37, 8, 10, 0.78)'}}
@@ -34,7 +42,7 @@ const ConfirmationMultisigModal = ({visible, onClose, receiverAddress, coinAmoun
         
         <OkButton
           title={'Confirm'}
-          onPress={() => {}}
+          onPress={() => confirmAndSendCoin(senderPrivateKey, senderPublicKey, senderAddress, receiverAddress, coinAmount)}
           buttonStyle={style.button}
           textStyle={style.text}
         />
