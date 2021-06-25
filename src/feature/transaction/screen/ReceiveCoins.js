@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/core';
-import React from 'react';
+import React,{useEffect} from 'react';
 import NoButton from '../../../common/component/NoButton';
 import {commonStyle} from '../../../common/style/commonStyle';
 import {ImageBackground, Text, TextInput} from 'react-native';
@@ -10,6 +10,7 @@ import {transactionStyle} from '../style/style';
 import IconTitle from '../component/item/IconTitle';
 import ExitButton from '../../../common/component/ExitButton';
 import QRCode from '../component/item/QRCode';
+import { getTransactionList } from '../function/transactionFunction';
 
 const style = {
   text: {
@@ -32,7 +33,12 @@ const style = {
 const ReceiveCoins = ({route, navigation}) => {
   const {address} = route.params;
   const copy = require('../../../common/image/copyLogo.png');
-
+  useEffect(()=> {
+    getTransactionList(address, 'bitcoinTestNet').then((txids) => {
+      console.log("lists : ", txids);
+      console.log("length : ", txids.length);
+    })
+  },[]);
   return (
     <ImageBackground
       source={require('../../../common/image/bitcoinBackground.png')}

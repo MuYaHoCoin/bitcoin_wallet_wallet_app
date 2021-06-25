@@ -7,7 +7,7 @@ import OkButton from '../../../common/component/OkButton';
 import {Colors} from '../../../common/style/color';
 import {commonStyle} from '../../../common/style/commonStyle';
 import {addMaster} from '../../database/function/master';
-import {restoreWallet} from '../../wallet/function/restoreWallet';
+import { restoreWallet } from '../../wallet/function/restoreWallet';
 import RandomWordInput from '../component/RandomWordInput';
 import {
   AddWalletButtonStyle,

@@ -50,10 +50,35 @@ export const getTransactionList = async (
     default:
   }
   const txs = await (
-    await axios.get(rootUrl + '/addrs/' + address)
-  ).data.txrefs;
-  console.log(txs);
-  return txs;
+    await axios.get(rootUrl + '/addrs/' + address + '/full')
+  ).data.txs;
+  const txinfos = [];
+  let count = 0;
+  txs.forEach(element => {
+    const oneTx={};
+    oneTx.hash = element.hash;
+    oneTx.isSend = false;
+    element.inputs.forEach(ins => {
+      ins.addresses.forEach(adr => {
+        if(adr === address) {
+          oneTx.isSend = true;
+          count +=1;
+          return false;
+        }
+      })
+    });
+    if(element.confirmations === 0) {
+      oneTx.isConfirmed = false;
+    }
+    else {
+      oneTx.isConfirmed = true;
+    }
+    oneTx.value = element.total;
+    txinfos.push(oneTx);
+  });
+  console.log(txinfos);
+  console.log("count : ",count)
+  return txinfos;
 };
 
 export const createTransaction = async (
@@ -131,3 +156,5 @@ export const isValidAddress = (address) => {
     return false;
   }
 };
+
+
