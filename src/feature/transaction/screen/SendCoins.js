@@ -87,7 +87,7 @@ const SendCoins = ({route, navigation}) => {
 
   const setAmountAndPrice = (a) => {
     setAmount(a);
-    console.log(oneBTCForDollor.split(',').join("") * parseFloat(a));
+    //console.log(oneBTCForDollor.split(',').join("") * parseFloat(a));
     setCurPrice(oneBTCForDollor.split(',').join("") * parseFloat(a));
   }
 
