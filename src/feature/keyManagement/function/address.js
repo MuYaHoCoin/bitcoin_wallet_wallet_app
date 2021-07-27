@@ -1,4 +1,4 @@
-import {crypto} from 'react-native-bitcoinjs-lib';
+import {crypto, payments} from 'rn-bitcoinjs-lib';
 import {Buffer} from 'safe-buffer';
 import base58Check from 'base58check';
 import {handleError} from '../../../common/function/error';
@@ -9,7 +9,7 @@ const networkPrefix = {
   bitcoinTestNet: '6f',
 };
 
-export const getAddress = (publicKey, network = 'bitcoinTestNet') => {
+export const getAddress = async (publicKey, network = 'bitcoinTestNet') => {
   try {
     const address = crypto.hash160(Buffer.from(publicKey, 'hex'));
     const prefix = networkPrefix[network];
@@ -18,4 +18,12 @@ export const getAddress = (publicKey, network = 'bitcoinTestNet') => {
   } catch (error) {
     handleError('Get Address', error);
   }
+};
+
+export const getMultiSigAddress = (pubkeys, m) => {
+  const redeem = payments.p2ms({m, pubkeys});
+  const {address} = payments.p2sh({
+    redeem,
+  });
+  return address;
 };

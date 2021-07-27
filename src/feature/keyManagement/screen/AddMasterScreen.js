@@ -11,6 +11,8 @@ import RandomWordItem from '../component/RandomWordItem';
 import MainLogo from '../../../common/component/MainLogo';
 import {commonStyle} from '../../../common/style/commonStyle';
 import OkButton from '../../../common/component/OkButton';
+import {useDispatch} from 'react-redux';
+import {addMasterNodeStart} from '../utils/keyManagement.action';
 
 const style = {
   background: {
@@ -29,16 +31,16 @@ const style = {
 };
 
 const AddMasterWalletScreen = ({navigation}) => {
+  const dispatch = useDispatch();
   const [mnemonic, setMnemonic] = useState([]);
   const [password, setPassword] = useState('');
 
   useEffect(() => {
-    createMaster();
     generateNewMnemonic().then(newMnemonic => setMnemonic([...newMnemonic]));
   }, []);
 
   const createMasterWallet = () => {
-    addMaster(mnemonic.join(' '), password);
+    dispatch(addMasterNodeStart(mnemonic.join(' '), password));
     navigation.navigate('Main');
   };
 

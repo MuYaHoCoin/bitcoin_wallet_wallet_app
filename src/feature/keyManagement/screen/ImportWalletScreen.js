@@ -1,6 +1,7 @@
 import React from 'react';
 import {ScrollView, View, Text} from 'react-native';
 import {TextInput} from 'react-native-gesture-handler';
+import {useDispatch} from 'react-redux';
 import {useState} from 'react/cjs/react.development';
 import MainLogo from '../../../common/component/MainLogo';
 import OkButton from '../../../common/component/OkButton';
@@ -14,6 +15,7 @@ import {
   AddWalletButtonTextStyle,
   mnemonicItemContainerStyle,
 } from '../style/style';
+import {restoreWalletStart} from '../utils/keyManagement.action';
 
 const initialMnemonic = [
   'wheat',
@@ -54,6 +56,7 @@ const style = {
 };
 
 const ImportWalletScreen = ({navigation}) => {
+  const dispatch = useDispatch();
   const [mnemonic, setMnemonic] = useState(initialMnemonic);
   const [password, setPassword] = useState('');
 
@@ -62,9 +65,8 @@ const ImportWalletScreen = ({navigation}) => {
       mnemonic.map((word, index) => (index === targetIndex ? newWord : word)),
     );
   };
-  const createMasterWallet = async () => {
-    await addMaster(mnemonic.join(' '), password);
-    await restoreWallet();
+  const retoreWallet = () => {
+    dispatch(restoreWalletStart(mnemonic, password));
     navigation.navigate('Main');
   };
   return (
@@ -94,7 +96,7 @@ const ImportWalletScreen = ({navigation}) => {
       />
       <OkButton
         title={'지갑 불러오기'}
-        onPress={createMasterWallet}
+        onPress={retoreWallet}
         buttonStyle={AddWalletButtonStyle}
         textStyle={AddWalletButtonTextStyle}
       />

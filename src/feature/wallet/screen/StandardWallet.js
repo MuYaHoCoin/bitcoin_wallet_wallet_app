@@ -6,9 +6,12 @@ import {okButtonStyle, okButtonTextStyle} from '../style/style';
 import MainLogo from '../../../common/component/MainLogo';
 import WalletTypeCheckBox from '../component/WalletTypeCheckBox';
 import OkButton from '../../../common/component/OkButton';
+import {useDispatch} from 'react-redux';
+import {addWalletStart} from '../utils/wallet.action';
 
 const AddWallet = ({route, navigation}) => {
-  const {addWallet, index} = route.params;
+  const {index} = route.params;
+  const dispatch = useDispatch();
   const [walletName, setWalletName] = useState('');
   const [walletType, setWalletType] = useState('standard');
 
@@ -29,7 +32,7 @@ const AddWallet = ({route, navigation}) => {
     if (isEmpty(walletName)) {
       alert('지갑이름을 입력해주세요');
     } else {
-      addWallet(walletName, walletType);
+      dispatch(addWalletStart(walletName, walletType));
       setWalletName('');
       if (walletType === 'starndard') {
         navigation.goBack();

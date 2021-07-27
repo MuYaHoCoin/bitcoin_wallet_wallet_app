@@ -17,7 +17,7 @@ import NoButton from '../../../common/component/NoButton';
 import ConfirmationStandardModal from '../../confirmation/screen/ConfirmationStandardModal';
 import ConfirmationMultisigModal from '../../confirmation/screen/ConfimationMultisigModal';
 import ConfirmationTwoFactorModal from '../../confirmation/screen/ConfirmationTwoFactorModal';
-import { useEffect } from "react";
+import {useEffect} from 'react';
 
 const style = {
   text: {
@@ -40,14 +40,22 @@ const style = {
 };
 
 const SendCoins = ({route, navigation}) => {
-  const [receiverAddress, setReceiverAddress] 
-  = useState('');
+  const [receiverAddress, setReceiverAddress] = useState('');
   const [amount, setAmount] = useState('0');
-  const [confirmationStandardModalVisible, setConfirmationStandardModalVisible] = useState(false);
-  const [confirmationMultisigModalVisible, setConfirmationMultisigModalVisible] = useState(false);
-  const [confirmationTwoFactorModalVisible, setconfirmationTwoFactorModalVisible] = useState(false);
+  const [
+    confirmationStandardModalVisible,
+    setConfirmationStandardModalVisible,
+  ] = useState(false);
+  const [
+    confirmationMultisigModalVisible,
+    setConfirmationMultisigModalVisible,
+  ] = useState(false);
+  const [
+    confirmationTwoFactorModalVisible,
+    setconfirmationTwoFactorModalVisible,
+  ] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-  
+
   const camera = require('../../../common/image/cameraLogo.png');
   const setting = require('../../../common/image/settingLogo.png');
   const {address, privateKey, publicKey, walletType} = route.params;
@@ -55,17 +63,14 @@ const SendCoins = ({route, navigation}) => {
   //const sendCoinNavigation = useNavigation();
 
   useEffect(() => {
-    if (walletType === "standard") {
+    if (walletType === 'standard') {
       setConfirmationStandardModalVisible(true);
-    }
-    else if (walletType === "two-factor") {
+    } else if (walletType === 'two-factor') {
       setconfirmationTwoFactorModalVisible(true);
-    }
-
-    else if (walletType == "multi-sig") {
+    } else if (walletType == 'multi-sig') {
       setConfirmationMultisigModalVisible(true);
     }
-  },[]);
+  }, []);
 
   const makeTransaction = () => {
     createTransaction(
@@ -98,27 +103,27 @@ const SendCoins = ({route, navigation}) => {
       />
       <NoButton
         title={'bitcoin 이체하기'}
-        onPress={()=>setModalVisible(true)}
+        onPress={() => setModalVisible(true)}
         buttonStyle={style.button}
       />
-      <ExitButtonm title={'돌아가기'} buttonStyle={style.button}/>
-      <ConfirmationStandardModal 
+      <ExitButtonm title={'돌아가기'} buttonStyle={style.button} />
+      <ConfirmationStandardModal
         visible={modalVisible && confirmationStandardModalVisible}
-        onClose={()=> setModalVisible(false)}
+        onClose={() => setModalVisible(false)}
         receiverAddress={receiverAddress}
         coinAmount={parseFloat(amount)}
         walletType={walletType}
       />
       <ConfirmationMultisigModal
         visible={confirmationMultisigModalVisible && modalVisible}
-        onClose={()=> setModalVisible(false)}
+        onClose={() => setModalVisible(false)}
         receiverAddress={receiverAddress}
         coinAmount={parseFloat(amount)}
         walletType={walletType}
       />
       <ConfirmationTwoFactorModal
         visible={confirmationTwoFactorModalVisible && modalVisible}
-        onClose={()=> setModalVisible(false)}
+        onClose={() => setModalVisible(false)}
         receiverAddress={receiverAddress}
         coinAmount={parseFloat(amount)}
         walletType={walletType}

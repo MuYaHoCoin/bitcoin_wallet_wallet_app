@@ -15,10 +15,6 @@ export const generateNewMnemonic = async () => {
 
 export const createMasterNode = (mnemonic, password) => {
   const seed = BIP39.mnemonicToSeed(Buffer.from(mnemonic), password);
-  const {privateKey, publicKey, chainCode} = BIP32.fromSeed(seed);
-  return {
-    privateKey: privateKey.toString('hex'),
-    publicKey: publicKey.toString('hex'),
-    chainCode: chainCode.toString('hex'),
-  };
+  const masterNode = BIP32.fromSeed(seed);
+  return masterNode;
 };

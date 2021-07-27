@@ -11,9 +11,8 @@ export async function restoreWallet() {
       const {publicKey} = await createChildKey(index);
       const address = getAddress(publicKey, 'bitcoinTestNet');
       const transactions = await getTransactionList(address, 'bitcoinTestNet');
-      console.log(transactions);
       if (transactions.length) {
-        addWallet(index, `wallet ${index}`, 'standard');
+        await addWallet(index, `wallet ${index}`, 'standard');
       } else {
         break;
       }

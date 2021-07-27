@@ -1,11 +1,16 @@
+/* eslint-disable no-alert */
+/* eslint-disable react-hooks/exhaustive-deps */
 import {useNavigation} from '@react-navigation/core';
 import React from 'react';
+import {useState} from 'react';
 import {useEffect} from 'react';
 import {Text, View} from 'react-native';
-import {useState} from 'react/cjs/react.development';
+import {useDispatch, useSelector} from 'react-redux';
 import OkButton from '../../../common/component/OkButton';
 import {Colors} from '../../../common/style/color';
 import {getBalance} from '../../transaction/function/transactionFunction';
+import {getWalletStart} from '../utils/wallet.action';
+import {selelctWalletByIndex} from '../utils/wallet.reducer';
 const WalletTypeMap = {
   standard: 'Standard',
   twoFactor: 'Two-Factor',
@@ -77,27 +82,35 @@ const style = {
   },
 };
 
-const WalletItem = ({
-  walletName,
-  walletType,
-  address,
-  privateKey,
-  publicKey,
-}) => {
-  console.log(walletType);
+const WalletItem = ({id}) => {
   const navigation = useNavigation();
-  const [balance, setBalance] = useState(0.0);
+  const dispatch = useDispatch();
+  const wallet = useSelector(selelctWalletByIndex(id));
+
+  const [balance, setBalance] = useState('');
+
+  function moveSendScreen() {
+    navigation.navigate('SendCoins', {id: id});
+  }
+  function moveReceiveScreen() {
+    navigation.navigate('ReceiveCoins', {id: id});
+  }
+
   useEffect(() => {
-    getBalance(address).then(btc => {
-      setBalance(btc * 0.00000001);
-    });
-  }, [address]);
+    dispatch(getWalletStart(id));
+  }, []);
+  useEffect(() => {
+    if (wallet.address) {
+      setBalance(getBalance(wallet.address) * 0.00000001);
+    }
+  }, [wallet]);
+
   return (
     <View style={style.container}>
       <View style={style.header}>
         <View style={style.headerLabel} />
         <Text style={style.headerText}>
-          {WalletTypeMap[walletType] + ' - ' + walletName}
+          {WalletTypeMap[wallet.walletType] + ' - ' + wallet.walletName}
         </Text>
       </View>
       <Text style={style.address}>{balance} BTC</Text>
@@ -106,15 +119,13 @@ const WalletItem = ({
           title={'Recieve'}
           buttonStyle={style.button}
           textStyle={style.buttonText}
-          onPress={() => navigation.navigate('ReceiveCoins', {address})}
+          onPress={moveReceiveScreen}
         />
         <OkButton
           title={'send'}
           buttonStyle={style.button}
           textStyle={style.buttonText}
-          onPress={() =>
-            navigation.navigate('SendCoins', {privateKey, publicKey, address, walletType})
-          }
+          onPress={moveSendScreen}
         />
       </View>
     </View>
