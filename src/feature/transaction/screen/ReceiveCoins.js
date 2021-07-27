@@ -5,11 +5,11 @@ import {commonStyle} from '../../../common/style/commonStyle';
 import {ImageBackground, Text, TextInput} from 'react-native';
 import {Colors} from '../../../common/style/color';
 import MainLogo from '../../../common/component/MainLogo';
-import OkButton from '../../../common/component/OkButton';
 import {transactionStyle} from '../style/style';
 import IconTitle from '../component/item/IconTitle';
 import ExitButton from '../../../common/component/ExitButton';
 
+const copy = require('../../../common/image/copyLogo.png');
 const style = {
   text: {
     marginBottom: 16,
@@ -30,7 +30,6 @@ const style = {
 
 const ReceiveCoins = ({route, navigation}) => {
   const {address} = route.params;
-  const copy = require('../../../common/image/copyLogo.png');
 
   return (
     <ImageBackground

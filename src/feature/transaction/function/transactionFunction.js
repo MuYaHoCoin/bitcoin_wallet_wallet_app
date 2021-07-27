@@ -88,9 +88,7 @@ export const createTransaction = async (
         .slice(0, -2);
     });
     const {} = await axios.post(rootUrl + 'txs/send', tmptx);
-    alert('transaction success!!');
   } catch (error) {
-    alert('transaction error!!');
     handleError('Create Transaction Error', error);
   }
 };
