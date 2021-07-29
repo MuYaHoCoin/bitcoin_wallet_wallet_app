@@ -1,6 +1,7 @@
 import {createReducer} from '@reduxjs/toolkit';
 import {
   addMasterNodeSuccess,
+  getMasterNodeStart,
   getMasterNodeSuccess,
   restoreWalletStart,
   restoreWalletSuccess,
@@ -8,7 +9,6 @@ import {
 
 const initialState = {
   masterNode: null,
-  loading: true,
   restoreLoading: false,
 };
 

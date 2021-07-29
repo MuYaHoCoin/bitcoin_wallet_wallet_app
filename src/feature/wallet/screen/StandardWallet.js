@@ -6,11 +6,12 @@ import {okButtonStyle, okButtonTextStyle} from '../style/style';
 import MainLogo from '../../../common/component/MainLogo';
 import WalletTypeCheckBox from '../component/WalletTypeCheckBox';
 import OkButton from '../../../common/component/OkButton';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {addWalletStart} from '../utils/wallet.action';
+import {selectStandarWalletIndex} from '../utils/wallet.reducer';
 
-const AddWallet = ({route, navigation}) => {
-  const {index} = route.params;
+const AddWallet = ({navigation}) => {
+  const index = useSelector(selectStandarWalletIndex);
   const dispatch = useDispatch();
   const [walletName, setWalletName] = useState('');
   const [walletType, setWalletType] = useState('standard');

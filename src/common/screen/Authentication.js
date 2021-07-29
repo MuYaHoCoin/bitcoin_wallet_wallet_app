@@ -1,12 +1,17 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useState} from 'react';
 import {Text} from 'react-native';
 import {TextInput} from 'react-native-gesture-handler';
+import {useDispatch, useSelector} from 'react-redux';
+import {useEffect} from 'react/cjs/react.development';
+import {CheckPassword} from '../../feature/database/function/master';
+import {getMasterNodeStart} from '../../feature/keyManagement/utils/keyManagement.action';
+import {selectMasterLoading} from '../../feature/keyManagement/utils/keyManagemeny.selector';
 
 import BaseComponent from '../component/BaseComponent';
 import MainLogo from '../component/MainLogo';
 import OkButton from '../component/OkButton';
 
-import {CheckPassword} from '../../feature/database/function/master';
 import {Colors} from '../style/color';
 
 const style = {
@@ -35,15 +40,19 @@ const style = {
 };
 
 const Authentication = ({navigation}) => {
+  const dispatch = useDispatch();
   const [password, setPassword] = useState('');
-  const navigate = async () => {
-    const isRight = await CheckPassword(password);
-    if (isRight) {
+
+  async function navigate() {
+    const isCorrect = await CheckPassword(password);
+    if (isCorrect) {
+      dispatch(getMasterNodeStart(password));
       navigation.navigate('Main');
     } else {
       alert('비밀번호가 맞지 않습니다.');
     }
-  };
+  }
+
   return (
     <BaseComponent>
       <MainLogo />

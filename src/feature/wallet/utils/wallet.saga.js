@@ -6,6 +6,7 @@ import {getAddress} from '../../keyManagement/function/address';
 import {selectMasterNode} from '../../keyManagement/utils/keyManagemeny.selector';
 import {
   addWalletStart,
+  addWalletSuccess,
   getWalletListStart,
   getWalletListSuccess,
   getWalletStart,
@@ -16,7 +17,6 @@ import {selectStandarWalletIndex} from './wallet.reducer';
 function* getWalletListSaga() {
   try {
     const walletInfoList = yield call(getWallets);
-    console.log(walletInfoList);
     yield put(getWalletListSuccess(walletInfoList));
   } catch (error) {
     handleError('Get Wallet List Saga Error!!', error);
@@ -27,15 +27,18 @@ function* getWalletSaga(action) {
   try {
     const {walletIndex} = action.payload;
     const masterNode = yield select(selectMasterNode);
-    const {privateKey, publicKey, chainCode} = masterNode.derivePath(
+    const {privateKey, publicKey, chainCode} = yield masterNode.derivePath(
       `m/44'/61'/0'/0/${walletIndex}`,
     );
+    const address = yield call(getAddress, publicKey.toString('hex'));
     const wallet = {
       walletIndex,
-      privateKey,
-      publicKey,
-      chainCode,
+      privateKey: privateKey.toString('hex'),
+      publicKey: publicKey.toString('hex'),
+      chainCode: chainCode.toString('hex'),
+      address,
     };
+    console.log(wallet);
     yield put(getWalletSuccess(wallet));
   } catch (error) {
     handleError('Get Wallet Error', error);
@@ -47,7 +50,7 @@ function* addWalletSaga(action) {
     const {walletType, walletName} = action.payload;
     const walletIndex = yield select(selectStandarWalletIndex);
     const masterNode = yield select(selectMasterNode);
-    const {privateKey, publicKey, chainCode} = masterNode.derivePath(
+    const {privateKey, publicKey, chainCode} = yield masterNode.derivePath(
       `m/44'/61'/0'/0/${walletIndex}`,
     );
     const address = yield call(getAddress, publicKey);
@@ -61,7 +64,7 @@ function* addWalletSaga(action) {
       chainCode,
       address,
     };
-    yield put(getWalletSuccess(wallet));
+    yield put(addWalletSuccess(wallet));
   } catch (error) {
     handleError('Add Wallet Saga Error', error);
   }

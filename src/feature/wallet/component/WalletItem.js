@@ -87,7 +87,7 @@ const WalletItem = ({id}) => {
   const dispatch = useDispatch();
   const wallet = useSelector(selelctWalletByIndex(id));
 
-  const [balance, setBalance] = useState('');
+  const [balance, setBalance] = useState('0');
 
   function moveSendScreen() {
     navigation.navigate('SendCoins', {id: id});
@@ -101,7 +101,7 @@ const WalletItem = ({id}) => {
   }, []);
   useEffect(() => {
     if (wallet.address) {
-      setBalance(getBalance(wallet.address) * 0.00000001);
+      getBalance(wallet.address).then(b => setBalance(b));
     }
   }, [wallet]);
 

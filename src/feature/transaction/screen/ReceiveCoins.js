@@ -1,11 +1,13 @@
-import {useNavigation} from '@react-navigation/core';
 import React from 'react';
-import NoButton from '../../../common/component/NoButton';
+import {ImageBackground, TextInput} from 'react-native';
+import {useSelector} from 'react-redux';
+
 import {commonStyle} from '../../../common/style/commonStyle';
-import {ImageBackground, Text, TextInput} from 'react-native';
 import {Colors} from '../../../common/style/color';
-import MainLogo from '../../../common/component/MainLogo';
 import {transactionStyle} from '../style/style';
+import {selelctWalletByIndex} from '../../wallet/utils/wallet.reducer';
+
+import MainLogo from '../../../common/component/MainLogo';
 import IconTitle from '../component/item/IconTitle';
 import ExitButton from '../../../common/component/ExitButton';
 
@@ -29,7 +31,8 @@ const style = {
 };
 
 const ReceiveCoins = ({route, navigation}) => {
-  const {address} = route.params;
+  const {id} = route.params;
+  const {address} = useSelector(selelctWalletByIndex(id));
 
   return (
     <ImageBackground

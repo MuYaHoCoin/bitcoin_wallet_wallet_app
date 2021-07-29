@@ -1,4 +1,5 @@
 import {all, call, put, takeLatest} from 'redux-saga/effects';
+import {handleError} from '../../../common/function/error';
 import {
   addMaster,
   CheckPassword,
@@ -20,14 +21,12 @@ import {
 function* getMasterNodeSaga(action) {
   try {
     const {password} = action.payload;
-    const isCorrect = yield call(CheckPassword, password);
-    if (isCorrect) {
-      throw new Error('Password Is not Correct');
-    }
     const {mnemonic} = yield call(getMaster);
     const masterNode = yield call(createMasterNode, mnemonic, password);
     yield put(getMasterNodeSuccess(masterNode));
-  } catch (error) {}
+  } catch (error) {
+    handleError('getMasterSaga Error', error);
+  }
 }
 
 function* addMasterNodeSaga(action) {

@@ -2,43 +2,45 @@ import React from 'react';
 import {useState} from 'react';
 import {Modal, Text, View, Image} from 'react-native';
 import MainLogo from '../../../common/component/MainLogo';
-import { ConfirmLogo } from '../../../common/component/MainLogo';
+import {ConfirmLogo} from '../../../common/component/MainLogo';
 import OkButton from '../../../common/component/OkButton';
-import NoButton from "../../../common/component/NoButton";
-import { Colors } from '../../../common/style/color';
-import { style } from '../style/style';
-import Overlay from "react-native-modal-overlay";
+import NoButton from '../../../common/component/NoButton';
+import {Colors} from '../../../common/style/color';
+import {style} from '../style/style';
+import Overlay from 'react-native-modal-overlay';
 
-
-const ConfirmationMultisigModal = ({visible, onClose, receiverAddress, coinAmount, walletType}) => {
+const ConfirmationMultisigModal = ({
+  visible,
+  onClose,
+  receiverAddress,
+  coinAmount,
+  walletType,
+}) => {
   return (
-    <Overlay visible={visible} onRequestClose={onClose} closeOnTouchOutside
-    animationType="zoomIn" containerStyle={{backgroundColor: 'rgba(37, 8, 10, 0.78)'}}
-    childrenWrapperStyle={{backgroundColor: '#8b1919'}}
-    animationDuration={500}>
-        <ConfirmLogo/>
-        <Text style={style.text}>
-          {receiverAddress} 에게 
-        </Text>
-        <Text style={style.text}>
-          {coinAmount}
-        </Text>
-        <Text style={style.text}>
-          Multi sig transaction will occur
-        </Text>
-        <Image
+    <Overlay
+      visible={visible}
+      onRequestClose={onClose}
+      closeOnTouchOutside
+      animationType="zoomIn"
+      containerStyle={{backgroundColor: 'rgba(37, 8, 10, 0.78)'}}
+      childrenWrapperStyle={{backgroundColor: '#8b1919'}}
+      animationDuration={500}>
+      <ConfirmLogo />
+      <Text style={style.text}>{receiverAddress} 에게</Text>
+      <Text style={style.text}>{coinAmount}</Text>
+      <Text style={style.text}>Multi sig transaction will occur</Text>
+      <Image
         source={require('../../../common/image/BitcoinWhiteLogo.png')}
         style={style.image}
         resizeMode={'contain'}
       />
-        
-        <OkButton
-          title={'Confirm'}
-          onPress={() => {}}
-          buttonStyle={style.button}
-          textStyle={style.text}
-        />
-    
+
+      <OkButton
+        title={'Confirm'}
+        onPress={() => {}}
+        buttonStyle={style.button}
+        textStyle={style.text}
+      />
     </Overlay>
   );
 };

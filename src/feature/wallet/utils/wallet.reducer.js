@@ -12,7 +12,6 @@ const walletAdapter = createEntityAdapter({
 const walletReducer = createReducer(walletAdapter.getInitialState(), {
   [getWalletListSuccess.type]: (state, action) => {
     const {walletList} = action.payload;
-    console.log(state);
     walletAdapter.addMany(state, walletList);
   },
   [getWalletSuccess.type]: (state, action) => {
@@ -27,17 +26,7 @@ const walletReducer = createReducer(walletAdapter.getInitialState(), {
 
 export default walletReducer;
 
-export const selectWalletIds = walletAdapter.getSelectors(
-  state => state.wallet,
-).selectIds;
-export const selelctWalletByIndex = id => {
-  return state => {
-    walletAdapter.getSelectors().selectById(state, id);
-  };
-};
-export const selectStandarWalletIndex = state => {
-  const ids = state.wallet.ids;
-  return ids.filter(id => {
-    state.wallet.entities[id].walletType !== 'multiSig';
-  }).length;
-};
+export const selectWalletIds = state => state.wallet.ids;
+export const selelctWalletByIndex = id => state => state.wallet.entities[id];
+
+export const selectStandarWalletIndex = state => state.wallet.ids.length;
