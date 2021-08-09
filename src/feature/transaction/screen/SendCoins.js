@@ -1,6 +1,6 @@
 import React from 'react';
 import {ImageBackground, TextInput} from 'react-native';
-import {useState, useEffect} from 'react';
+import {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {Colors} from '../../../common/style/color';
@@ -13,9 +13,6 @@ import MainLogo from '../../../common/component/MainLogo';
 import IconTitle from '../component/item/IconTitle';
 import ExitButtonm from '../../../common/component/ExitButton';
 import NoButton from '../../../common/component/NoButton';
-import ConfirmationStandardModal from '../../confirmation/screen/ConfirmationStandardModal';
-import ConfirmationMultisigModal from '../../confirmation/screen/ConfimationMultisigModal';
-import ConfirmationTwoFactorModal from '../../confirmation/screen/ConfirmationTwoFactorModal';
 import {selelctWalletByIndex} from '../../wallet/utils/wallet.reducer';
 
 const style = {
@@ -39,7 +36,6 @@ const style = {
 };
 
 const SendCoins = ({route, navigation}) => {
-  const dispatch = useDispatch();
   const {id} = route.params;
   const {privateKey, publicKey, address} = useSelector(
     selelctWalletByIndex(id),

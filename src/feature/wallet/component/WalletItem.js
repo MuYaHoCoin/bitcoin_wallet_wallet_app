@@ -101,7 +101,7 @@ const WalletItem = ({id}) => {
   }, []);
   useEffect(() => {
     if (wallet.address) {
-      getBalance(wallet.address).then(b => setBalance(b));
+      getBalance(wallet.address).then(b => setBalance(b * 0.0000001));
     }
   }, [wallet]);
 
