@@ -1,11 +1,10 @@
 import React from 'react';
 import {ImageBackground, TextInput} from 'react-native';
 import {useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 
 import {Colors} from '../../../common/style/color';
 import {commonStyle} from '../../../common/style/commonStyle';
-import {createTransaction} from '../function/transactionFunction';
 import {transactionStyle} from '../style/style';
 
 import BitcoinInput from '../component/input/BitcoinInput';
@@ -14,6 +13,9 @@ import IconTitle from '../component/item/IconTitle';
 import ExitButtonm from '../../../common/component/ExitButton';
 import NoButton from '../../../common/component/NoButton';
 import {selelctWalletByIndex} from '../../wallet/utils/wallet.reducer';
+
+const camera = require('../../../common/image/cameraLogo.png');
+const setting = require('../../../common/image/settingLogo.png');
 
 const style = {
   text: {
@@ -37,26 +39,13 @@ const style = {
 
 const SendCoins = ({route, navigation}) => {
   const {id} = route.params;
-  const {privateKey, publicKey, address} = useSelector(
-    selelctWalletByIndex(id),
-  );
 
   const [receiverAddress, setReceiverAddress] = useState('');
   const [amount, setAmount] = useState('0');
 
-  const camera = require('../../../common/image/cameraLogo.png');
-  const setting = require('../../../common/image/settingLogo.png');
-
-  const makeTransaction = () => {
-    createTransaction(
-      privateKey,
-      publicKey,
-      address,
-      receiverAddress,
-      parseFloat(amount) * 100000000,
-      'bitcoinTestNet',
-    );
-  };
+  function sendCoin() {
+    navigation.navigate('transaction/SendCoinLoading');
+  }
 
   return (
     <ImageBackground
@@ -78,7 +67,7 @@ const SendCoins = ({route, navigation}) => {
       />
       <NoButton
         title={'bitcoin 이체하기'}
-        onPress={() => makeTransaction(true)}
+        onPress={sendCoin}
         buttonStyle={style.button}
       />
       <ExitButtonm title={'돌아가기'} buttonStyle={style.button} />

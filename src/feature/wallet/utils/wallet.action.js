@@ -28,8 +28,8 @@ export const getWalletSuccess = createAction(
 
 export const addWalletStart = createAction(
   'wallet/addWalletStart',
-  (walletName, walletType) => {
-    return {payload: {walletName, walletType}};
+  walletName => {
+    return {payload: {walletName}};
   },
 );
 export const addWalletSuccess = createAction(

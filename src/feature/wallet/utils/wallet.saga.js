@@ -30,15 +30,12 @@ function* getWalletSaga(action) {
     const {privateKey, publicKey, chainCode} = yield masterNode.derivePath(
       `m/44'/61'/0'/0/${walletIndex}`,
     );
-    const address = yield call(getAddress, publicKey.toString('hex'));
     const wallet = {
       walletIndex,
       privateKey: privateKey.toString('hex'),
       publicKey: publicKey.toString('hex'),
       chainCode: chainCode.toString('hex'),
-      address,
     };
-    console.log(wallet);
     yield put(getWalletSuccess(wallet));
   } catch (error) {
     handleError('Get Wallet Error', error);
@@ -47,16 +44,15 @@ function* getWalletSaga(action) {
 
 function* addWalletSaga(action) {
   try {
-    const {walletType, walletName} = action.payload;
+    const {walletName} = action.payload;
     const walletIndex = yield select(selectStandarWalletIndex);
     const masterNode = yield select(selectMasterNode);
     const {privateKey, publicKey, chainCode} = yield masterNode.derivePath(
       `m/44'/61'/0'/0/${walletIndex}`,
     );
     const address = yield call(getAddress, publicKey);
-    yield call(addWallet, walletIndex, walletName, walletType, address);
+    yield call(addWallet, walletIndex, walletName, address);
     const wallet = {
-      walletType,
       walletName,
       walletIndex,
       privateKey,

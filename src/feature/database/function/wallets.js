@@ -18,22 +18,17 @@ export const excuteSql = sql => {
 export function createWallet() {
   try {
     excuteSql(
-      'CREATE TABLE IF NOT EXISTS WALLETS(wallet_index VARCHAR(10) PRIMARY KEY, wallet_name VARCHAR(100) NOT NULL, wallet_type VARCHAR(100) NOT NULL, address VARCHAR(100) NOT NULL)',
+      'CREATE TABLE IF NOT EXISTS WALLETS(wallet_index VARCHAR(10) PRIMARY KEY, wallet_name VARCHAR(100) NOT NULL, address VARCHAR(100) NOT NULL)',
     );
   } catch (error) {
     handleError('createWallet Error!', error);
   }
 }
 
-export async function addWallet(
-  input_index,
-  input_walletname,
-  input_wallettype,
-  address,
-) {
+export async function addWallet(input_index, input_walletname, address) {
   try {
     await excuteSql(
-      `INSERT INTO WALLETS VALUES("${input_index}","${input_walletname}","${input_wallettype}","${address}")`,
+      `INSERT INTO WALLETS VALUES("${input_index}","${input_walletname}","${address}")`,
     );
   } catch (error) {
     handleError('Add Wallet Error!', error);
@@ -45,11 +40,10 @@ export async function getWallets() {
     const res = await excuteSql('SELECT * FROM WALLETS');
     const result = [];
     for (let i = 0; i < res.rows.length; i++) {
-      const {wallet_index, wallet_name, wallet_type} = res.rows.item(i);
+      const {wallet_index, wallet_name} = res.rows.item(i);
       result.push({
         walletIndex: wallet_index,
         walletName: wallet_name,
-        walletType: wallet_type,
       });
     }
     return result;

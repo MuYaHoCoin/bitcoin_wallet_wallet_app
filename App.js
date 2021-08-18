@@ -19,9 +19,8 @@ import ImportWalletScreen from './src/feature/keyManagement/screen/ImportWalletS
 import SendCoins from './src/feature/transaction/screen/SendCoins';
 import ReceiveCoins from './src/feature/transaction/screen/ReceiveCoins';
 import StandardWallet from './src/feature/wallet/screen/StandardWallet';
-import MultiSigWallet from './src/feature/wallet/screen/MultiSigWallet';
-import TwoFactorWallet from './src/feature/wallet/screen/TwoFactorWallet';
 import RestoreWalletLoadingScreen from './src/feature/keyManagement/screen/RestoreWalletLoadingScreen';
+import SendCoinLoading from './src/feature/transaction/screen/SendCoinLoading';
 
 const Stack = createStackNavigator();
 
@@ -49,12 +48,11 @@ const App = () => {
           <Stack.Screen name="Main" component={WalletListScreen} />
           <Stack.Screen name="SendCoins" component={SendCoins} />
           <Stack.Screen name="ReceiveCoins" component={ReceiveCoins} />
-          <Stack.Screen name="AddWallet/Standard" component={StandardWallet} />
-          <Stack.Screen name="AddWallet/MultiSig" component={MultiSigWallet} />
           <Stack.Screen
-            name="AddWallet/TwoFactor"
-            component={TwoFactorWallet}
+            name="transaction/SendCoinLoading"
+            component={SendCoinLoading}
           />
+          <Stack.Screen name="AddWallet/Standard" component={StandardWallet} />
         </Stack.Navigator>
       </NavigationContainer>
     </StoreProvider>

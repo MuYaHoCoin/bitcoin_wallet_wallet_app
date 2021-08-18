@@ -11,10 +11,8 @@ import {addWalletStart} from '../utils/wallet.action';
 import {selectStandarWalletIndex} from '../utils/wallet.reducer';
 
 const AddWallet = ({navigation}) => {
-  const index = useSelector(selectStandarWalletIndex);
   const dispatch = useDispatch();
   const [walletName, setWalletName] = useState('');
-  const [walletType, setWalletType] = useState('standard');
 
   const isEmpty = value => {
     if (
@@ -33,18 +31,8 @@ const AddWallet = ({navigation}) => {
     if (isEmpty(walletName)) {
       alert('지갑이름을 입력해주세요');
     } else {
-      dispatch(addWalletStart(walletName, walletType));
+      dispatch(addWalletStart(walletName));
       setWalletName('');
-      if (walletType === 'starndard') {
-        navigation.goBack();
-      }
-      if (walletType === 'multiSig') {
-        navigation.navigate('AddWallet/MultiSig', {index});
-      }
-      if (walletType === 'twoFactor') {
-        navigation.navigate('AddWallet/TwoFactor', {index});
-      }
-      setWalletType('standard');
     }
   };
   return (
@@ -56,10 +44,6 @@ const AddWallet = ({navigation}) => {
         onChangeText={setWalletName}
         style={commonStyle.input}
         autoFocus
-      />
-      <WalletTypeCheckBox
-        walletType={walletType}
-        setWalletType={setWalletType}
       />
       <OkButton
         title={'지갑 생성하기'}

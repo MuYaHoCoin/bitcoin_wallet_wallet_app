@@ -109,9 +109,7 @@ const WalletItem = ({id}) => {
     <View style={style.container}>
       <View style={style.header}>
         <View style={style.headerLabel} />
-        <Text style={style.headerText}>
-          {WalletTypeMap[wallet.walletType] + ' - ' + wallet.walletName}
-        </Text>
+        <Text style={style.headerText}>{wallet.walletName}</Text>
       </View>
       <Text style={style.address}>{balance} BTC</Text>
       <View style={style.buttonSection}>

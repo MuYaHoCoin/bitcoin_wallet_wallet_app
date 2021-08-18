@@ -1,8 +1,8 @@
 import React from 'react';
 import {ActivityIndicator, Text} from 'react-native';
-import {Colors} from '../style/color';
 import {commonStyle} from '../style/commonStyle';
 import BaseComponent from '../component/BaseComponent';
+import {loadingFont} from '../style/font';
 
 const style = {
   container: {
@@ -13,17 +13,13 @@ const style = {
   indicator: {
     marginBottom: 12,
   },
-  text: {
-    fontSize: 20,
-    color: Colors.font,
-  },
 };
 
-const Loading = () => {
+const Loading = ({}) => {
   return (
     <BaseComponent>
       <ActivityIndicator size="large" color="#fff" style={style.indicator} />
-      <Text style={style.text}>불러오는 중입니다.</Text>
+      <Text style={loadingFont}>불러오는 중입니다.</Text>
     </BaseComponent>
   );
 };
