@@ -2,20 +2,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {useNavigation} from '@react-navigation/core';
 import React from 'react';
-import {useState} from 'react';
 import {useEffect} from 'react';
 import {Text, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import OkButton from '../../../common/component/OkButton';
 import {Colors} from '../../../common/style/color';
-import {getBalance} from '../../transaction/function/transactionFunction';
 import {getWalletStart} from '../utils/wallet.action';
-import {selelctWalletByIndex} from '../utils/wallet.reducer';
-const WalletTypeMap = {
-  standard: 'Standard',
-  twoFactor: 'Two-Factor',
-  multiSig: 'Multi-Sig',
-};
+import {selectWalletByIndex} from '../utils/wallet.reducer';
+
 const style = {
   container: {
     width: '100%',
@@ -85,9 +79,7 @@ const style = {
 const WalletItem = ({id}) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const wallet = useSelector(selelctWalletByIndex(id));
-
-  const [balance, setBalance] = useState('0');
+  const wallet = useSelector(selectWalletByIndex(id));
 
   function moveSendScreen() {
     navigation.navigate('SendCoins', {id: id});
@@ -99,11 +91,6 @@ const WalletItem = ({id}) => {
   useEffect(() => {
     dispatch(getWalletStart(id));
   }, []);
-  useEffect(() => {
-    if (wallet.address) {
-      getBalance(wallet.address).then(b => setBalance(b * 0.0000001));
-    }
-  }, [wallet]);
 
   return (
     <View style={style.container}>
@@ -111,7 +98,11 @@ const WalletItem = ({id}) => {
         <View style={style.headerLabel} />
         <Text style={style.headerText}>{wallet.walletName}</Text>
       </View>
-      <Text style={style.address}>{balance} BTC</Text>
+      <Text style={style.address}>
+        {isNaN(wallet.balance)
+          ? '불러오는 중입니다..'
+          : wallet.balance * 0.000000001 + ' BTC'}
+      </Text>
       <View style={style.buttonSection}>
         <OkButton
           title={'Recieve'}

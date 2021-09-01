@@ -1,15 +1,17 @@
-import React from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, {useEffect} from 'react';
 import {ImageBackground, TextInput} from 'react-native';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {commonStyle} from '../../../common/style/commonStyle';
 import {Colors} from '../../../common/style/color';
 import {transactionStyle} from '../style/style';
-import {selelctWalletByIndex} from '../../wallet/utils/wallet.reducer';
+import {selectWalletByIndex} from '../../wallet/utils/wallet.reducer';
 
 import MainLogo from '../../../common/component/MainLogo';
 import IconTitle from '../component/item/IconTitle';
 import ExitButton from '../../../common/component/ExitButton';
+import {getWalletStart} from '../../wallet/utils/wallet.action';
 
 const copy = require('../../../common/image/copyLogo.png');
 const style = {
@@ -32,8 +34,12 @@ const style = {
 
 const ReceiveCoins = ({route, navigation}) => {
   const {id} = route.params;
-  const {address} = useSelector(selelctWalletByIndex(id));
+  const dispatch = useDispatch();
+  const {address} = useSelector(selectWalletByIndex(id));
 
+  useEffect(() => {
+    dispatch(getWalletStart(id));
+  }, []);
   return (
     <ImageBackground
       source={require('../../../common/image/bitcoinBackground.png')}

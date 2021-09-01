@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {ActivityIndicator, Text} from 'react-native';
 
 import BaseComponent from '../../../common/component/BaseComponent';

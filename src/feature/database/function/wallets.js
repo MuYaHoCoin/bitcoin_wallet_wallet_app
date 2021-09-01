@@ -40,10 +40,11 @@ export async function getWallets() {
     const res = await excuteSql('SELECT * FROM WALLETS');
     const result = [];
     for (let i = 0; i < res.rows.length; i++) {
-      const {wallet_index, wallet_name} = res.rows.item(i);
+      const {wallet_index, wallet_name, address} = res.rows.item(i);
       result.push({
         walletIndex: wallet_index,
         walletName: wallet_name,
+        address: address,
       });
     }
     return result;

@@ -10,7 +10,10 @@ import Loading from '../../../common/screen/Loading';
 import {commonStyle} from '../../../common/style/commonStyle';
 import {Colors} from '../../../common/style/color';
 import {useDispatch, useSelector} from 'react-redux';
-import {selectWalletIds} from '../utils/wallet.reducer';
+import {
+  selectGetWalletListLoading,
+  selectWalletIds,
+} from '../utils/wallet.reducer';
 import {getWalletListStart} from '../utils/wallet.action';
 
 const style = {
@@ -27,6 +30,7 @@ const style = {
 
 const WalletListScreen = ({navigation}) => {
   const dispatch = useDispatch();
+  const walletListLoading = useSelector(selectGetWalletListLoading);
   const walletIds = useSelector(selectWalletIds);
 
   function onMoveAddWallet() {
@@ -36,7 +40,9 @@ const WalletListScreen = ({navigation}) => {
     dispatch(getWalletListStart());
   }, []);
 
-  return walletIds ? (
+  return walletListLoading ? (
+    <Loading />
+  ) : (
     <ImageBackground
       source={require('../../../common/image/bitcoinBackground.png')}
       style={style.background}>
@@ -53,8 +59,6 @@ const WalletListScreen = ({navigation}) => {
         ))}
       </ScrollView>
     </ImageBackground>
-  ) : (
-    <Loading />
   );
 };
 

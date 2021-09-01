@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useState} from 'react';
 import {Text} from 'react-native';
+import {RNCamera} from 'react-native-camera';
 import {TextInput} from 'react-native-gesture-handler';
 import {useDispatch, useSelector} from 'react-redux';
 import {useEffect} from 'react/cjs/react.development';
@@ -55,7 +56,7 @@ const Authentication = ({navigation}) => {
 
   return (
     <BaseComponent>
-      <MainLogo />
+      {/* <MainLogo />
       <Text style={style.text}>비밀번호를 입력해주세요</Text>
       <TextInput
         value={password}
@@ -63,7 +64,15 @@ const Authentication = ({navigation}) => {
         placeholder={'비밀번호를 입력해주세요.'}
         style={style.textInput}
       />
-      <OkButton title={'확인'} onPress={navigate} />
+      <OkButton title={'확인'} onPress={navigate} /> */}
+      <RNCamera
+        ref={ref => {
+          this.camera = ref;
+        }}
+        captureAudio={false}
+        autoFocus={RNCamera.Constants.AutoFocus.on}
+        type={RNCamera.Constants.Type.back}
+      />
     </BaseComponent>
   );
 };

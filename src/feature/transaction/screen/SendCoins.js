@@ -1,7 +1,7 @@
 import React from 'react';
 import {ImageBackground, TextInput} from 'react-native';
 import {useState} from 'react';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {Colors} from '../../../common/style/color';
 import {commonStyle} from '../../../common/style/commonStyle';
@@ -13,6 +13,7 @@ import IconTitle from '../component/item/IconTitle';
 import ExitButtonm from '../../../common/component/ExitButton';
 import NoButton from '../../../common/component/NoButton';
 import {selelctWalletByIndex} from '../../wallet/utils/wallet.reducer';
+import {createTransactionStart} from '../utils/transaction.action';
 
 const camera = require('../../../common/image/cameraLogo.png');
 const setting = require('../../../common/image/settingLogo.png');
@@ -39,12 +40,14 @@ const style = {
 
 const SendCoins = ({route, navigation}) => {
   const {id} = route.params;
+  const disptach = useDispatch();
 
   const [receiverAddress, setReceiverAddress] = useState('');
   const [amount, setAmount] = useState('0');
 
   function sendCoin() {
-    navigation.navigate('transaction/SendCoinLoading');
+    navigation.navigate('transaction/SendCoinConfirm');
+    disptach(createTransactionStart(id, receiverAddress, amount));
   }
 
   return (

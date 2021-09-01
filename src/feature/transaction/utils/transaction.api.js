@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {handleError} from '../../../common/function/error';
 
 const rootUrl = {
   main: 'https://api.blockcypher.com/v1/btc/main',
@@ -6,20 +7,28 @@ const rootUrl = {
 };
 
 export async function getBalanceAPI(address, network = 'bitcoinTestNet') {
-  const {data} = await axios.get(
-    rootUrl[network] + '/addrs/' + address + '/balance',
-  );
-  return data.balance;
+  try {
+    const {data} = await axios.get(
+      rootUrl[network] + '/addrs/' + address + '/balance',
+    );
+    return data.balance;
+  } catch (error) {
+    handleError('getBalanceAPIError', error.message);
+  }
 }
 
 export async function getTransactionListAPI(
   address,
   network = 'bitcoinTestNet',
 ) {
-  const {data} = await axios.get(
-    rootUrl[network] + '/addrs/' + address + '/full/',
-  );
-  return data.txs;
+  try {
+    const {data} = await axios.get(
+      rootUrl[network] + '/addrs/' + address + '/full/',
+    );
+    return data.txs;
+  } catch (error) {
+    handleError('get Transaction List Error : ', error.message);
+  }
 }
 
 export async function createUnsignedTransacionAPI(
@@ -29,19 +38,23 @@ export async function createUnsignedTransacionAPI(
   network = 'bitcoinTestNet',
 ) {
   const newTransaction = {
-    input: [{address: [senderAddress]}],
-    output: [{address: [receiverAddress], value}],
+    inputs: [{addresses: [senderAddress]}],
+    outputs: [{addresses: [receiverAddress], value: parseInt(value)}],
   };
   const {data: transaction} = await axios.post(
-    rootUrl[network] + 'txs/new',
-    newTransaction,
+    'https://api.blockcypher.com/v1/btc/test3/txs/new',
+    JSON.stringify(newTransaction),
   );
   return transaction;
 }
 
-export async function broadcastTransaction(
-  transactionHash,
+export async function sendTransactionAPI(
+  transaction,
   network = 'bitcoinTestNet',
 ) {
-  axios.post(rootUrl[network] + '/txs/push', JSON.stringify(transactionHash));
+  const tx = await axios.post(
+    rootUrl[network] + '/txs/send',
+    JSON.stringify(transaction),
+  );
+  return tx;
 }

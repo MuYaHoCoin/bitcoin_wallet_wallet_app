@@ -1,5 +1,6 @@
 import {all, call, put, select, takeLatest} from 'redux-saga/effects';
-import {selelctWalletByIndex} from '../../wallet/utils/wallet.reducer';
+import {handleError} from '../../../common/function/error';
+import {selectWalletByIndex} from '../../wallet/utils/wallet.reducer';
 import signTransaction from '../function/signTransaction';
 import {
   createTransactionFail,
@@ -9,9 +10,9 @@ import {
   getTransactionListSuccess,
 } from './transaction.action';
 import {
-  broadcastTransaction,
   createUnsignedTransacionAPI,
   getTransactionListAPI,
+  sendTransactionAPI,
 } from './transaction.api';
 
 function* getTransactionListSaga(action) {
@@ -29,22 +30,25 @@ function* createTransactionSaga(action) {
       address: senderAddress,
       privateKey,
       publicKey,
-    } = yield select(selelctWalletByIndex(id));
-    const transaction = yield call(
+    } = yield select(selectWalletByIndex(id));
+
+    const unsignedTransaction = yield call(
       createUnsignedTransacionAPI,
       senderAddress,
       address,
       value,
     );
-    const transactionHash = yield call(
+    const signedTransaction = yield call(
       signTransaction,
-      transaction,
+      unsignedTransaction,
       privateKey,
       publicKey,
     );
-    yield call(broadcastTransaction(transactionHash));
+
+    yield call(sendTransactionAPI, signedTransaction);
     yield put(createTransactionSuccess());
   } catch (error) {
+    handleError('Create Transaction Saga Error : ', error.message);
     yield put(createTransactionFail());
   }
 }

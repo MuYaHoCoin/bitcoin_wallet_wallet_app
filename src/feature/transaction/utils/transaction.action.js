@@ -26,5 +26,5 @@ export const createTransactionSuccess = createAction(
 );
 
 export const createTransactionFail = createAction(
-  'transaction/createTransactionSuccess',
+  'transaction/createTransactionFail',
 );
