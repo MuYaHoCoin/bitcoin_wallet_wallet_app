@@ -38,6 +38,10 @@ const style = {
     fontSize: 12,
   },
   button: {},
+  preview: {
+    width: 100,
+    height: 100,
+  },
 };
 
 const Authentication = ({navigation}) => {
@@ -68,6 +72,13 @@ const Authentication = ({navigation}) => {
       <RNCamera
         ref={ref => {
           this.camera = ref;
+        }}
+        style={style.preview}
+        androidCameraPermissionOptions={{
+          title: 'Permission to use camera',
+          message: 'We need your permission to use your camera',
+          buttonPositive: 'Ok',
+          buttonNegative: 'Cancel',
         }}
         captureAudio={false}
         autoFocus={RNCamera.Constants.AutoFocus.on}

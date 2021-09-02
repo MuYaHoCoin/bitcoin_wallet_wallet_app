@@ -132,6 +132,7 @@ android {
 
     defaultConfig {
         applicationId "com.bitcoin_wallet_wallet_app"
+        missingDimensionStrategy 'react-native-camera', 'general'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
