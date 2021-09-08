@@ -48,5 +48,5 @@ export const commonStyle = {
     backgroundImage: '../image/bitcoinBackground.png',
     backgroundColor: Colors.background,
     backgroundRepeat: 'no-repeat',
-  }
+  },
 };

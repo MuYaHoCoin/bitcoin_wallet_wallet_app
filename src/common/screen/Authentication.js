@@ -60,7 +60,7 @@ const Authentication = ({navigation}) => {
 
   return (
     <BaseComponent>
-      {/* <MainLogo />
+      <MainLogo />
       <Text style={style.text}>비밀번호를 입력해주세요</Text>
       <TextInput
         value={password}
@@ -68,22 +68,7 @@ const Authentication = ({navigation}) => {
         placeholder={'비밀번호를 입력해주세요.'}
         style={style.textInput}
       />
-      <OkButton title={'확인'} onPress={navigate} /> */}
-      <RNCamera
-        ref={ref => {
-          this.camera = ref;
-        }}
-        style={style.preview}
-        androidCameraPermissionOptions={{
-          title: 'Permission to use camera',
-          message: 'We need your permission to use your camera',
-          buttonPositive: 'Ok',
-          buttonNegative: 'Cancel',
-        }}
-        captureAudio={false}
-        autoFocus={RNCamera.Constants.AutoFocus.on}
-        type={RNCamera.Constants.Type.back}
-      />
+      <OkButton title={'확인'} onPress={navigate} />
     </BaseComponent>
   );
 };

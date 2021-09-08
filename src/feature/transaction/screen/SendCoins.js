@@ -1,7 +1,7 @@
 import React from 'react';
 import {ImageBackground, TextInput} from 'react-native';
 import {useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector, useStore} from 'react-redux';
 
 import {Colors} from '../../../common/style/color';
 import {commonStyle} from '../../../common/style/commonStyle';
@@ -14,6 +14,7 @@ import ExitButtonm from '../../../common/component/ExitButton';
 import NoButton from '../../../common/component/NoButton';
 import {selelctWalletByIndex} from '../../wallet/utils/wallet.reducer';
 import {createTransactionStart} from '../utils/transaction.action';
+import QRCodeScannerModal from '../../camera/screen/QRCodeScannerModal';
 
 const camera = require('../../../common/image/cameraLogo.png');
 const setting = require('../../../common/image/settingLogo.png');
@@ -44,10 +45,27 @@ const SendCoins = ({route, navigation}) => {
 
   const [receiverAddress, setReceiverAddress] = useState('');
   const [amount, setAmount] = useState('0');
+  const [modalVisible, setModalVisible] = useState(false);
 
   function sendCoin() {
     navigation.navigate('transaction/SendCoinConfirm');
     disptach(createTransactionStart(id, receiverAddress, amount));
+  }
+  function onDataRead(data) {
+    if (data.address) {
+      setReceiverAddress(data.address);
+      if (data.amount) {
+        setAmount(data.amount);
+      }
+    } else {
+      alert('잘못된 QR Code 입니다.');
+    }
+  }
+  function onCameraPress() {
+    setModalVisible(true);
+  }
+  function onCameraClose() {
+    setModalVisible(false);
   }
 
   return (
@@ -55,7 +73,11 @@ const SendCoins = ({route, navigation}) => {
       source={require('../../../common/image/bitcoinBackground.png')}
       style={commonStyle.background}>
       <MainLogo />
-      <IconTitle title={'Public Address'} icon={camera} />
+      <IconTitle
+        title={'Public Address'}
+        icon={camera}
+        onPress={onCameraPress}
+      />
       <TextInput
         value={receiverAddress}
         onChangeText={setReceiverAddress}
@@ -74,6 +96,11 @@ const SendCoins = ({route, navigation}) => {
         buttonStyle={style.button}
       />
       <ExitButtonm title={'돌아가기'} buttonStyle={style.button} />
+      <QRCodeScannerModal
+        visible={modalVisible}
+        onClose={onCameraClose}
+        onDataRead={onDataRead}
+      />
     </ImageBackground>
   );
 };

@@ -35,7 +35,9 @@ function* addMasterNodeSaga(action) {
     yield call(addMaster, mnemonic, password);
     const masterNode = yield call(createMasterNode, mnemonic, password);
     yield put(addMasterNodeSuccess(masterNode));
-  } catch (error) {}
+  } catch (error) {
+    handleError('get Master Saga Error', error);
+  }
 }
 
 function* restoreWalletSaga(action) {

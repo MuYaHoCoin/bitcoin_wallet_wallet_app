@@ -7,11 +7,12 @@ import {commonStyle} from '../../../common/style/commonStyle';
 import {Colors} from '../../../common/style/color';
 import {transactionStyle} from '../style/style';
 import {selectWalletByIndex} from '../../wallet/utils/wallet.reducer';
+import {getWalletStart} from '../../wallet/utils/wallet.action';
 
 import MainLogo from '../../../common/component/MainLogo';
 import IconTitle from '../component/item/IconTitle';
 import ExitButton from '../../../common/component/ExitButton';
-import {getWalletStart} from '../../wallet/utils/wallet.action';
+import AddressQRCode from '../component/item/AddressQRCode';
 
 const copy = require('../../../common/image/copyLogo.png');
 const style = {
@@ -39,6 +40,7 @@ const ReceiveCoins = ({route, navigation}) => {
 
   useEffect(() => {
     dispatch(getWalletStart(id));
+    console.log(JSON.stringify({address}));
   }, []);
   return (
     <ImageBackground
@@ -47,6 +49,7 @@ const ReceiveCoins = ({route, navigation}) => {
       <MainLogo />
       <IconTitle title={'Public Address'} icon={copy} />
       <TextInput style={style.text} value={address} />
+      <AddressQRCode address={address} />
       <ExitButton title={'돌아가기'} />
     </ImageBackground>
   );
