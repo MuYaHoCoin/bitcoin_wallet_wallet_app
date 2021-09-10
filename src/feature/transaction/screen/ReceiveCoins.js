@@ -40,7 +40,6 @@ const ReceiveCoins = ({route, navigation}) => {
 
   useEffect(() => {
     dispatch(getWalletStart(id));
-    console.log(JSON.stringify({address}));
   }, []);
   return (
     <ImageBackground

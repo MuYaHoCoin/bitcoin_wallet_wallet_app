@@ -9,7 +9,7 @@ const style = {
 const AddressQRCode = address => {
   return (
     <View style={style.qrCode}>
-      <QRCode value={JSON.stringify({address})} size={150} />
+      <QRCode value={JSON.stringify(address)} size={150} />
     </View>
   );
 };
