@@ -2,7 +2,7 @@ import {all, call, put, takeEvery, takeLatest} from 'redux-saga/effects';
 import {select} from 'redux-saga/effects';
 import {handleError} from '../../../common/function/error';
 import {addWallet, getWallets} from '../../database/function/wallets';
-import {getAddress} from '../../keyManagement/function/address';
+import {getAddress, getXpub} from '../../keyManagement/function/address';
 import {selectMasterNode} from '../../keyManagement/utils/keyManagemeny.selector';
 import {getBalanceAPI} from '../../transaction/utils/transaction.api';
 import {
@@ -36,12 +36,13 @@ function* getWalletSaga(action) {
       `m/44'/61'/0'/0/${walletIndex}`,
     );
     const balance = yield call(getBalanceAPI, address);
-    console.log(walletName, balance);
+    const xpub = yield call(getXpub, publicKey, chainCode);
     const wallet = {
       walletIndex,
       privateKey: privateKey.toString('hex'),
       publicKey: publicKey.toString('hex'),
       chainCode: chainCode.toString('hex'),
+      xpub,
       address,
       balance,
     };

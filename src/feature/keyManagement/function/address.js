@@ -20,6 +20,13 @@ export const getAddress = async (publicKey, network = 'bitcoinTestNet') => {
   }
 };
 
+export const getXpub = async (publicKey, chainCode) => {
+  const encodedPubKey = base58Check.encode(publicKey);
+  const encodedChainCode = base58Check.encode(chainCode);
+
+  return 'xpub' + encodedPubKey + encodedChainCode;
+};
+
 export const getMultiSigAddress = (pubkeys, m) => {
   const redeem = payments.p2ms({m, pubkeys});
   const {address} = payments.p2sh({
