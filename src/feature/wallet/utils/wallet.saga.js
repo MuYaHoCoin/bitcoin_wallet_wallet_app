@@ -29,20 +29,15 @@ function* getWalletSaga(action) {
   try {
     const {walletIndex} = action.payload;
     const masterNode = yield select(selectMasterNode);
-    const {address, walletName} = yield select(
-      selectWalletByIndex(walletIndex),
-    );
-    const {privateKey, publicKey, chainCode} = yield masterNode.derivePath(
-      `m/44'/61'/0'/0/${walletIndex}`,
-    );
+    const {address} = yield select(selectWalletByIndex(walletIndex));
+    const node = yield masterNode.derivePath(`m/44'/61'/0'/0/${walletIndex}`);
     const balance = yield call(getBalanceAPI, address);
-    const xpub = yield call(getXpub, publicKey, chainCode);
     const wallet = {
       walletIndex,
-      privateKey: privateKey.toString('hex'),
-      publicKey: publicKey.toString('hex'),
-      chainCode: chainCode.toString('hex'),
-      xpub,
+      privateKey: node.privateKey.toString('hex'),
+      publicKey: node.publicKey.toString('hex'),
+      chainCode: node.chainCode.toString('hex'),
+      xpub: node.neutered().toBase58(),
       address,
       balance,
     };
