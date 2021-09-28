@@ -23,6 +23,9 @@ export const createTransactionStart = createAction(
 
 export const createTransactionSuccess = createAction(
   'transaction/createTransactionSuccess',
+  transaction => {
+    return {payload: {transaction}};
+  },
 );
 
 export const createTransactionFail = createAction(

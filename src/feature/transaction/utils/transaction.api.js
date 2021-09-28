@@ -41,6 +41,7 @@ export async function createUnsignedTransacionAPI(
     inputs: [{addresses: [senderAddress]}],
     outputs: [{addresses: [receiverAddress], value: parseInt(value)}],
   };
+  console.log(JSON.stringify(newTransaction));
   const {data: transaction} = await axios.post(
     'https://api.blockcypher.com/v1/btc/test3/txs/new',
     JSON.stringify(newTransaction),
@@ -52,9 +53,9 @@ export async function sendTransactionAPI(
   transaction,
   network = 'bitcoinTestNet',
 ) {
-  const tx = await axios.post(
+  const result = await axios.post(
     rootUrl[network] + '/txs/send',
     JSON.stringify(transaction),
   );
-  return tx;
+  return result.data;
 }

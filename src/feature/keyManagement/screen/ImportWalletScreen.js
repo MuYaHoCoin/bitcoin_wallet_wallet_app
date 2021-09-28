@@ -18,18 +18,18 @@ import {
 import {restoreWalletStart} from '../utils/keyManagement.action';
 
 const initialMnemonic = [
-  'wheat',
-  'before',
-  'cream',
-  'dragon',
-  'perfect',
-  'foster',
-  'behave',
-  'garlic',
-  'comic',
-  'shell',
-  'stand',
-  'chapter',
+  'range',
+  'relax',
+  'panther',
+  'wage',
+  'month',
+  'shoot',
+  'average',
+  'pet',
+  'sell',
+  'arrive',
+  'glove',
+  'mushroom',
 ];
 const style = {
   background: {

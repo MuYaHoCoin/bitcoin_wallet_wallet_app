@@ -21,6 +21,7 @@ import ReceiveCoins from './src/feature/transaction/screen/ReceiveCoins';
 import StandardWallet from './src/feature/wallet/screen/StandardWallet';
 import RestoreWalletLoadingScreen from './src/feature/keyManagement/screen/RestoreWalletLoadingScreen';
 import SendCoinConfirm from './src/feature/transaction/screen/SendCoinConfirm';
+import TransactionDetailScreen from './src/feature/transaction/screen/TransactionDetailScreen';
 
 const Stack = createStackNavigator();
 
@@ -51,6 +52,10 @@ const App = () => {
           <Stack.Screen
             name="transaction/SendCoinConfirm"
             component={SendCoinConfirm}
+          />
+          <Stack.Screen
+            name="transaction/detail"
+            component={TransactionDetailScreen}
           />
           <Stack.Screen name="AddWallet/Standard" component={StandardWallet} />
         </Stack.Navigator>

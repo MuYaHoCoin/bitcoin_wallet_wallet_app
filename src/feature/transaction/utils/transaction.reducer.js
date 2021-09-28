@@ -9,6 +9,7 @@ import {
 
 const initialState = {
   transactions: [],
+  createdTransaction: null,
   transactionListLoading: true,
   createTransactionLoading: true,
   createTransactionFail: false,
@@ -25,7 +26,9 @@ const reducer = createReducer(initialState, {
   [createTransactionStart.type]: state => {
     state.createTransactionLoading = true;
   },
-  [createTransactionSuccess.type]: state => {
+  [createTransactionSuccess.type]: (state, action) => {
+    const {transaction} = action.payload;
+    state.createdTransaction = transaction;
     state.createTransactionLoading = false;
     state.createTransactionFail = false;
   },
@@ -41,3 +44,5 @@ export const selectCreateTransactionLoading = state =>
   state.transaction.createTransactionLoading;
 export const selectCreateTransactionFail = state =>
   state.transaction.createTransactionFail;
+export const selectCreatedTransaction = state =>
+  state.transaction.createdTransaction;

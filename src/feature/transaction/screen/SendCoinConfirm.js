@@ -17,11 +17,21 @@ const style = {
     fontSize: 20,
     color: Colors.font,
   },
+  buttonStyle: {
+    marginBottom: 16,
+  },
 };
 
 const SendCoinConfirm = ({navigation}) => {
   const isLoading = useSelector(selectCreateTransactionLoading);
   const isFail = useSelector(selectCreateTransactionFail);
+
+  function onPressMain() {
+    navigation.navigate('Main');
+  }
+  function onPressTxDetail() {
+    navigation.navigate('transaction/detail');
+  }
 
   return isLoading ? (
     <SendCoinLoading />
@@ -32,12 +42,14 @@ const SendCoinConfirm = ({navigation}) => {
           ? '트랜잭션 생성에 실패했습니다.'
           : '트랜잭션 생성에 성공했습니다.'}
       </Text>
-      <OkButton
-        title={'돌아가기'}
-        onPress={() => {
-          navigation.navigate('Main');
-        }}
-      />
+      {!isFail && (
+        <OkButton
+          buttonStyle={style.buttonStyle}
+          title={'Tx 정보확인'}
+          onPress={onPressTxDetail}
+        />
+      )}
+      <OkButton title={'돌아가기'} onPress={onPressMain} />
     </BaseComponent>
   );
 };

@@ -31,7 +31,7 @@ function* createTransactionSaga(action) {
       privateKey,
       publicKey,
     } = yield select(selectWalletByIndex(id));
-
+    console.log(senderAddress, address, value);
     const unsignedTransaction = yield call(
       createUnsignedTransacionAPI,
       senderAddress,
@@ -45,10 +45,10 @@ function* createTransactionSaga(action) {
       publicKey,
     );
 
-    yield call(sendTransactionAPI, signedTransaction);
-    yield put(createTransactionSuccess());
+    const {tx} = yield call(sendTransactionAPI, signedTransaction);
+    yield put(createTransactionSuccess(tx));
   } catch (error) {
-    handleError('Create Transaction Saga Error : ', error.message);
+    handleError('Create Transaction Saga Error : ', error);
     yield put(createTransactionFail());
   }
 }

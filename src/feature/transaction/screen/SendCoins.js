@@ -12,7 +12,6 @@ import MainLogo from '../../../common/component/MainLogo';
 import IconTitle from '../component/item/IconTitle';
 import ExitButtonm from '../../../common/component/ExitButton';
 import NoButton from '../../../common/component/NoButton';
-import {selelctWalletByIndex} from '../../wallet/utils/wallet.reducer';
 import {createTransactionStart} from '../utils/transaction.action';
 import QRCodeScannerModal from '../../camera/screen/QRCodeScannerModal';
 
@@ -54,8 +53,8 @@ const SendCoins = ({route, navigation}) => {
   function onDataRead(data) {
     if (data.address) {
       setReceiverAddress(data.address);
-      if (data.amount) {
-        setAmount(data.amount);
+      if (data.price) {
+        setAmount(String(data.price));
       }
     } else {
       alert('잘못된 QR Code 입니다.');
